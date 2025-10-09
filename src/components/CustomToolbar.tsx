@@ -1,6 +1,3 @@
-// CustomToolbar.jsx
-import React from "react";
-
 const CustomToolbar = () => {
   return (
     <div id="toolbar" className="flex flex-wrap gap-2 p-2 border-b bg-gray-50 rounded-t-lg">

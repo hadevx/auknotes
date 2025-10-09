@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { FileText, Lock } from "lucide-react";
 import { useGetMainCategoriesWithCountsQuery } from "@/redux/queries/productApi";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";

@@ -1,5 +1,5 @@
 import Layout from "@/Layout";
-import { Mail, Phone, Instagram, MapPin, Linkedin, Twitter } from "lucide-react";
+import { Mail, Instagram } from "lucide-react";
 
 export default function ContactPage() {
   const contactMethods = [

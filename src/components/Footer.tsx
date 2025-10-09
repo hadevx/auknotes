@@ -1,5 +1,4 @@
-import { Mail, Instagram, Heart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Footer() {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Layout from "@/Layout";
-import { CreditCard, DollarSign } from "lucide-react";
+import { DollarSign } from "lucide-react";
 
 export default function DonationPage() {
   const [amount, setAmount] = useState<number | "custom">(5);

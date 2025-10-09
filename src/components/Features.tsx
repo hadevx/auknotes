@@ -1,10 +1,7 @@
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
-
 import learning from "../assets/learning.json";
-import a from "../assets/a.json";
 import c from "../assets/c.json";
-import s from "../assets/s.json";
 import m from "../assets/m.json";
 
 const Features = () => {
@@ -45,7 +42,7 @@ const Features = () => {
   const cardVariants = {
     hidden: { opacity: 0, y: 50, scale: 0.95 },
     show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 120 } },
-  };
+  } as const;
 
   const headingVariants = {
     hidden: { opacity: 0, y: 20 },
