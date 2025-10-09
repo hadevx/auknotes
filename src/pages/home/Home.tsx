@@ -11,6 +11,7 @@ const Home = () => {
     <Layout>
       <HeroSection />
       <Features />
+
       <FeaturedCourses />
       <Four />
     </Layout>

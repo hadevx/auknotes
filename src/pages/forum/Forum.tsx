@@ -236,7 +236,7 @@ export default function ForumPage() {
                       />
                     ) : (
                       <div
-                        className={`size-20 rounded-md flex items-center uppercase justify-center font-semibold ${
+                        className={`size-20 rounded-md text-3xl flex items-center uppercase justify-center font-semibold ${
                           isAdmin ? "bg-white text-black" : "bg-tomato text-white"
                         }`}>
                         {post.author.username.charAt(0) +
@@ -245,7 +245,7 @@ export default function ForumPage() {
                     )}
 
                     <div>
-                      <span className={`block ${isAdmin ? "text-white font-bold" : ""}`}>
+                      <span className={`block  ${isAdmin ? "text-white font-bold" : ""}`}>
                         {post.title}
                       </span>
                       <p

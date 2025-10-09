@@ -334,7 +334,7 @@ const TopicDetails = () => {
                     <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
                       <DialogTrigger asChild>
                         <Button size="sm" variant="outline" className="flex items-center gap-1">
-                          <Edit className="w-4 h-4" />
+                          <Edit className="w-4 h-4 " />
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-4xl ">
@@ -382,7 +382,7 @@ const TopicDetails = () => {
                     <Button
                       size="sm"
                       variant="destructive"
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-1 bg-rose-500"
                       onClick={handleDeleteTopic}>
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -394,7 +394,7 @@ const TopicDetails = () => {
             {/* Topic Title & Description */}
             <p className="text-black font-bold text-2xl mb-2 ">{topic?.title}</p>
             <div
-              className="ql-editor text-gray-700 mb-4 "
+              className="ql-editor text-black  text-lg mb-4 "
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(topic?.description || "") }}
             />
 
@@ -417,7 +417,7 @@ const TopicDetails = () => {
                   disabled={!userInfo}
                   className={`flex items-center gap-2 px-3 py-1 rounded-full border transition-all duration-200 ${
                     isLiked
-                      ? "bg-rose-500 text-white border-rose-500"
+                      ? "bg-rose-500 shadow-[0_0_10px_rgba(255,0,0,0.5)] text-white border-rose-500"
                       : "hover:bg-rose-50 text-rose-600 border-rose-300"
                   }`}>
                   <motion.div
@@ -435,7 +435,9 @@ const TopicDetails = () => {
               {!topic?.isClosed && userInfo && (
                 <Dialog open={isCommentDialogOpen} onOpenChange={setIsCommentDialogOpen}>
                   <DialogTrigger asChild>
-                    <Button size="sm" className="flex items-center gap-2">
+                    <Button
+                      size="sm"
+                      className="flex items-center gap-2 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
                       <Plus className="w-4 h-4" /> Reply
                     </Button>
                   </DialogTrigger>
