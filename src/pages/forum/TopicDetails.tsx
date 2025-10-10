@@ -193,43 +193,44 @@ const TopicDetails = () => {
       return (
         <div key={comment._id} className="border rounded-md p-3 bg-gray-50 mt-3">
           {parent && (
-            <div className="border-l-4 border-blue-400 bg-blue-50 p-3 mb-2 rounded-r-md text-sm text-gray-700">
-              <p className="font-medium text-blue-600">
-                Replying to {parent.author?.name || "Unknown"}:
-              </p>
+            <div className="border-l-4 border-blue-400 bg-blue-50 p-2 mb-2 rounded-r-md text-sm text-gray-700">
+              <p className="font-medium text-blue-600">@{parent.author?.username || "Unknown"}:</p>
               <p className="italic text-gray-600 line-clamp-3">“{parent.text}”</p>
             </div>
           )}
 
           <div className="flex justify-between items-start gap-3">
-            <div className="flex gap-3 items-start">
-              {comment?.author?.avatar ? (
-                <img
-                  src={comment.author.avatar}
-                  alt={comment.author.name}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-full uppercase bg-tomato flex items-center justify-center text-white font-semibold">
-                  {comment?.author?.username?.charAt(0) +
-                    comment?.author?.username?.charAt(comment.author.username.length - 1)}
-                </div>
-              )}
-              <div>
-                <p className="text-gray-800 text-lg">{comment.text}</p>
-                <p className="font-medium text-xs flex flex-col lg:flex-row gap-1 lg:text-sm text-black/50 mt-1">
-                  <p className="flex gap-2 items-center">
-                    {userInfo?._id === comment.author._id ? "By You" : `By ${comment.author?.name}`}{" "}
-                    •{" "}
-                    {comment.author.isAdmin && (
-                      <span className="bg-tomato flex items-center gap-1 text-white text-xs px-2 py-0.5 rounded-full">
-                        <Crown size={16} /> Admin
-                      </span>
-                    )}
+            <div className="flex flex-col gap-3 items-start">
+              <div className="flex gap-2 items-center">
+                {comment?.author?.avatar ? (
+                  <img
+                    src={comment.author.avatar}
+                    alt={comment.author.name}
+                    className="size-10 rounded-md object-cover"
+                  />
+                ) : (
+                  <div className="size-10 rounded-md uppercase bg-tomato flex items-center justify-center text-white font-semibold">
+                    {comment?.author?.username?.charAt(0) +
+                      comment?.author?.username?.charAt(comment.author.username.length - 1)}
+                  </div>
+                )}
+                <div>
+                  {/* <p className="text-gray-800 text-lg">{comment.text}</p> */}
+                  <p className="font-medium text-xs flex flex-col   lg:text-sm text-black/50 mt-1">
+                    <p className="text-sm text-black">{comment?.author?.name}</p>
+                    <p className="flex gap-2 items-center">
+                      @{comment?.author?.username} <span>•</span>
+                      {comment?.author?.isAdmin && (
+                        <span className="bg-tomato flex items-center gap-1 text-white text-xs px-2 py-0.5 rounded-full">
+                          <Crown size={16} /> Admin
+                        </span>
+                      )}
+                      <FormatDate date={comment?.createdAt} />
+                    </p>
                   </p>
-                  <FormatDate date={comment?.createdAt} />
-                </p>
+                </div>
               </div>
+              <div>{comment?.text}</div>
             </div>
 
             {!topic?.isClosed && (
@@ -274,15 +275,19 @@ const TopicDetails = () => {
       ) : (
         <div className="max-w-4xl min-h-screen mx-auto px-4 py-10 space-y-6">
           <div className="border bg-white rounded-lg p-6 shadow-sm">
-            <button
-              onClick={() => navigate(-1)}
-              className="flex items-center gap-2 mb-2 px-2 rounded-full border bg-white hover:bg-zinc-100 text-black transition-colors">
-              <span className="text-lg">←</span>
-              <span className="font-medium text-sm">Back</span>
-            </button>
+            <div className="flex justify-start gap-2 items-center mb-5">
+              <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-2  px-2 py-1 rounded-full border bg-white hover:bg-zinc-100 text-black transition-colors">
+                <span className="font-medium text-xs">← Back</span>
+              </button>
 
+              <div className="bg-rose-500 px-2 py-1 text-xs rounded-full text-white">
+                {topic?.category}
+              </div>
+            </div>
             {/* Topic Header */}
-            <div className="flex items-center gap-3 mb-4  border-b-gray-100 border-b">
+            <div className="flex items-center gap-2 mb-4  border-b-gray-100 border-b">
               {topic?.author?.avatar ? (
                 <img
                   src={topic.author.avatar}
@@ -308,9 +313,9 @@ const TopicDetails = () => {
                   )}
                 </p>
                 <p className=" text-gray-400">@{topic?.author?.username}</p>
-                <p>
-                  <FormatDate variant="full" date={topic?.createdAt} /> • {topic?.category}
-                </p>
+                {/*   <p>
+                  <FormatDate variant="short" date={topic?.createdAt} /> • {topic?.category}
+                </p> */}
               </div>
 
               <div className="flex items-center gap-2">
@@ -444,22 +449,26 @@ const TopicDetails = () => {
             {/* Topic Title & Description */}
             {/* <p className="text-black font-bold text-2xl mb-2 ">{topic?.title}</p> */}
             <div
-              className="ql-editor text-black  text-lg mb-4 "
+              className="ql-editor text-black  text-lg mb-4 !p-0 [&>p]:!m-0 [&>p]:!p-0"
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(topic?.description || "") }}
             />
 
+            <p className="text-sm text-gray-500">
+              <FormatDate variant="full" date={topic?.createdAt} />
+            </p>
             {/* Comments Section */}
             <div className="mt-6 flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <h2 className="text-lg   flex items-center gap-2">
                   <MessageSquare className="w-5 h-5" /> {topic?.comments?.length}
                 </h2>
+
                 {/* ❤️ Like Button */}
 
                 <button
                   onClick={handleLikeTopic}
                   disabled={!userInfo}
-                  className={`flex items-center gap-2 px-3 py-1 rounded-full border transition-all duration-200 ${
+                  className={`flex items-center gap-2 px-2 py-1 rounded-full border transition-all duration-200 ${
                     isLiked
                       ? "bg-rose-500 shadow-[0_0_10px_rgba(255,0,0,0.5)] text-white border-rose-500"
                       : "hover:bg-rose-50 text-rose-600 border-rose-300"
@@ -473,7 +482,7 @@ const TopicDetails = () => {
                       }`}
                     />
                   </motion.div>
-                  <span className="font-medium">{likesCount}</span>
+                  <span className="">{likesCount}</span>
                 </button>
               </div>
               {!topic?.isClosed && userInfo && (

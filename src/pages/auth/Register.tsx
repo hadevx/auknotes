@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EyeOff, Eye } from "lucide-react";
+import { EyeOff, Eye, AlertCircle } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../redux/slices/authSlice";
@@ -11,6 +11,7 @@ import { registerUserSchema } from "../../schema/userSchema";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showUsernameNote, setShowUsernameNote] = useState(false);
 
   const [form, setForm] = useState({
     username: "",
@@ -42,7 +43,7 @@ function Register() {
     try {
       const res = await registerUser({ username, name, email, password, confirmPassword }).unwrap();
       dispatch(setUserInfo({ ...res }));
-      navigate(-1);
+      navigate("/profile");
     } catch (error) {
       toast.error(error?.data?.message || error?.error || "An error occurred");
     }
@@ -56,19 +57,31 @@ function Register() {
           </div>
           <div>
             <form onSubmit={handleRegister}>
-              <div className=" h-[40px]  bg-opacity-50 w-[300px] rounded-md bg-gray-100  placeholder:text-grey-40  flex items-center mb-4">
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="username"
-                  value={username}
-                  onChange={handleChange}
-                  onKeyDown={(e) => {
-                    if (e.key === " ") e.preventDefault(); // Prevent space
-                  }}
-                  className=" w-full shadow border rounded-md h-full bg-white bg-opacity-50 py-3 px-4  outline-0 focus:border-tomato focus:border-2"
-                />
+              <div className="mb-4">
+                <div className="h-[40px] bg-opacity-50 w-[300px] rounded-md bg-gray-100 flex items-center">
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="username"
+                    value={username}
+                    onChange={handleChange}
+                    onFocus={() => setShowUsernameNote(true)}
+                    onBlur={() => setShowUsernameNote(false)}
+                    onKeyDown={(e) => {
+                      if (e.key === " ") e.preventDefault();
+                    }}
+                    className="w-full shadow border rounded-md h-full bg-white bg-opacity-50 py-3 px-4 outline-0 focus:border-tomato focus:border-2"
+                  />
+                </div>
+
+                {showUsernameNote && (
+                  <div className="flex items-start gap-2 mt-2 text-xs  text-gray-600 bg-gray-50 border border-gray-200 rounded-md p-2">
+                    <AlertCircle className="w-4 h-4 text-amber-500 mt-[1px]" />
+                    <span>username cannot be changed later.</span>
+                  </div>
+                )}
               </div>
+
               <div className=" h-[40px] bg-opacity-50 w-[300px] rounded-md bg-gray-100  placeholder:text-grey-40  flex items-center mb-4">
                 <input
                   type="text"

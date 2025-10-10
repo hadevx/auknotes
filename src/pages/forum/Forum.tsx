@@ -145,7 +145,7 @@ export default function ForumPage() {
       {loadingTopics ? (
         <Loader />
       ) : (
-        <div className="max-w-4xl min-h-screen mx-auto px-2 lg:px-0 py-10  pb-20">
+        <div className="max-w-4xl min-h-screen mx-auto px-3 lg:px-0 py-10  pb-20">
           <h1 className="text-3xl font-bold mb-6 flex justify-between">
             AUKNotes Forum
             <Button onClick={handleDialogOpen} className="flex items-center gap-2">

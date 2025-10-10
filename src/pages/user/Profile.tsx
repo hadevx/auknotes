@@ -10,66 +10,21 @@ import { Edit, LogOut } from "lucide-react";
 import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import FormatDate from "@/components/FormatDate.js";
-
-export function AlertDemo() {
-  return (
-    <div className="grid w-full max-w-xl items-start gap-4">
-      <Alert>
-        <CheckCircle2Icon />
-        <AlertTitle>Success! Your changes have been saved</AlertTitle>
-        <AlertDescription>This is an alert with icon, title and description.</AlertDescription>
-      </Alert>
-      <Alert>
-        <PopcornIcon />
-        <AlertTitle>This Alert has a title and an icon. No description.</AlertTitle>
-      </Alert>
-      <Alert variant="destructive">
-        <AlertCircleIcon />
-        <AlertTitle>Unable to process your payment.</AlertTitle>
-        <AlertDescription>
-          <p>Please verify your billing information and try again.</p>
-          <ul className="list-inside list-disc text-sm">
-            <li>Check your card details</li>
-            <li>Ensure sufficient funds</li>
-            <li>Verify billing address</li>
-          </ul>
-        </AlertDescription>
-      </Alert>
-    </div>
-  );
-}
-
-const avatarOptions = [
-  "/empty.jpg",
-  "/avatar/1.jpg",
-  "/avatar/2.jpg",
-  "/avatar/3.jpg",
-  "/avatar/4.jpg",
-  "/avatar/5.jpg",
-  "/avatar/6.jpg",
-  "/avatar/8.jpg",
-  "/avatar/9.jpg",
-  "/avatar/10.jpg",
-  "/avatar/11.jpg",
-  "/avatar/12.jpg",
-  "/avatar/13.jpg",
-  "/avatar/14.webp",
-  "/avatar/15.webp",
-  "/avatar/16.webp",
-];
+import { avatars } from "./avatars.ts";
 
 function Profile() {
+  const userInfo = useSelector((state: any) => state.auth.userInfo);
+  console.log(userInfo);
+
   const [editPersonal, setEditPersonal] = useState(false);
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [editAvatar, setEditAvatar] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] = useState("");
+  const [selectedAvatar, setSelectedAvatar] = useState(userInfo.avatar);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userInfo = useSelector((state: any) => state.auth.userInfo);
 
-  console.log(userInfo);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
   const { data: isBlocked } = useGetBlockStatusQuery(userInfo._id);
 
@@ -110,9 +65,9 @@ function Profile() {
                 className="w-32 h-32 md:w-48 md:h-48 rounded-full md:rounded-lg shadow object-cover"
               />
             ) : (
-              <div className="w-32 h-32 md:w-48 md:h-48 uppercase rounded-lg bg-tomato flex items-center justify-center text-white font-bold text-4xl md:text-5xl shadow">
+              <div className="w-32 h-32 md:w-48 md:h-48 uppercase rounded-full lg:rounded-lg bg-tomato flex items-center justify-center text-white font-bold text-4xl md:text-5xl shadow">
                 {userInfo?.username?.charAt(0)}
-                {userInfo?.username?.charAt(userInfo?.username.length - 1)}
+                {userInfo?.username?.charAt(userInfo?.username?.length - 1)}
               </div>
             )}
           </div>
@@ -186,8 +141,8 @@ function Profile() {
                 <span className="font-semibold text-gray-900">Email:</span> {userInfo?.email}
               </p>
               <p>
-                <span className="font-semibold text-gray-900">Joined in:</span>{" "}
-                <FormatDate date={userInfo?.createdAt} />
+                <span className="font-semibold text-gray-900">Joined on:</span>{" "}
+                <FormatDate variant="full" date={userInfo?.createdAt} />
               </p>
             </div>
           ) : (
@@ -221,8 +176,8 @@ function Profile() {
         {editAvatar && (
           <div className="w-full max-w-4xl mt-3 bg-white rounded-2xl border p-6">
             <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">Choose Avatar</h2>
-            <div className="flex flex-wrap gap-2">
-              {avatarOptions.map((avatar, idx) => (
+            <div className="flex flex-wrap lg:gap-2">
+              {avatars.map((avatar, idx) => (
                 <img
                   key={idx}
                   src={avatar}
