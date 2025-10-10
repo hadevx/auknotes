@@ -11,32 +11,24 @@ const Features = () => {
       desc: "Get structured notes tailored for AUK courses, making your study sessions more effective.",
       bg: "bg-[#FF9B9B]",
       anim: learning,
-      className: "size-96",
     },
     {
       title: "Collaborate Easily",
       desc: "Work together with classmates by sharing notes and collaborating on projects effortlessly.",
       bg: "bg-[#FFD6A5]",
       anim: c,
-      className: "size-96",
     },
     {
       title: "All in One Place",
       desc: "Access your lecture notes, assignments, and resources all from one centralized platform.",
       bg: "bg-[#98EECC]",
       anim: m,
-      className: "size-96",
     },
   ];
 
-  // Motion variants
   const containerVariants = {
     hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.25,
-      },
-    },
+    show: { transition: { staggerChildren: 0.25 } },
   };
 
   const cardVariants = {
@@ -51,7 +43,7 @@ const Features = () => {
 
   return (
     <section className="py-16 bg-neutral-900">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
         {/* Heading */}
         <motion.div
           className="text-center mb-12"
@@ -69,7 +61,7 @@ const Features = () => {
 
         {/* Cards Grid */}
         <motion.div
-          className="grid px-2 gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center"
+          className="grid gap-6 md:gap-8 lg:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center"
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
@@ -77,15 +69,25 @@ const Features = () => {
           {cards.map((card, index) => (
             <motion.div
               key={index}
-              className={`${card.bg} rounded-2xl shadow w-[400px] h-[400px] p-6 flex flex-col justify-between items-center text-center`}
+              className={`
+                ${
+                  card.bg
+                } rounded-xl shadow-lg p-6 md:p-8 flex flex-col justify-between items-center text-center
+                transform transition-transform duration-300 hover:scale-105
+                ${index === 2 ? "md:col-span-2 md:w-full lg:col-span-1 lg:w-auto" : "w-full"}
+              `}
               variants={cardVariants}>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{card.title}</h3>
-                <p className="text-gray-800">{card.desc}</p>
+              <div className="mb-4 md:mb-6">
+                <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
+                  {card.title}
+                </h3>
+                <p className="text-gray-800 text-sm md:text-base">{card.desc}</p>
               </div>
 
               {/* Lottie animation */}
-              <Lottie animationData={card.anim} loop={true} className={card.className} />
+              <div className="w-full max-w-80 md:max-w-80 lg:max-w-80">
+                <Lottie animationData={card.anim} loop={true} className="w-full h-auto" />
+              </div>
             </motion.div>
           ))}
         </motion.div>

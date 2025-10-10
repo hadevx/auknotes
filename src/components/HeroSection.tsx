@@ -27,7 +27,7 @@ export default function HeroSection() {
 
   return (
     <motion.section
-      className="container mx-auto px-6 lg:px-8 py-16 lg:py-24"
+      className="lg:container lg:mx-auto px-6 lg:px-8 py-16 lg:py-24"
       variants={containerVariants}
       initial="hidden"
       animate="show">
@@ -38,7 +38,7 @@ export default function HeroSection() {
             variant="secondary"
             className="rounded-full bg-tomato text-white border-accent/20 pl-3 pr-2 py-1.5">
             <span className="text-xs font-medium">
-              <span className="animate-pulse">New courses are coming soon</span>
+              <span className="animate-pulse">More courses are coming soon</span>
             </span>
           </Badge>
 

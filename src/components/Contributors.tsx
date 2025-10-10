@@ -26,7 +26,7 @@ const Contributors = () => {
       </div>
 
       <StyledWrapper>
-        <div className="marquee w-[400px] lg:w-[1000px]">
+        <div className="marquee w-[400px] sm:w-[500px] md:w-[700px] lg:w-[1000px]">
           {/* First Row */}
           <div className="marquee__inner">
             <div className="marquee__group">

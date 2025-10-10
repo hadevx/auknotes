@@ -1,5 +1,15 @@
 import { useState } from "react";
-import { Plus, MessageSquare, Search, Crown, Lock, Unlock, Trash2, Heart } from "lucide-react";
+import {
+  Plus,
+  MessageSquare,
+  Search,
+  Crown,
+  Lock,
+  Unlock,
+  Trash2,
+  Heart,
+  ChevronDown,
+} from "lucide-react";
 import Layout from "@/Layout";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -151,7 +161,7 @@ export default function ForumPage() {
                 placeholder="Search topics..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="bg-white py-3 w-full border px-10 rounded-md focus:border-blue-600 focus:border-2 outline-none"
+                className="bg-white py-3 w-full border px-10 rounded-md focus:ring-2 shadow-sm focus:ring-tomato focus:border-tomato outline-none"
               />
               <Search className="absolute left-2 w-5 h-5 text-gray-500" />
             </div>
@@ -165,7 +175,7 @@ export default function ForumPage() {
                     setSelectedCategory(cat);
                     if (cat !== "Course") setNewTopic((prev) => ({ ...prev, course: "" }));
                   }}
-                  className={`text-sm px-3 py-1 rounded-full border ${
+                  className={`text-sm px-4 py-2 rounded-full border ${
                     selectedCategory === cat
                       ? "bg-tomato text-white"
                       : "text-black bg-white hover:bg-gray-100"
@@ -181,12 +191,22 @@ export default function ForumPage() {
                   setNewTopic({ ...newTopic, course: value });
                   setSelectedCategory(value);
                 }}>
-                <SelectTrigger className="bg-white rounded-full">
+                <SelectTrigger
+                  className={`bg-white rounded-full [&>svg]:hidden px-3 py-1 ${
+                    selectedCategory === newTopic.course ? "bg-tomato  text-white" : ""
+                  }`}>
                   <SelectValue placeholder="Select Course" />
+                  <ChevronDown
+                    style={{ display: "block" }}
+                    className={`text-black w-4 h-4 ${
+                      selectedCategory === newTopic.course ? "text-white" : ""
+                    }`}
+                  />
                 </SelectTrigger>
-                <SelectContent className="max-h-64 overflow-y-auto">
+
+                <SelectContent className="max-h-64 overflow-y-auto ">
                   {/* 🔍 Search input inside dropdown */}
-                  <div className="sticky top-0 bg-white p-2 border-b">
+                  <div className="sticky top-0 bg-white z-10 p-2 border-b">
                     <Input
                       placeholder="Search courses..."
                       value={searchCourse}
@@ -262,6 +282,7 @@ export default function ForumPage() {
                             </span>
                           )}
                         </p>
+                        |
                         <FormatDate date={post.createdAt} />
                       </p>
                       <div className="flex items-center  gap-3 mt-1">
@@ -379,10 +400,10 @@ export default function ForumPage() {
                   ["code-block"], // Code block
                 ],
               }}
-              className="h-40"
+              className="h-40 "
             />
 
-            <div className="mt-14 flex gap-3">
+            <div className="mt-22 sm:mt-16 flex gap-3">
               {/* Category Dropdown */}
               <Select
                 value={newTopic.category}

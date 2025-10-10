@@ -35,6 +35,7 @@ import {
 import Loader from "@/components/Loader";
 import FormatDate from "@/components/FormatDate";
 import { motion } from "framer-motion";
+import { categories, courses } from "./index";
 
 const TopicDetails = () => {
   const { id } = useParams();
@@ -58,11 +59,12 @@ const TopicDetails = () => {
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
   const [isReplyDialogOpen, setIsReplyDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-
+  const [searchCourse, setSearchCourse] = useState("");
   const [editTopic, setEditTopic] = useState({
     title: "",
     description: "",
     category: "",
+    course: "",
   });
 
   const [likesCount, setLikesCount] = useState<number>(0);
@@ -73,7 +75,8 @@ const TopicDetails = () => {
       setEditTopic({
         title: topic.title,
         description: topic.description,
-        category: topic.category,
+        category: "General",
+        course: "",
       });
       setLikesCount(topic.likes?.length || 0);
       setIsLiked(topic.likes?.includes(userInfo?._id));
@@ -149,12 +152,9 @@ const TopicDetails = () => {
   const handleUpdateTopic = async () => {
     if (!editTopic.title.trim() || !editTopic.description.trim()) return;
     try {
-      await updateTopic({
-        topicId: id,
-        title: editTopic.title,
-        description: editTopic.description,
-        category: editTopic.category,
-      }).unwrap();
+      const payload =
+        editTopic.category === "Course" ? { ...editTopic, category: editTopic.course } : editTopic;
+      await updateTopic({ topicId: id, ...payload }).unwrap();
       setIsEditDialogOpen(false);
       toast.success("Topic updated successfully!");
       refetch();
@@ -282,24 +282,24 @@ const TopicDetails = () => {
             </button>
 
             {/* Topic Header */}
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-4  border-b-gray-100 border-b">
               {topic?.author?.avatar ? (
                 <img
                   src={topic.author.avatar}
                   alt={topic.author.name}
-                  className={`w-10 h-10 rounded-full object-cover ${
+                  className={`size-14 rounded-md object-cover ${
                     topic.author.isAdmin ? "ring-black ring-2" : ""
                   }`}
                 />
               ) : (
-                <div className="w-10 h-10 uppercase rounded-full bg-tomato flex items-center justify-center text-white font-semibold">
+                <div className="size-14 uppercase rounded-md bg-tomato flex items-center justify-center text-white font-semibold">
                   {topic?.author?.username?.charAt(0) +
                     topic?.author?.username?.charAt(topic.author.username.length - 1)}
                 </div>
               )}
 
-              <div className="text-sm text-gray-500 flex-1">
-                <p className="font-medium text-black/70 flex gap-2">
+              <div className="text-sm text-gray-400 flex-1">
+                <p className="font-medium text-black flex gap-2">
                   {topic?.author?.name}{" "}
                   {topic?.author?.isAdmin && (
                     <span className="bg-tomato flex items-center gap-1 text-white text-xs px-2 py-0.5 rounded-full">
@@ -307,8 +307,9 @@ const TopicDetails = () => {
                     </span>
                   )}
                 </p>
+                <p className=" text-gray-400">@{topic?.author?.username}</p>
                 <p>
-                  <FormatDate date={topic?.createdAt} /> • {topic?.category}
+                  <FormatDate variant="full" date={topic?.createdAt} /> • {topic?.category}
                 </p>
               </div>
 
@@ -351,13 +352,30 @@ const TopicDetails = () => {
                             theme="snow"
                             value={editTopic.description}
                             onChange={(value) => setEditTopic({ ...editTopic, description: value })}
-                            className="h-80"
+                            className="h-40 lg:h-80"
+                            modules={{
+                              toolbar: [
+                                // [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                                ["bold", "italic", "underline", "strike"],
+                                [{ script: "sub" }, { script: "super" }], // Subscript / superscript
+                                [
+                                  { list: "ordered" },
+                                  { list: "bullet" },
+                                  { indent: "-1" },
+                                  { indent: "+1" },
+                                ], // Lists
+                                [{ color: [] }, { background: ["#FFFF00"] }],
+                                // ["link", "image", "video"],
+                                // ["clean"],
+                                ["code-block"], // Code block
+                              ],
+                            }}
                           />
                           <div className="mt-20">
                             <Select
                               value={editTopic.category}
                               onValueChange={(value) =>
-                                setEditTopic({ ...editTopic, category: value })
+                                setEditTopic({ ...editTopic, category: value, course: "" })
                               }>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select Category" />
@@ -371,6 +389,38 @@ const TopicDetails = () => {
                               </SelectContent>
                             </Select>
                           </div>
+                          {/* Course Dropdown (searchable) */}
+                          {editTopic.category === "Course" && (
+                            <Select
+                              value={editTopic.course}
+                              onValueChange={(value) =>
+                                setEditTopic({ ...editTopic, course: value })
+                              }>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select Course" />
+                              </SelectTrigger>
+                              <SelectContent className="max-h-64 overflow-y-auto">
+                                <div className="sticky top-0 bg-white p-2 border-b">
+                                  <Input
+                                    placeholder="Search courses..."
+                                    value={searchCourse}
+                                    onChange={(e) => setSearchCourse(e.target.value)}
+                                    className="h-8 text-sm"
+                                  />
+                                </div>
+                                {courses
+                                  .filter((course) =>
+                                    course.toLowerCase().includes(searchCourse.toLowerCase())
+                                  )
+                                  .map((course) => (
+                                    <SelectItem key={course} value={course}>
+                                      {course}
+                                    </SelectItem>
+                                  ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+
                           <Button className="w-full" onClick={handleUpdateTopic}>
                             Save Changes
                           </Button>
@@ -392,17 +442,11 @@ const TopicDetails = () => {
             </div>
 
             {/* Topic Title & Description */}
-            <p className="text-black font-bold text-2xl mb-2 ">{topic?.title}</p>
+            {/* <p className="text-black font-bold text-2xl mb-2 ">{topic?.title}</p> */}
             <div
               className="ql-editor text-black  text-lg mb-4 "
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(topic?.description || "") }}
             />
-
-            {/*  {topic?.updatedAt !== topic?.createdAt && (
-              <p className="text-gray-700 mb-2 text-sm italic">
-                Updated at <FormatDate date={topic?.updatedAt} />
-              </p>
-            )} */}
 
             {/* Comments Section */}
             <div className="mt-6 flex justify-between items-center">

@@ -51,35 +51,33 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 relative">
-            <div className="relative">
-              <Link
-                to="/course/all-courses"
-                aria-expanded={coursesOpen}
-                aria-controls="courses-dropdown"
-                className={`flex items-center text-sm  text-foreground/80 hover:text-foreground transition-colors ${
-                  pathname.startsWith("/course") ? "text-tomato font-bold" : "font-medium"
-                }`}>
-                Courses
-              </Link>
-            </div>
+            <Link
+              to="/course/all-courses"
+              aria-expanded={coursesOpen}
+              aria-controls="courses-dropdown"
+              className={`flex items-center text-sm  text-foreground/80  transition-colors ${
+                pathname.startsWith("/course") ? "text-tomato font-bold" : "font-medium"
+              }`}>
+              Courses
+            </Link>
 
             <Link
               to="/forum"
-              className={`text-sm  text-foreground/80 hover:text-foreground transition-colors ${
+              className={`text-sm  text-foreground/80  transition-colors ${
                 pathname.startsWith("/forum") ? "text-tomato font-bold" : "font-medium"
               }`}>
               Forum
             </Link>
             <Link
               to="/about"
-              className={`text-sm  text-foreground/80 hover:text-foreground transition-colors ${
+              className={`text-sm  text-foreground/80  transition-colors ${
                 pathname.startsWith("/about") ? "text-tomato font-bold" : "font-medium"
               }`}>
               About
             </Link>
             <Link
               to="/contact"
-              className={`text-sm  text-foreground/80 hover:text-foreground transition-colors ${
+              className={`text-sm  text-foreground/80  transition-colors ${
                 pathname.startsWith("/contact") ? "text-tomato font-bold" : "font-medium"
               }`}>
               Contact
@@ -177,65 +175,45 @@ export default function Header() {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden  bg-beige border-t border-border/40 px-6 py-4">
             <nav className="flex flex-col gap-4">
-              <div>
-                <button
-                  onClick={() => setCoursesOpen(!coursesOpen)}
-                  className="flex items-center justify-between text-base font-medium text-foreground/80 hover:text-foreground w-full">
-                  Courses
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform ${coursesOpen ? "rotate-180" : ""}`}
-                  />
-                </button>
-                <AnimatePresence>
-                  {coursesOpen && (
-                    <motion.div
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="show"
-                      exit="exit"
-                      className="mt-2 flex flex-col gap-3 pl-2 overflow-hidden">
-                      {categories.map((course) => (
-                        <motion.div key={course._id} variants={itemVariants}>
-                          <Link
-                            to={`/course/${course._id}`}
-                            className="flex items-center gap-3 rounded-md p-2 hover:bg-tomato hover:text-white transition-colors">
-                            <div className="h-10 w-10 flex-shrink-0 rounded-md overflow-hidden ">
-                              <img
-                                src={course.image}
-                                alt={course.name}
-                                className="h-full w-full object-cover"
-                              />
-                            </div>
-                            <span className="text-sm font-medium ">{course.name}</span>
-                          </Link>
-                        </motion.div>
-                      ))}
-                      <motion.div variants={itemVariants}>
-                        <button
-                          onClick={() => navigate("/course/all-courses")}
-                          className="bg-tomato text-white  rounded-md p-2 w-full">
-                          Show all
-                        </button>
-                      </motion.div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <Link
+                to="/course/all-courses"
+                aria-expanded={coursesOpen}
+                aria-controls="courses-dropdown"
+                className={`flex items-center text-sm  text-foreground/80 hover:text-foreground transition-colors ${
+                  pathname.startsWith("/course") ? "text-tomato font-bold" : "font-medium"
+                }`}>
+                Courses
+              </Link>
 
               <Link
+                to="/forum"
+                className={`text-sm  text-foreground/80  transition-colors ${
+                  pathname.startsWith("/forum") ? "text-tomato font-bold" : "font-medium"
+                }`}>
+                Forum
+              </Link>
+              <Link
                 to="/about"
-                className="text-base font-medium text-foreground/80 hover:text-foreground transition-colors">
+                className={`text-sm  text-foreground/80  transition-colors ${
+                  pathname.startsWith("/about") ? "text-tomato font-bold" : "font-medium"
+                }`}>
                 About
               </Link>
               <Link
                 to="/contact"
-                className="text-base font-medium text-foreground/80 hover:text-foreground transition-colors">
+                className={`text-sm  text-foreground/80  transition-colors ${
+                  pathname.startsWith("/contact") ? "text-tomato font-bold" : "font-medium"
+                }`}>
                 Contact
               </Link>
               <Link
-                to="/forum"
-                className="text-base font-medium text-foreground/80 hover:text-foreground transition-colors">
-                Forum
+                to="/upcoming"
+                className={`relative flex items-center gap-2 ${
+                  pathname.startsWith("/upcoming") ? "text-tomato font-bold" : "font-medium"
+                }`}>
+                <span className="absolute inline-flex h-2 w-2 rounded-full bg-tomato opacity-75 animate-ping"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-tomato animate-pulse"></span>
+                Coming Soon
               </Link>
               {!userInfo && (
                 <Link

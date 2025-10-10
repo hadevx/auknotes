@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="bg-neutral-900">
       <div className="container mx-auto  py-10">
         <motion.div
-          className="flex justify-between flex-col md:flex-row gap-5"
+          className="flex justify-between flex-col md:flex-row gap-3"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}>
@@ -21,7 +21,7 @@ export default function Footer() {
           </motion.div>
 
           {/* Text + Heart Animation */}
-          <div className="flex flex-col lg:flex-row text-white justify-between items-center gap-5 text-sm">
+          <div className="flex flex-col lg:flex-row text-white/50 justify-between items-center gap-3 text-sm">
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -43,7 +43,7 @@ export default function Footer() {
                     duration: 2,
                     ease: "easeInOut",
                   }}>
-                  <Heart fill="#f84713" stroke="beige" size={20} />
+                  <Heart fill="#f84713" size={20} />
                 </motion.span>
               </p>
             </motion.div>
