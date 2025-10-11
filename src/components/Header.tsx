@@ -136,7 +136,7 @@ export default function Header() {
           <div className="md:hidden flex items-center gap-2">
             {userInfo && (
               <Button
-                onClick={() => navigate("/profile")}
+                onClick={() => navigate(`/profile/${userInfo?._id}`)}
                 variant="outline"
                 className="rounded-full border-foreground/20 text-black flex items-center gap-2">
                 {userInfo.avatar ? (
@@ -151,7 +151,7 @@ export default function Header() {
                       userInfo?.username?.charAt(userInfo?.username?.length - 1)}
                   </span>
                 )}
-                <span>{userInfo.name}</span>
+                <span>{userInfo?.name}</span>
               </Button>
             )}
 
