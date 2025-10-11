@@ -27,11 +27,11 @@ export default function HeroSection() {
 
   return (
     <motion.section
-      className="lg:container lg:mx-auto px-6 lg:px-8 py-16 lg:py-24"
+      className="lg:container lg:mx-auto px-6 lg:px-16 py-16 lg:py-16"
       variants={containerVariants}
       initial="hidden"
       animate="show">
-      <div className="grid md:grid-cols-2 lg:gap-12 items-center">
+      <div className="grid md:grid-cols-2 lg:gap-16 items-center">
         {/* Left Column */}
         <motion.div className="space-y-8" variants={itemVariants}>
           <Badge
@@ -60,7 +60,7 @@ export default function HeroSection() {
         </motion.div>
 
         {/* Right Column */}
-        <motion.div className="space-y-6" variants={itemVariants}>
+        <motion.div className="space-y-3" variants={itemVariants}>
           {/* Growth Card */}
           <motion.div variants={itemVariants}>
             <Card className="bg-[#f84713] text-accent-foreground p-8 border-0 shadow-lg">
@@ -121,14 +121,14 @@ export default function HeroSection() {
 
                   <motion.g
                     transform="translate(340, 20)"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: -10, scale: 0 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ delay: 2 }}>
                     <rect x="0" y="0" width="55" height="24" rx="12" fill="rgba(255,255,255,0.3)" />
                     <text
                       x="27.5"
                       y="16"
-                      fontSize="12"
+                      fontSize="14"
                       fill="white"
                       fontWeight="600"
                       textAnchor="middle">

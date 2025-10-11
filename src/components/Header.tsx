@@ -42,7 +42,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground">
-              <img src="/n.png" className="logo" alt="" />
+              <img src="/n.webp" className="logo" alt="" />
             </div>
             <Link to="/" className="text-xl font-semibold">
               AUKNOTES
