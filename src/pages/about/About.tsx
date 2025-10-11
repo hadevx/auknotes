@@ -30,9 +30,10 @@ const About = () => {
               <span className="text-tomato uppercase">ABOUT US</span>
             </h2>
             <p className="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
-              AUKNOTES empowers AUK students with a collaborative platform for efficient studying.
-              Our mission is to simplify learning, encourage sharing, and keep everything in one
-              place.
+              AUKNOTES helps AUK'ers study efficiently and share knowledge — all in one place.{" "}
+              <span className="underline italic text-black">
+                Independent student project, not an official AUK site.
+              </span>
             </p>
           </div>
 

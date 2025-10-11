@@ -177,7 +177,7 @@ export default function ForumPage() {
                   }}
                   className={`text-sm px-4 py-2 rounded-full border ${
                     selectedCategory === cat
-                      ? "bg-tomato shadow-[0_0_10px_rgba(248,0,0,0.5)] border-0 text-white"
+                      ? "bg-tomato  border-0 text-white"
                       : "text-black bg-white hover:bg-gray-100"
                   }`}>
                   {cat}
@@ -193,9 +193,7 @@ export default function ForumPage() {
                 }}>
                 <SelectTrigger
                   className={`bg-white rounded-full [&>svg]:hidden px-3 py-1 ${
-                    selectedCategory === newTopic.course
-                      ? "bg-tomato shadow-[0_0_5px_rgb(248,0,0)] border-0 text-white"
-                      : ""
+                    selectedCategory === newTopic.course ? "bg-tomato  border-0 text-white" : ""
                   }`}>
                   <SelectValue placeholder="Select Course" />
                   <ChevronDown

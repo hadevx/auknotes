@@ -9,7 +9,7 @@ const students = [
   { name: "Omar Haddad", major: "Business", contributions: 4 },
   { name: "Noor AlSabah", major: "Biology", contributions: 2 },
   { name: "Sara AlYousef", major: "CSIS", contributions: 6 },
-  { name: "Hamad AlFarsi", major: "ELEG", contributions: 1 },
+  { name: "Hamad AlFarsi", major: "ELEG", contributions: 2 },
   { name: "Maya AlHassan", major: "Physics", contributions: 3 },
   { name: "Zayd AlOmar", major: "Mathematics", contributions: 4 },
 ];

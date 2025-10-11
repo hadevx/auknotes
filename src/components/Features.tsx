@@ -8,19 +8,19 @@ const Features = () => {
   const cards = [
     {
       title: "Study Efficiently",
-      desc: "Get structured notes tailored for AUK courses, making your study sessions more effective.",
+      desc: "Structured notes for AUK courses to boost your study sessions.",
       bg: "bg-[#FF9B9B]",
       anim: learning,
     },
     {
       title: "Collaborate Easily",
-      desc: "Work together with classmates by sharing notes and collaborating on projects effortlessly.",
+      desc: "Share notes and work with classmates effortlessly.",
       bg: "bg-[#FFD6A5]",
       anim: c,
     },
     {
       title: "All in One Place",
-      desc: "Access your lecture notes, assignments, and resources all from one centralized platform.",
+      desc: "Access notes, assignments, and resources in one place.",
       bg: "bg-[#98EECC]",
       anim: m,
     },
@@ -28,12 +28,12 @@ const Features = () => {
 
   const containerVariants = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.25 } },
+    show: { transition: { staggerChildren: 0.3 } },
   };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120 } },
+    show: { opacity: 1, y: 0, transition: { type: "tween", stiffness: 120 } },
   } as const;
 
   const headingVariants = {
@@ -43,7 +43,7 @@ const Features = () => {
 
   return (
     <section className="py-16 bg-neutral-900">
-      <div className="max-w-7xl mx-auto px-10 md:px-6">
+      <div className="max-w-7xl mx-auto px-7 md:px-6">
         {/* Heading */}
         <motion.div
           className="text-center mb-12"
@@ -72,9 +72,9 @@ const Features = () => {
               variants={cardVariants}
               className={`
     ${card.bg}
-    rounded-2xl shadow-lg 
+    rounded-md
     p-5 sm:p-6 md:p-8 
-    flex flex-col items-center justify-between text-center
+    flex flex-row sm:flex-col items-center justify-between 
     transition-transform duration-300 transform
      
     w-full

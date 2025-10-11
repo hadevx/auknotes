@@ -30,12 +30,11 @@ const Course = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen py-12 px-3 md:px-12 max-w-7xl mx-auto">
+      <div className="min-h-screen py-12 px-5 sm:px-12 max-w-7xl mx-auto">
         {/* Page heading */}
         <h1 className="text-3xl  text-gray-900 mb-8">
           <div className="text-tomato flex gap-2 font-bold">
             <p className="uppercase ">{category?.name}: </p>
-            <p> Digital Logic Design</p>
           </div>
         </h1>
 
@@ -46,7 +45,7 @@ const Course = () => {
               <TabsTrigger
                 key={type}
                 value={type}
-                className="data-[state=active]:bg-tomato lg:text-lg data-[state=active]:text-white">
+                className="data-[state=active]:bg-tomato sm:text-lg data-[state=active]:text-white">
                 {type}
               </TabsTrigger>
             ))}

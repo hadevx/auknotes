@@ -4,7 +4,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl:
     import.meta.env.VITE_ENVIRONMENT === "production"
       ? import.meta.env.VITE_API_URL
-      : "https://localhost:4001",
+      : "http://localhost:4001",
   credentials: "include",
 });
 

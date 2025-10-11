@@ -84,7 +84,7 @@ export default function Header() {
             </Link>
             <Link
               to="/upcoming"
-              className={`relative flex items-center gap-2 ${
+              className={`relative flex text-foreground/80  items-center gap-2 ${
                 pathname.startsWith("/upcoming") ? "text-tomato font-bold" : "font-medium"
               }`}>
               <span className="absolute inline-flex h-2 w-2 rounded-full bg-tomato opacity-75 animate-ping"></span>

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Pirata+One&family=Poppins:wght@600;700;800&display=swap");
+@custom-variant dark (&:is(.dark *));
 @theme {
   --color-tomato: #f84713;
   --color-beige: #f8f5ee;
@@ -166,10 +166,6 @@ button {
     @apply bg-background text-foreground;
   }
 }
-
-@import "tailwindcss";
-@import "tw-animate-css";
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Pirata+One&family=Poppins:wght@600;700;800&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 

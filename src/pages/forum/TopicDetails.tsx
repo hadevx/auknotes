@@ -78,8 +78,8 @@ const TopicDetails = () => {
         category: "General",
         course: "",
       });
-      setLikesCount(topic.likes?.length || 0);
-      setIsLiked(topic.likes?.includes(userInfo?._id));
+      setLikesCount(topic?.likes?.length || 0);
+      setIsLiked(topic?.likes?.includes(userInfo?._id));
     }
   }, [topic, userInfo]);
 
@@ -303,7 +303,7 @@ const TopicDetails = () => {
                       topic?.author?.username?.charAt(topic?.author?.username?.length - 1)}
                   </div>
                 )}
-                <Link to={`/user/${topic?.author?._id}`}>
+                <Link to={`/forum/${topic?._id}`}>
                   <div className="">
                     <div className="flex gap-2  items-center">
                       <p className="text-lg text-black">{topic?.author?.name} </p>
@@ -366,7 +366,7 @@ const TopicDetails = () => {
                       ? "bg-rose-500 shadow-[0_0_10px_rgba(255,0,0,0.3)] text-white border-rose-500"
                       : "hover:bg-rose-50 text-rose-600 border-rose-300"
                   }`}>
-                  <motion.div animate={isLiked ? { scale: [1, 1.2, 1] } : { scale: 1 }}>
+                  <motion.div animate={isLiked ? { scale: [0, 1.3, 1] } : { scale: 1 }}>
                     <Heart
                       className={`size-5  transition-all ${
                         isLiked ? "fill-white" : "fill-transparent"
@@ -376,7 +376,7 @@ const TopicDetails = () => {
                   <span className="">{likesCount}</span>
                 </button>
                 {topic?.isClosed && (
-                  <div className="flex items-center justify-center gap-2 px-2 py-1 rounded-full bg-gray-600 shadow-[0_0_10px_rgba(0,0,0,0.3)] text-white font-medium">
+                  <div className="flex items-center justify-center gap-2 px-2 py-1 rounded-full bg-gray-600  text-white font-medium">
                     <span className="">
                       <Lock className="size-5 " />
                     </span>
