@@ -97,7 +97,7 @@ export default function Header() {
           <div className="hidden md:block">
             {userInfo ? (
               <Button
-                onClick={() => navigate("/profile")}
+                onClick={() => navigate(`/profile/${userInfo._id}`)}
                 variant="outline"
                 className="rounded-full border-foreground/20 text-black flex items-center gap-2">
                 {userInfo.avatar ? (
@@ -158,7 +158,7 @@ export default function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="bg-tomato hover:bg-tomato/90 hover:text-white text-white"
+              className="bg-tomato  hover:bg-tomato/90 hover:text-white text-white"
               onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>

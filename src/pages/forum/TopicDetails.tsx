@@ -1,5 +1,5 @@
 import Layout from "@/Layout";
-import { MessageSquare, Plus, Trash2, Edit, Reply, Crown, Heart } from "lucide-react";
+import { MessageSquare, Plus, Trash2, Edit, Reply, Crown, Heart, Lock } from "lucide-react";
 import {
   useGetTopicByIdQuery,
   useAddCommentMutation,
@@ -9,7 +9,7 @@ import {
   useAdminDeleteCommentMutation,
   useLikeTopicMutation,
 } from "@/redux/queries/forumApi";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   Dialog,
@@ -108,7 +108,7 @@ const TopicDetails = () => {
 
   // ✅ Add Reply
   const handleAddReply = async () => {
-    if (!replyText.trim() || !replyParent) return;
+    if (!replyText.trim() || !replyParent || !userInfo) return;
     try {
       await addComment({
         topicId: id,
@@ -201,7 +201,7 @@ const TopicDetails = () => {
 
           <div className="flex justify-between items-start gap-3">
             <div className="flex flex-col gap-3 items-start">
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center ">
                 {comment?.author?.avatar ? (
                   <img
                     src={comment.author.avatar}
@@ -216,13 +216,13 @@ const TopicDetails = () => {
                 )}
                 <div>
                   {/* <p className="text-gray-800 text-lg">{comment.text}</p> */}
-                  <p className="font-medium text-xs flex flex-col   lg:text-sm text-black/50 mt-1">
+                  <p className="font-medium text-xs flex flex-col  lg:text-sm text-black/50 ">
                     <p className="text-sm text-black">{comment?.author?.name}</p>
                     <p className="flex gap-2 items-center">
                       @{comment?.author?.username} <span>•</span>
                       {comment?.author?.isAdmin && (
                         <span className="bg-tomato flex items-center gap-1 text-white text-xs px-2 py-0.5 rounded-full">
-                          <Crown size={16} /> Admin
+                          <Crown size={16} /> admin
                         </span>
                       )}
                       <FormatDate date={comment?.createdAt} />
@@ -233,7 +233,7 @@ const TopicDetails = () => {
               <div>{comment?.text}</div>
             </div>
 
-            {!topic?.isClosed && (
+            {!topic?.isClosed && userInfo && (
               <div className="flex gap-2">
                 <Button
                   variant="ghost"
@@ -247,7 +247,7 @@ const TopicDetails = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="border-rose-500 bg-rose-600 hover:bg-rose-500 hover:text-white text-white p-1"
+                    className="border-rose-500 bg-rose-100 hover:bg-rose-200  text-rose-500 "
                     onClick={() => handleDeleteComment(comment._id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
@@ -275,169 +275,64 @@ const TopicDetails = () => {
       ) : (
         <div className="max-w-4xl min-h-screen mx-auto px-4 py-10 space-y-6">
           <div className="border bg-white rounded-lg p-6 shadow-sm">
+            {/* Back - Category */}
             <div className="flex justify-start gap-2 items-center mb-5">
               <button
                 onClick={() => navigate(-1)}
                 className="flex items-center gap-2  px-2 py-1 rounded-full border bg-white hover:bg-zinc-100 text-black transition-colors">
                 <span className="font-medium text-xs">← Back</span>
               </button>
-
               <div className="bg-rose-500 px-2 py-1 text-xs rounded-full text-white">
                 {topic?.category}
               </div>
             </div>
             {/* Topic Header */}
-            <div className="flex items-center gap-2 mb-4  border-b-gray-100 border-b">
-              {topic?.author?.avatar ? (
-                <img
-                  src={topic.author.avatar}
-                  alt={topic.author.name}
-                  className={`size-14 rounded-md object-cover ${
-                    topic.author.isAdmin ? "ring-black ring-2" : ""
-                  }`}
-                />
-              ) : (
-                <div className="size-14 uppercase rounded-md bg-tomato flex items-center justify-center text-white font-semibold">
-                  {topic?.author?.username?.charAt(0) +
-                    topic?.author?.username?.charAt(topic.author.username.length - 1)}
-                </div>
-              )}
-
-              <div className="text-sm text-gray-400 flex-1">
-                <p className="font-medium text-black flex gap-2">
-                  {topic?.author?.name}{" "}
-                  {topic?.author?.isAdmin && (
-                    <span className="bg-tomato flex items-center gap-1 text-white text-xs px-2 py-0.5 rounded-full">
-                      <Crown size={16} /> Admin
-                    </span>
-                  )}
-                </p>
-                <p className=" text-gray-400">@{topic?.author?.username}</p>
-                {/*   <p>
-                  <FormatDate variant="short" date={topic?.createdAt} /> • {topic?.category}
-                </p> */}
-              </div>
-
-              <div className="flex items-center gap-2">
-                {/* ❤️ Like Button */}
-                <button
-                  onClick={handleLikeTopic}
-                  disabled={!userInfo}
-                  className={` hidden items-center gap-2 px-3 py-1 rounded-full border transition ${
-                    isLiked
-                      ? "bg-rose-500 text-white border-rose-500"
-                      : "hover:bg-rose-50 text-rose-600 border-rose-300"
-                  }`}>
-                  <Heart
-                    className={`w-5 h-5 transition ${isLiked ? "fill-white" : "fill-transparent"}`}
+            <div className="flex items-center justify-between gap-2 mb-4">
+              <div className="flex gap-2 items-center">
+                {topic?.author?.avatar ? (
+                  <img
+                    src={topic.author.avatar}
+                    alt={topic.author.name}
+                    className={`size-14 rounded-md object-cover ${
+                      topic.author.isAdmin ? "ring-black ring-2" : ""
+                    }`}
                   />
-                  <span>{likesCount}</span>
-                </button>
-
-                {/* ✏️ Edit Topic */}
+                ) : (
+                  <div className="size-14 uppercase rounded-md bg-tomato flex items-center justify-center text-white font-semibold">
+                    {topic?.author?.username?.charAt(0) +
+                      topic?.author?.username?.charAt(topic?.author?.username?.length - 1)}
+                  </div>
+                )}
+                <Link to={`/user/${topic?.author?._id}`}>
+                  <div className="">
+                    <div className="flex gap-2  items-center">
+                      <p className="text-lg text-black">{topic?.author?.name} </p>
+                      {topic?.author?.isAdmin && (
+                        <p className="bg-tomato flex items-center gap-1 text-white text-xs px-2 py-1  rounded-full">
+                          <Crown size={13} /> <span>Admin</span>
+                        </p>
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-400">@{topic?.author?.username}</p>
+                  </div>
+                </Link>
+              </div>
+              <div className="flex items-center gap-2">
                 {topic?.author?._id === userInfo?._id && (
                   <>
-                    <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button size="sm" variant="outline" className="flex items-center gap-1">
-                          <Edit className="w-4 h-4 " />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-4xl ">
-                        <DialogHeader>
-                          <DialogTitle>Edit Topic</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <Input
-                            placeholder="Title"
-                            value={editTopic.title}
-                            onChange={(e) => setEditTopic({ ...editTopic, title: e.target.value })}
-                          />
-                          <ReactQuill
-                            theme="snow"
-                            value={editTopic.description}
-                            onChange={(value) => setEditTopic({ ...editTopic, description: value })}
-                            className="h-40 lg:h-80"
-                            modules={{
-                              toolbar: [
-                                // [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                                ["bold", "italic", "underline", "strike"],
-                                [{ script: "sub" }, { script: "super" }], // Subscript / superscript
-                                [
-                                  { list: "ordered" },
-                                  { list: "bullet" },
-                                  { indent: "-1" },
-                                  { indent: "+1" },
-                                ], // Lists
-                                [{ color: [] }, { background: ["#FFFF00"] }],
-                                // ["link", "image", "video"],
-                                // ["clean"],
-                                ["code-block"], // Code block
-                              ],
-                            }}
-                          />
-                          <div className="mt-20">
-                            <Select
-                              value={editTopic.category}
-                              onValueChange={(value) =>
-                                setEditTopic({ ...editTopic, category: value, course: "" })
-                              }>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select Category" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {["General", "Professor", "Course"].map((cat) => (
-                                  <SelectItem key={cat} value={cat}>
-                                    {cat}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          {/* Course Dropdown (searchable) */}
-                          {editTopic.category === "Course" && (
-                            <Select
-                              value={editTopic.course}
-                              onValueChange={(value) =>
-                                setEditTopic({ ...editTopic, course: value })
-                              }>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select Course" />
-                              </SelectTrigger>
-                              <SelectContent className="max-h-64 overflow-y-auto">
-                                <div className="sticky top-0 bg-white p-2 border-b">
-                                  <Input
-                                    placeholder="Search courses..."
-                                    value={searchCourse}
-                                    onChange={(e) => setSearchCourse(e.target.value)}
-                                    className="h-8 text-sm"
-                                  />
-                                </div>
-                                {courses
-                                  .filter((course) =>
-                                    course.toLowerCase().includes(searchCourse.toLowerCase())
-                                  )
-                                  .map((course) => (
-                                    <SelectItem key={course} value={course}>
-                                      {course}
-                                    </SelectItem>
-                                  ))}
-                              </SelectContent>
-                            </Select>
-                          )}
-
-                          <Button className="w-full" onClick={handleUpdateTopic}>
-                            Save Changes
-                          </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-
-                    {/* 🗑️ Delete */}
+                    {/* Edit Topic */}
+                    <Button
+                      onClick={() => setIsEditDialogOpen(true)}
+                      size="sm"
+                      variant="outline"
+                      className="flex items-center gap-1">
+                      <Edit className="w-4 h-4 " />
+                    </Button>
+                    {/* Delete */}
                     <Button
                       size="sm"
                       variant="destructive"
-                      className="flex items-center gap-1 bg-rose-500"
+                      className="flex items-center gap-1 bg-rose-100 border-rose-500 text-rose-500"
                       onClick={handleDeleteTopic}>
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -452,76 +347,55 @@ const TopicDetails = () => {
               className="ql-editor text-black  text-lg mb-4 !p-0 [&>p]:!m-0 [&>p]:!p-0"
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(topic?.description || "") }}
             />
-
             <p className="text-sm text-gray-500">
               <FormatDate variant="full" date={topic?.createdAt} />
             </p>
-            {/* Comments Section */}
-            <div className="mt-6 flex justify-between items-center">
-              <div className="flex items-center gap-3">
-                <h2 className="text-lg   flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5" /> {topic?.comments?.length}
-                </h2>
 
-                {/* ❤️ Like Button */}
-
+            {/* Likes - Messages Section */}
+            <div className="mt-2 flex justify-between items-center">
+              <div className="flex  gap-3 ">
+                <p className="text-lg flex items-center gap-2">
+                  <MessageSquare className="size-5 " /> {topic?.comments?.length}
+                </p>
+                {/* Like Button */}
                 <button
                   onClick={handleLikeTopic}
                   disabled={!userInfo}
-                  className={`flex items-center gap-2 px-2 py-1 rounded-full border transition-all duration-200 ${
+                  className={`flex items-center gap-2 px-2 py-0.5 rounded-full border transition-all duration-200 ${
                     isLiked
-                      ? "bg-rose-500 shadow-[0_0_10px_rgba(255,0,0,0.5)] text-white border-rose-500"
+                      ? "bg-rose-500 shadow-[0_0_10px_rgba(255,0,0,0.3)] text-white border-rose-500"
                       : "hover:bg-rose-50 text-rose-600 border-rose-300"
                   }`}>
-                  <motion.div
-                    animate={isLiked ? { scale: [1, 1.2, 1] } : { scale: 1 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}>
+                  <motion.div animate={isLiked ? { scale: [1, 1.2, 1] } : { scale: 1 }}>
                     <Heart
-                      className={`w-5 h-5 transition-all ${
+                      className={`size-5  transition-all ${
                         isLiked ? "fill-white" : "fill-transparent"
                       }`}
                     />
                   </motion.div>
                   <span className="">{likesCount}</span>
                 </button>
+                {topic?.isClosed && (
+                  <div className="flex items-center justify-center gap-2 px-2 py-1 rounded-full bg-gray-600 shadow-[0_0_10px_rgba(0,0,0,0.3)] text-white font-medium">
+                    <span className="">
+                      <Lock className="size-5 " />
+                    </span>
+                    <span className="text-sm ">Closed by the admin.</span>
+                  </div>
+                )}
               </div>
               {!topic?.isClosed && userInfo && (
-                <Dialog open={isCommentDialogOpen} onOpenChange={setIsCommentDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button
-                      size="sm"
-                      className="flex items-center gap-2 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
-                      <Plus className="w-4 h-4" /> Reply
-                    </Button>
-                  </DialogTrigger>
-
-                  <DialogContent className="sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle>Add Comment</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <Textarea
-                        placeholder="Write your comment..."
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                      />
-                      <Button className="w-full" onClick={handleAddComment} disabled={isAdding}>
-                        {isAdding ? "Adding..." : "Submit"}
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <Button
+                  onClick={() => setIsCommentDialogOpen(true)}
+                  size="sm"
+                  className="flex items-center gap-2 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                  <Plus className="w-4 h-4" /> Reply
+                </Button>
               )}
             </div>
 
             {/* Render Comments */}
             <div className="space-y-3 mt-3">
-              {topic?.isClosed && (
-                <div className="p-4 bg-gray-100 border border-gray-300 rounded-md text-center text-gray-600 font-medium">
-                  🚫 This topic is closed.
-                </div>
-              )}
-
               {topic?.comments?.length === 0 ? (
                 <p className="text-gray-500 text-sm">No comments yet.</p>
               ) : (
@@ -531,15 +405,115 @@ const TopicDetails = () => {
           </div>
         </div>
       )}
+      {/* Edit Topic */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="sm:max-w-4xl ">
+          <DialogHeader>
+            <DialogTitle>Edit Topic</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Input
+              placeholder="Title"
+              value={editTopic.title}
+              onChange={(e) => setEditTopic({ ...editTopic, title: e.target.value })}
+            />
+            <ReactQuill
+              theme="snow"
+              value={editTopic.description}
+              onChange={(value) => setEditTopic({ ...editTopic, description: value })}
+              className="h-40 lg:h-80"
+              modules={{
+                toolbar: [
+                  // [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                  ["bold", "italic", "underline", "strike"],
+                  [{ script: "sub" }, { script: "super" }], // Subscript / superscript
+                  [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }], // Lists
+                  [{ color: [] }, { background: ["#FFFF00"] }],
+                  // ["link", "image", "video"],
+                  // ["clean"],
+                  ["code-block"], // Code block
+                ],
+              }}
+            />
+            <div className="mt-20">
+              <Select
+                value={editTopic.category}
+                onValueChange={(value) =>
+                  setEditTopic({ ...editTopic, category: value, course: "" })
+                }>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {["General", "Professor", "Course"].map((cat) => (
+                    <SelectItem key={cat} value={cat}>
+                      {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {/* Course Dropdown (searchable) */}
+            {editTopic.category === "Course" && (
+              <Select
+                value={editTopic.course}
+                onValueChange={(value) => setEditTopic({ ...editTopic, course: value })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Course" />
+                </SelectTrigger>
+                <SelectContent className="max-h-64 overflow-y-auto">
+                  <div className="sticky top-0 bg-white p-2 border-b">
+                    <Input
+                      placeholder="Search courses..."
+                      value={searchCourse}
+                      onChange={(e) => setSearchCourse(e.target.value)}
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                  {courses
+                    .filter((course) => course.toLowerCase().includes(searchCourse.toLowerCase()))
+                    .map((course) => (
+                      <SelectItem key={course} value={course}>
+                        {course}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            )}
 
+            <Button className="w-full" onClick={handleUpdateTopic}>
+              Save Changes
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Comment dialog */}
+      <Dialog open={isCommentDialogOpen} onOpenChange={setIsCommentDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add Comment</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Textarea
+              placeholder="Write your comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+            <Button className="w-full" onClick={handleAddComment} disabled={isAdding}>
+              {isAdding ? "Adding..." : "Submit"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
       {/* Reply Dialog */}
       <Dialog open={isReplyDialogOpen} onOpenChange={setIsReplyDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Reply to {replyParent?.author?.name || "Comment"}</DialogTitle>
+            <DialogTitle>Reply to @{replyParent?.author?.username || "Comment"}</DialogTitle>
           </DialogHeader>
-          <div className="border-l-4 border-blue-400 bg-blue-50 p-3 mb-2 rounded-r-md text-sm text-gray-700">
-            <p className="italic text-gray-600 line-clamp-3">“{replyParent?.text}”</p>
+          <div className="border-l-4 border-blue-500 bg-gray-100 p-3 mb-2 rounded-r-md text-base text-black">
+            <p className="italic  line-clamp-3">“{replyParent?.text}”</p>
           </div>
           <div className="space-y-4">
             <Textarea

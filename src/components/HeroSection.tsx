@@ -148,7 +148,7 @@ export default function HeroSection() {
               </h3>
               <div className="flex items-center gap-4">
                 <div className="flex -space-x-3">
-                  {["1.jpg", "4.jpg", "3.jpg"].map((src, i) => (
+                  {["1.webp", "2.webp", "3.webp"].map((src, i) => (
                     <motion.div
                       key={i}
                       className="w-14 h-14 rounded-full border-2 border-foreground overflow-hidden"

@@ -6,6 +6,7 @@ import TopicDetails from "./forum/TopicDetails";
 import NotFound from "./notFound/NotFound";
 import Upcoming from "./upcoming/Upcoming";
 import Profile from "./user/Profile";
+import User from "./user/User";
 import AllCourses from "./courses/AllCourses";
 import Course from "./courses/Course";
 import Register from "./auth/Register";
@@ -25,4 +26,5 @@ export {
   Register,
   Login,
   DonationPage,
+  User,
 };

@@ -22,6 +22,7 @@ const userApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["User"],
     }),
 
     createAddress: builder.mutation({
@@ -47,6 +48,7 @@ const userApi = apiSlice.injectEndpoints({
       query: (userId) => ({
         url: `/api/users/${userId}`,
       }),
+      providesTags: ["User"],
     }),
     getBlockStatus: builder.query({
       query: (id) => ({
@@ -65,6 +67,13 @@ const userApi = apiSlice.injectEndpoints({
         method: "PATCH",
       }),
     }),
+    toggleFollow: builder.mutation({
+      query: (id) => ({
+        url: `/api/users/${id}/follow`,
+        method: "POST",
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -80,4 +89,5 @@ export const {
   useUpdateAddressMutation,
   useToggleBlockUserMutation,
   useGetBlockStatusQuery,
+  useToggleFollowMutation,
 } = userApi;

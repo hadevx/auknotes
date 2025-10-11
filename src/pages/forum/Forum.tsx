@@ -9,6 +9,7 @@ import {
   Trash2,
   Heart,
   ChevronDown,
+  Pin,
 } from "lucide-react";
 import Layout from "@/Layout";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -38,6 +39,7 @@ import FormatDate from "@/components/FormatDate";
 
 export default function ForumPage() {
   const navigate = useNavigate();
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
@@ -72,7 +74,6 @@ export default function ForumPage() {
   const [adminDeleteTopic] = useAdminDeleteTopicMutation();
 
   // -------------------- Handlers --------------------
-
   const handleCreateTopic = async () => {
     if (!newTopic.title || !newTopic.description) {
       toast.error("Please provide both title and description");
@@ -80,7 +81,7 @@ export default function ForumPage() {
     }
 
     if (!userInfo) {
-      toast.error("You must be logged in to create a topic");
+      toast.info("You must be logged in to create a topic");
       navigate("/login");
       return;
     }
@@ -132,14 +133,13 @@ export default function ForumPage() {
 
   const handleDialogOpen = () => {
     if (!userInfo) {
-      toast.error("You must be logged in to create a topic");
+      toast.info("You must be logged in to create a topic");
       return;
     }
     setIsDialogOpen(true);
   };
 
   // -------------------- UI --------------------
-
   return (
     <Layout>
       {loadingTopics ? (
@@ -177,7 +177,7 @@ export default function ForumPage() {
                   }}
                   className={`text-sm px-4 py-2 rounded-full border ${
                     selectedCategory === cat
-                      ? "bg-tomato text-white"
+                      ? "bg-tomato shadow-[0_0_10px_rgba(248,0,0,0.5)] border-0 text-white"
                       : "text-black bg-white hover:bg-gray-100"
                   }`}>
                   {cat}
@@ -193,7 +193,9 @@ export default function ForumPage() {
                 }}>
                 <SelectTrigger
                   className={`bg-white rounded-full [&>svg]:hidden px-3 py-1 ${
-                    selectedCategory === newTopic.course ? "bg-tomato  text-white" : ""
+                    selectedCategory === newTopic.course
+                      ? "bg-tomato shadow-[0_0_5px_rgb(248,0,0)] border-0 text-white"
+                      : ""
                   }`}>
                   <SelectValue placeholder="Select Course" />
                   <ChevronDown
@@ -233,18 +235,24 @@ export default function ForumPage() {
             {topics?.length === 0 && <p className="text-center text-gray-500">No topics found.</p>}
 
             {topics?.map((post) => {
-              const authorName = post?.author?.name || "Unknown";
-
+              const authorName = post?.author?.name || "";
               const isAdmin = post.author?.isAdmin;
 
               return (
                 <div
                   key={post._id}
-                  className={`border rounded-lg p-4  flex justify-between items-center transition ${
+                  className={`border relative rounded-lg p-4  flex justify-between items-center transition ${
                     isAdmin
                       ? "bg-neutral-900 shadow-[0_0_10px_rgba(0,0,0,0.4)]"
                       : "bg-white shadow border-gray-200"
                   }`}>
+                  {isAdmin && (
+                    <div
+                      className="absolute  top-1/2 transform -translate-y-1/2
+                     right-2 text-yellow-500 ">
+                      <Pin />
+                    </div>
+                  )}
                   <Link to={`/forum/${post._id}`} className="flex items-center gap-3 flex-1">
                     {post?.author?.avatar ? (
                       <img
@@ -259,20 +267,23 @@ export default function ForumPage() {
                         className={`size-20 rounded-md text-3xl flex items-center uppercase justify-center font-semibold ${
                           isAdmin ? "bg-white text-black" : "bg-tomato text-white"
                         }`}>
-                        {post.author.username.charAt(0) +
-                          post.author.username.charAt(post.author.username.length - 1)}
+                        {post?.author?.username?.charAt(0) +
+                          post?.author?.username?.charAt(post?.author?.username?.length - 1)}
                       </div>
                     )}
 
                     <div>
-                      <span className={`block  ${isAdmin ? "text-white font-bold" : ""}`}>
-                        {post.title}
+                      <span
+                        className={`block  ${
+                          isAdmin ? "text-white flex items-center gap-5 font-bold" : ""
+                        }`}>
+                        {post?.title}
                       </span>
                       <p
                         className={`text-xs lg:text-sm flex items-center gap-3
                          ${isAdmin ? "text-white" : "text-gray-500"}`}>
                         <p className="flex gap-2 items-center">
-                          {userInfo?._id === post.author._id
+                          {userInfo?._id === post?.author?._id
                             ? "By You"
                             : `By ${post?.author?.name}`}{" "}
                           {isAdmin && (
@@ -282,7 +293,7 @@ export default function ForumPage() {
                             </span>
                           )}
                         </p>
-                        |
+                        -
                         <FormatDate date={post.createdAt} />
                       </p>
                       <div className="flex items-center  gap-3 mt-1">
@@ -294,7 +305,7 @@ export default function ForumPage() {
                           {post?.commentCount}
                         </span>
                         <span
-                          className={`flex items-center gap-2 px-3 py-1 rounded-full border border-rose-300 bg-rose-50 text-rose-600 transition-all duration-300  `}>
+                          className={`flex items-center gap-2 px-2 py-1 rounded-full border border-rose-300 bg-rose-50 text-rose-600 transition-all duration-300  `}>
                           <Heart
                             className={`w-5 h-5 transition-all ${
                               post?.likes?.includes(userInfo?._id)
@@ -365,7 +376,7 @@ export default function ForumPage() {
               );
             })}
           </div>
-
+          {/* Pagination */}
           <Paginate page={page} pages={pages} setPage={setPage} />
         </div>
       )}
@@ -382,7 +393,6 @@ export default function ForumPage() {
               value={newTopic.title}
               onChange={(e) => setNewTopic({ ...newTopic, title: e.target.value })}
             />
-
             <ReactQuill
               theme="snow"
               value={newTopic.description}
@@ -402,7 +412,6 @@ export default function ForumPage() {
               }}
               className="h-40 "
             />
-
             <div className="mt-22 sm:mt-16 flex gap-3">
               {/* Category Dropdown */}
               <Select

@@ -32,8 +32,8 @@ const Features = () => {
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.95 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 120 } },
+    hidden: { opacity: 0, y: 50 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120 } },
   } as const;
 
   const headingVariants = {
@@ -43,7 +43,7 @@ const Features = () => {
 
   return (
     <section className="py-16 bg-neutral-900">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+      <div className="max-w-7xl mx-auto px-10 md:px-6">
         {/* Heading */}
         <motion.div
           className="text-center mb-12"
@@ -69,24 +69,32 @@ const Features = () => {
           {cards.map((card, index) => (
             <motion.div
               key={index}
+              variants={cardVariants}
               className={`
-                ${
-                  card.bg
-                } rounded-xl shadow-lg p-6 md:p-8 flex flex-col justify-between items-center text-center
-                transform transition-transform duration-300 hover:scale-105
-                ${index === 2 ? "md:col-span-2 md:w-full lg:col-span-1 lg:w-auto" : "w-full"}
-              `}
-              variants={cardVariants}>
-              <div className="mb-4 md:mb-6">
-                <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
+    ${card.bg}
+    rounded-2xl shadow-lg 
+    p-5 sm:p-6 md:p-8 
+    flex flex-col items-center justify-between text-center
+    transition-transform duration-300 transform
+     
+    w-full
+    ${index === 2 ? "md:col-span-2 lg:col-span-1" : ""}
+  `}>
+              {/* Text Section */}
+              <div className="mb-4 sm:mb-6">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 mb-2">
                   {card.title}
                 </h3>
-                <p className="text-gray-800 text-sm md:text-base">{card.desc}</p>
+                <p className="text-gray-700 text-sm sm:text-lg max-w-xs sm:max-w-sm md:max-w-md mx-auto">
+                  {card.desc}
+                </p>
               </div>
 
-              {/* Lottie animation */}
-              <div className="w-full max-w-80 md:max-w-80 lg:max-w-80">
-                <Lottie animationData={card.anim} loop={true} className="w-full h-auto" />
+              {/* Animation Section */}
+              <div className="w-full flex justify-center">
+                <div className="w-48 sm:w-56 md:w-64 lg:w-72 xl:w-80">
+                  <Lottie animationData={card.anim} loop className="w-full h-auto" />
+                </div>
               </div>
             </motion.div>
           ))}

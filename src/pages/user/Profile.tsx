@@ -1,32 +1,41 @@
 import { useState } from "react";
 import Layout from "../../Layout.js";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { logout, setUserInfo } from "../../redux/slices/authSlice.js";
 import { toast } from "react-toastify";
 import Spinner from "../../components/Spinner.js";
-import { useUpdateUserMutation, useGetBlockStatusQuery } from "../../redux/queries/userApi.js";
+import {
+  useUpdateUserMutation,
+  useGetBlockStatusQuery,
+  useGetUserDetailsQuery,
+} from "../../redux/queries/userApi.js";
 import { Edit, LogOut } from "lucide-react";
 import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import FormatDate from "@/components/FormatDate.js";
 import { avatars } from "./avatars.ts";
+import Skeleton from "@/components/Skeleton.tsx";
 
 function Profile() {
-  const userInfo = useSelector((state: any) => state.auth.userInfo);
-  console.log(userInfo);
+  // const userInfo = useSelector((state: any) => state.auth.userInfo);
+  const { id } = useParams();
+  const { data: userInfo, isLoading: loadingUser, isError } = useGetUserDetailsQuery(id);
 
+  console.log("test", userInfo);
+
+  const [isLoaded, setIsLoaded] = useState(false);
   const [editPersonal, setEditPersonal] = useState(false);
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [editAvatar, setEditAvatar] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] = useState(userInfo.avatar);
+  const [selectedAvatar, setSelectedAvatar] = useState(userInfo?.avatar);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [updateUser, { isLoading }] = useUpdateUserMutation();
-  const { data: isBlocked } = useGetBlockStatusQuery(userInfo._id);
+  const { data: isBlocked } = useGetBlockStatusQuery(id);
 
   console.log("block status:", isBlocked);
 
@@ -55,17 +64,17 @@ function Profile() {
     <Layout>
       <div className="min-h-screen  flex flex-col items-center py-10 px-4">
         {/* Header */}
-        <div className="w-full max-w-4xl bg-white rounded-2xl border p-6 text-center md:text-left md:flex md:items-center md:gap-8">
+        <div className="w-full max-w-4xl bg-white rounded-2xl border p-6 text-center sm:text-left sm:flex  sm:gap-8">
           {/* Avatar */}
           <div className="flex-shrink-0 mb-4 md:mb-0  justify-center flex">
             {userInfo?.avatar ? (
               <img
-                src={userInfo.avatar}
+                src={userInfo?.avatar}
                 alt="User Avatar"
-                className="w-32 h-32 md:w-48 md:h-48 rounded-full md:rounded-lg shadow object-cover"
+                className="w-32 h-32 md:w-48 md:h-48 rounded-full sm:rounded-lg shadow object-cover"
               />
             ) : (
-              <div className="w-32 h-32 md:w-48 md:h-48 uppercase rounded-full lg:rounded-lg bg-tomato flex items-center justify-center text-white font-bold text-4xl md:text-5xl shadow">
+              <div className="w-32 h-32 sm:w-48 sm:h-48 uppercase rounded-full sm:rounded-lg bg-tomato flex items-center justify-center text-white font-bold text-4xl sm:text-5xl shadow">
                 {userInfo?.username?.charAt(0)}
                 {userInfo?.username?.charAt(userInfo?.username?.length - 1)}
               </div>
@@ -74,18 +83,17 @@ function Profile() {
 
           {/* Info */}
           <div className="flex-1">
-            <h1 className="text-2xl   md:text-3xl font-bold text-gray-900 flex items-center justify-center md:justify-between">
+            <h1 className="text-2xl   md:text-3xl font-bold text-gray-900 flex items-center justify-center sm:justify-between">
               {userInfo?.name}
               <button
                 onClick={handleLogout}
-                className="p-2 hidden md:flex  bg-tomato shadow  gap-2 items-center text-lg text-white rounded-lg font-medium transition-colors duration-200">
+                className="p-2 hidden sm:flex  bg-tomato shadow  gap-2 items-center text-lg text-white rounded-lg font-medium transition-colors duration-200">
                 Logout <LogOut size={20} />
               </button>
             </h1>
-            <p className="text-gray-500 mt-1">@{userInfo.username}</p>
-            <p className="text-gray-500 mt-1">{userInfo?.email}</p>
+            <p className="text-gray-500 mt-1">@{userInfo?.username}</p>
 
-            <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-5">
+            <div className="flex flex-wrap justify-center sm:justify-start gap-3 mt-5">
               {isBlocked ? (
                 <Alert variant="destructive" className="flex flex-col ">
                   <div className="flex items-center justify-center lg:justify-start w-full gap-2">
@@ -115,7 +123,7 @@ function Profile() {
               )}
               <button
                 onClick={handleLogout}
-                className="p-2 md:hidden flex items-center gap-2 bg-tomato text-white rounded-lg font-medium transition-colors duration-200">
+                className="p-2 sm:hidden flex items-center gap-2 bg-tomato text-white rounded-lg font-medium transition-colors duration-200">
                 Logout
                 <LogOut size={20} />
               </button>
@@ -176,23 +184,35 @@ function Profile() {
         {editAvatar && (
           <div className="w-full max-w-4xl mt-3 bg-white rounded-2xl border p-6">
             <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">Choose Avatar</h2>
-            <div className="flex flex-wrap lg:gap-2">
+
+            {/* Avatar Grid with Skeleton Loading */}
+            <div className="flex flex-wrap ">
               {avatars.map((avatar, idx) => (
-                <img
-                  key={idx}
-                  src={avatar}
-                  alt="Avatar option"
-                  onClick={() => setSelectedAvatar(avatar)}
-                  className={`w-16 h-16 md:w-24 md:h-24 rounded-lg cursor-pointer object-cover border-2 ${
-                    selectedAvatar === avatar ? "border-blue-600" : "border-transparent"
-                  }`}
-                />
+                <div key={idx} className="relative w-16 h-16 md:w-24 md:h-24 m-1">
+                  {!isLoaded && (
+                    <div className="absolute inset-0">
+                      <Skeleton className="w-full h-full rounded-lg" />
+                    </div>
+                  )}
+                  <img
+                    src={avatar}
+                    alt="Avatar option"
+                    onLoad={() => setIsLoaded(true)}
+                    onClick={() => setSelectedAvatar(avatar)}
+                    className={`w-full h-full rounded-lg cursor-pointer object-cover border-2 transition-all duration-200 ${
+                      selectedAvatar === avatar
+                        ? "border-blue-600 scale-105"
+                        : "border-transparent hover:scale-105"
+                    } ${!isLoaded ? "opacity-0" : "opacity-100"}`}
+                  />
+                </div>
               ))}
             </div>
+
             <button
               onClick={handleUpdatePersonal}
               disabled={isLoading}
-              className="mt-4 w-full bg-black text-white py-2 rounded-lg font-semibold transition disabled:opacity-50">
+              className="mt-4 w-full flex justify-center bg-black text-white py-2 rounded-lg font-semibold transition disabled:opacity-50">
               {isLoading ? <Spinner className="border-t-transparent" /> : "Save Avatar"}
             </button>
           </div>
