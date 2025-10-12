@@ -206,10 +206,10 @@ const TopicDetails = () => {
                   <img
                     src={comment.author.avatar}
                     alt={comment.author.name}
-                    className="size-10 rounded-md object-cover"
+                    className="size-9 lg:size-10 rounded-md object-cover"
                   />
                 ) : (
-                  <div className="size-10 rounded-md uppercase bg-tomato flex items-center justify-center text-white font-semibold">
+                  <div className="size-8 lg:size-10 rounded-md uppercase bg-tomato flex items-center justify-center text-white font-semibold">
                     {comment?.author?.username?.charAt(0) +
                       comment?.author?.username?.charAt(comment.author.username.length - 1)}
                   </div>
@@ -217,16 +217,23 @@ const TopicDetails = () => {
                 <div>
                   {/* <p className="text-gray-800 text-lg">{comment.text}</p> */}
                   <p className="font-medium text-xs flex flex-col  lg:text-sm text-black/50 ">
-                    <p className="text-sm text-black">{comment?.author?.name}</p>
-                    <p className="flex gap-2 items-center">
-                      @{comment?.author?.username} <span>•</span>
+                    <div className="flex gap-1 items-center ">
+                      <p className="text-sm text-black">{comment?.author?.name}</p>
                       {comment?.author?.isAdmin && (
-                        <span className="bg-tomato flex items-center gap-1 text-white text-xs px-2 py-0.5 rounded-full">
-                          <Crown size={16} /> admin
+                        <span className="">
+                          {/* <Crown className="size-4 lg:size-5  text-blue-500" /> */}
+                          <img src="/badge.png" alt="" className="size-4" />
                         </span>
                       )}
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <p>
+                        <span className="">@</span>
+                        {comment?.author?.username}
+                      </p>
+                      <span>-</span>
                       <FormatDate date={comment?.createdAt} />
-                    </p>
+                    </div>
                   </p>
                 </div>
               </div>
@@ -243,12 +250,12 @@ const TopicDetails = () => {
                   <Reply className="w-4 h-4" />
                 </Button>
 
-                {comment.author?._id === userInfo?._id ? (
+                {comment?.author?._id === userInfo?._id ? (
                   <Button
                     variant="ghost"
                     size="sm"
                     className="border-rose-500 bg-rose-100 hover:bg-rose-200  text-rose-500 "
-                    onClick={() => handleDeleteComment(comment._id)}>
+                    onClick={() => handleDeleteComment(comment?._id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 ) : userInfo?.isAdmin ? (
@@ -256,7 +263,7 @@ const TopicDetails = () => {
                     variant="destructive"
                     size="sm"
                     className="p-1"
-                    onClick={() => handleAdminDeleteComment(comment._id)}>
+                    onClick={() => handleAdminDeleteComment(comment?._id)}>
                     <Trash2 className="w-4 h-4" /> Admin
                   </Button>
                 ) : null}
@@ -305,12 +312,13 @@ const TopicDetails = () => {
                 )}
                 <Link to={`/forum/${topic?._id}`}>
                   <div className="">
-                    <div className="flex gap-2  items-center">
+                    <div className="flex gap-1 items-center">
                       <p className="text-lg text-black">{topic?.author?.name} </p>
                       {topic?.author?.isAdmin && (
-                        <p className="bg-tomato flex items-center gap-1 text-white text-xs px-2 py-1  rounded-full">
-                          <Crown size={13} /> <span>Admin</span>
-                        </p>
+                        <span className="">
+                          {/* <Crown className="size-5 text-blue-500" /> */}
+                          <img src="/badge.png" alt="" className="size-5" />
+                        </span>
                       )}
                     </div>
                     <p className="text-sm text-gray-400">@{topic?.author?.username}</p>
@@ -354,8 +362,8 @@ const TopicDetails = () => {
             {/* Likes - Messages Section */}
             <div className="mt-2 flex justify-between items-center">
               <div className="flex  gap-3 ">
-                <p className="text-lg flex items-center gap-2">
-                  <MessageSquare className="size-5 " /> {topic?.comments?.length}
+                <p className="text-sm sm:text-lg flex items-center gap-2">
+                  <MessageSquare className="size-4 sm:size-5 " /> {topic?.comments?.length}
                 </p>
                 {/* Like Button */}
                 <button
@@ -368,12 +376,12 @@ const TopicDetails = () => {
                   }`}>
                   <motion.div animate={isLiked ? { scale: [0, 1.3, 1] } : { scale: 1 }}>
                     <Heart
-                      className={`size-5  transition-all ${
+                      className={`size-4 lg:size-5  transition-all ${
                         isLiked ? "fill-white" : "fill-transparent"
                       }`}
                     />
                   </motion.div>
-                  <span className="">{likesCount}</span>
+                  <span className="text-sm sm:text-lg">{likesCount}</span>
                 </button>
                 {topic?.isClosed && (
                   <div className="flex items-center justify-center gap-2 px-2 py-1 rounded-full bg-gray-600  text-white font-medium">

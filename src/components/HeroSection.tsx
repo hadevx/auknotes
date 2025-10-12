@@ -3,6 +3,17 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
+import { NumberTicker } from "@/components/ui/number-ticker";
+import { Highlighter } from "@/components/ui/highlighter";
+
+export function NumberTickerDemo() {
+  return (
+    <NumberTicker
+      value={100}
+      className="text-8xl font-medium tracking-tighter whitespace-pre-wrap text-black dark:text-white"
+    />
+  );
+}
 
 const containerVariants: Variants = {
   hidden: {},
@@ -46,7 +57,7 @@ export default function HeroSection() {
             Built by students for students
           </h1>
 
-          <p className="text-gray-500 max-w-xl">
+          <p className="text-gray-500 lg:text-lg max-w-xl">
             A platform for AUK students to study efficiently. Access organized lecture notes, past
             exams, and study resources all in one place.
           </p>
@@ -169,7 +180,9 @@ export default function HeroSection() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1 }}>
-                  <span className="text-sm font-medium">+56 students</span>
+                  <span className="text-sm font-medium">
+                    +<NumberTicker value={56} delay={1} className="text-white" /> students
+                  </span>
                 </motion.div>
               </div>
             </Card>

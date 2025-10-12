@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Menu, X, ChevronDown } from "lucide-react";
+import { ArrowRight, Menu, X, CircleUser } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useGetMainCategoriesWithCountsQuery } from "@/redux/queries/productApi";
 import { motion, AnimatePresence } from "framer-motion";
+import { logout } from "../redux/slices/authSlice.js";
 
 export default function Header() {
   const { pathname } = useLocation();
@@ -33,6 +34,12 @@ export default function Header() {
   const itemVariants = {
     hidden: { opacity: 0, y: -5 },
     show: { opacity: 1, y: 0 },
+  };
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    await dispatch(logout());
+    navigate("/");
   };
 
   return (
@@ -134,7 +141,7 @@ export default function Header() {
 
           {/* Mobile Hamburger */}
           <div className="md:hidden flex items-center gap-2">
-            {userInfo && (
+            {userInfo ? (
               <Button
                 onClick={() => navigate(`/profile/${userInfo?._id}`)}
                 variant="outline"
@@ -152,6 +159,14 @@ export default function Header() {
                   </span>
                 )}
                 <span>{userInfo?.name}</span>
+              </Button>
+            ) : (
+              <Button
+                onClick={() => navigate("/login")}
+                variant="outline"
+                className="rounded-full border-foreground/20 hover:bg-foreground hover:text-background bg-transparent">
+                Sign in
+                <ArrowRight className=" h-4 w-4" />
               </Button>
             )}
 
@@ -215,19 +230,12 @@ export default function Header() {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-tomato animate-pulse"></span>
                 Coming Soon
               </Link>
-              {!userInfo && (
-                <Link
-                  to="/login"
-                  className="text-base font-medium text-foreground/80 hover:text-foreground transition-colors">
-                  Sign In
-                </Link>
-              )}
-              {!userInfo && (
+              {userInfo && (
                 <Button
                   variant="outline"
-                  onClick={() => navigate("/register")}
-                  className="mt-2 rounded-full border-foreground/20 hover:bg-foreground hover:text-background bg-transparent">
-                  Sign Up
+                  onClick={handleLogout}
+                  className="mt-2 rounded-md text-white border-foreground/20 hover:bg-foreground hover:text-background bg-black">
+                  Logout
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               )}

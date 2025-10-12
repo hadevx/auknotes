@@ -52,7 +52,7 @@ function Login() {
       <Layout>
         <div className=" flex mt-[-100px] flex-col items-center justify-center min-h-screen text-black">
           <div>
-            <h1 className="mb-5 text-[20px] font-semibold">Login to your account</h1>
+            <h1 className="mb-5 text-[20px] font-semibold">Welcome back AUK'er</h1>
           </div>
           <div>
             <form onSubmit={handleLogin}>

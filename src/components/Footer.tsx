@@ -14,8 +14,8 @@ export default function Footer() {
           <motion.div
             className="flex items-center justify-center gap-2 text-white"
             transition={{ type: "spring", stiffness: 300 }}>
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg ">
-              <img src="/n.png" className="logo" alt="AUKNOTES logo" />
+            <div className="flex h-8 w-8   items-center justify-center rounded-lg ">
+              <img src="/n.webp" className="logo" alt="AUKNOTES logo" />
             </div>
             <span className="text-xl font-semibold tracking-wide">AUKNOTES</span>
           </motion.div>
@@ -43,7 +43,7 @@ export default function Footer() {
                     duration: 2,
                     ease: "easeInOut",
                   }}>
-                  <Heart fill="#f84713" size={20} />
+                  <Heart fill="#f84713" size={20} stroke="#f84713" />
                 </motion.span>
               </p>
             </motion.div>

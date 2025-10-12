@@ -55,7 +55,7 @@ const userApi = apiSlice.injectEndpoints({
         url: `/api/users/block-status/${id}`,
       }),
     }),
-    logout: builder.mutation({
+    logoutApi: builder.mutation({
       query: () => ({
         url: `/api/users/logout`,
         method: "POST",
@@ -82,7 +82,7 @@ export const {
   useRegisterUserMutation,
   /* useGetUsersQuery, */
   useGetUserDetailsQuery,
-  useLogoutMutation,
+  useLogoutApiMutation,
   useCreateAddressMutation,
   useGetAddressQuery,
   useUpdateUserMutation,

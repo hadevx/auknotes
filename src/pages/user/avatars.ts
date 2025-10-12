@@ -15,4 +15,7 @@ export const avatars = [
   "/avatar/14.webp",
   "/avatar/15.webp",
   "/avatar/16.webp",
+  "/avatar/17.webp",
+  "/avatar/18.webp",
+  "/avatar/image.png",
 ];

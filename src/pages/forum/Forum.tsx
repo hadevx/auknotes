@@ -254,10 +254,10 @@ export default function ForumPage() {
                   <Link to={`/forum/${post._id}`} className="flex items-center gap-3 flex-1">
                     {post?.author?.avatar ? (
                       <img
-                        src={isAdmin ? "/n.png" : post?.author?.avatar}
+                        src={isAdmin ? "/logo.webp" : post?.author?.avatar}
                         alt={authorName}
                         className={`size-20  object-cover ${
-                          isAdmin ? "ring-2 logo rounded-full" : "rounded-md"
+                          isAdmin ? "ring-2  ring-white  rounded-full" : "rounded-md"
                         }`}
                       />
                     ) : (
@@ -278,40 +278,37 @@ export default function ForumPage() {
                         {post?.title}
                       </span>
                       <p
-                        className={`text-xs lg:text-sm flex items-center gap-3
+                        className={`text-xs lg:text-sm flex items-center gap-1
                          ${isAdmin ? "text-white" : "text-gray-500"}`}>
-                        <p className="flex gap-2 items-center">
+                        <p className="flex gap-1 items-center">
                           {userInfo?._id === post?.author?._id
                             ? "By You"
                             : `By ${post?.author?.name}`}{" "}
-                          {isAdmin && (
-                            <span className="bg-tomato flex items-center gap-1 text-white text-xs px-2 py-0.5 rounded-full">
-                              <Crown size={16} />
-                              Admin
-                            </span>
-                          )}
+                          {isAdmin && <img src="/badge.png" alt="" className="size-5 " />}
                         </p>
                         -
                         <FormatDate date={post.createdAt} />
                       </p>
                       <div className="flex items-center  gap-3 mt-1">
                         <span
-                          className={`flex items-center gap-1 ${
+                          className={`flex text-sm sm:text-lg items-center gap-1 ${
                             isAdmin ? "text-white" : "text-gray-600"
                           }`}>
-                          <MessageSquare className="w-4 h-4" />
+                          <MessageSquare className="size-4 sm:size-5" />
                           {post?.commentCount}
                         </span>
                         <span
-                          className={`flex items-center gap-2 px-2 py-1 rounded-full border border-rose-300 bg-rose-50 text-rose-600 transition-all duration-300  `}>
+                          className={`flex items-center gap-2 px-2 py-0.5 rounded-full border border-rose-300 bg-rose-50 text-rose-600 transition-all duration-300  `}>
                           <Heart
-                            className={`w-5 h-5 transition-all ${
+                            className={`size-4 sm:size-5 transition-all ${
                               post?.likes?.includes(userInfo?._id)
                                 ? "fill-rose-500 text-rose-500 "
                                 : "text-rose-500"
                             }`}
                           />
-                          <span className="font-medium text-sm">{post?.likes?.length || 0}</span>
+                          <span className="font-medium text-sm sm:text-lg">
+                            {post?.likes?.length || 0}
+                          </span>
                         </span>
                       </div>
                     </div>
