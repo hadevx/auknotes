@@ -31,7 +31,7 @@ const Course = () => {
     <Layout>
       <div className="min-h-screen py-12 px-3 lg:px-6 max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
-          <span className="text-tomato uppercase">{category?.name}</span>
+          <span className="text-tomato uppercase">{category?.code}</span>
         </h1>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">

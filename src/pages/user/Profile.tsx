@@ -10,7 +10,7 @@ import {
   useGetUserDetailsQuery,
   useLogoutApiMutation,
 } from "../../redux/queries/userApi.js";
-import { Edit, LogOut, AlertCircleIcon, CheckCircle2 } from "lucide-react";
+import { Edit, LogOut, AlertCircleIcon, CheckCircle2, Lock } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import FormatDate from "@/components/FormatDate.js";
 import { avatars } from "./avatars.ts";
@@ -71,7 +71,7 @@ function Profile() {
             <div className="flex-shrink-0 mb-4 md:mb-0 justify-center flex">
               {userInfo?.avatar ? (
                 <img
-                  src={`/src/assets/avatar${userInfo?.avatar}`}
+                  src={`/avatar/${userInfo?.avatar}`}
                   alt="User Avatar"
                   className="w-32 h-32 md:w-48 md:h-48 rounded-full sm:rounded-lg shadow object-cover"
                 />
@@ -117,21 +117,21 @@ function Profile() {
                   <>
                     <button
                       onClick={() => setEditPersonal(!editPersonal)}
-                      className="p-2 bg-zinc-100 text-black rounded-lg font-medium border transition-colors duration-200">
-                      {editPersonal ? "Cancel" : <Edit />}
+                      className="p-2 text-sm sm:text-lg bg-zinc-100 text-black rounded-lg font-medium border transition-colors duration-200">
+                      {editPersonal ? "Cancel" : <Edit className="size-5" />}
                     </button>
                     <button
                       onClick={() => setEditAvatar(!editAvatar)}
-                      className="p-2 bg-zinc-100 text-black rounded-lg font-medium border transition-colors duration-200">
+                      className="p-2 text-sm sm:text-lg bg-zinc-100 text-black rounded-lg font-medium border transition-colors duration-200">
                       {editAvatar ? "Cancel Avatar" : "Edit Avatar"}
                     </button>
                   </>
                 )}
                 <button
                   onClick={handleLogout}
-                  className="p-2 sm:hidden flex items-center gap-2 bg-tomato text-white rounded-lg font-medium transition-colors duration-200">
+                  className="p-2 text-sm sm:hidden flex items-center gap-2 bg-tomato text-white rounded-lg font-medium transition-colors duration-200">
                   Logout
-                  <LogOut size={20} />
+                  <LogOut className="size-5" />
                 </button>
               </div>
             </div>
@@ -205,7 +205,7 @@ function Profile() {
                       )}
 
                       <img
-                        src={`/src/assets/avatar${avatar}`}
+                        src={`/avatar/${avatar}`}
                         alt="Avatar option"
                         onLoad={() => setIsLoaded(true)}
                         onClick={() => !isLocked && setSelectedAvatar(avatar)} // prevent click
@@ -222,19 +222,7 @@ function Profile() {
                       {/* 🔒 Lock overlay for last avatar */}
                       {isLocked && (
                         <div className="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-6 h-6 text-white"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2h-1V9a5 5 0 00-10 0v2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
-                            />
-                          </svg>
+                          <Lock className="text-white" />
                         </div>
                       )}
                     </div>

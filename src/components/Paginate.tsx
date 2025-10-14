@@ -18,6 +18,11 @@ const Paginate = ({
 }) => {
   if (pages <= 1) return null; // nothing to paginate
 
+  const handlePageChange = (p: number) => {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <Pagination className="py-2">
       <PaginationContent>
@@ -27,7 +32,7 @@ const Paginate = ({
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              if (page > 1) setPage(page - 1);
+              if (page > 1) handlePageChange(page - 1);
             }}
           />
         </PaginationItem>
@@ -40,7 +45,7 @@ const Paginate = ({
               isActive={page === x + 1}
               onClick={(e) => {
                 e.preventDefault();
-                setPage(x + 1);
+                handlePageChange(x + 1);
               }}>
               {x + 1}
             </PaginationLink>
@@ -53,7 +58,7 @@ const Paginate = ({
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              if (page < pages) setPage(page + 1);
+              if (page < pages) handlePageChange(page + 1);
             }}
           />
         </PaginationItem>

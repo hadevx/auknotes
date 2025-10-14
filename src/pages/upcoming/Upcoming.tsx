@@ -8,7 +8,7 @@ export default function ComingSoon() {
     {
       icon: <Notebook className="w-10 h-10 text-[#f84713]" />,
       title: "Sell Your Notes",
-      desc: "Upload and explore course notes shared by AUK students.",
+      desc: "Sell your own notes, summaries, resources to other students",
     },
     {
       icon: <BookOpenCheck className="w-10 h-10 text-[#f84713]" />, // or use another icon

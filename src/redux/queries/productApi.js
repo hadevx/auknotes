@@ -9,8 +9,8 @@ export const productApi = apiSlice.injectEndpoints({
       providesTags: ["Product"],
     }),
     getCourses: builder.query({
-      query: () => ({
-        url: `/api/course`,
+      query: ({ pageNumber = 1, keyword = "" }) => ({
+        url: `/api/course?pageNumber=${pageNumber}&keyword=${keyword}`,
       }),
     }),
     getCourseById: builder.query({

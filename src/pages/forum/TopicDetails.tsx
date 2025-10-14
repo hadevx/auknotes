@@ -179,19 +179,22 @@ const TopicDetails = () => {
   const handleLikeTopic = async () => {
     if (!userInfo) return;
 
-    // Optimistic update
-    const newLiked = !isLiked;
+    // store previous state
+    const prevLiked = isLiked;
+    const prevCount = likesCount;
+
+    // optimistic update
+    const newLiked = !prevLiked;
     setIsLiked(newLiked);
-    setLikesCount((prev) => prev + (newLiked ? 1 : -1));
+    setLikesCount(prevCount + (newLiked ? 1 : -1));
 
     try {
-      const res = await likeTopic({ topicId: id }).unwrap();
-      setLikesCount(res.likes?.length || 0);
-      setIsLiked(res.likes?.includes(userInfo?._id));
+      await likeTopic({ topicId: id }).unwrap();
+      // no need to update state from server unless you want to ensure consistency
     } catch (err: any) {
-      // revert on failure
-      setIsLiked(!newLiked);
-      setLikesCount((prev) => prev + (newLiked ? -1 : 1));
+      // revert
+      setIsLiked(prevLiked);
+      setLikesCount(prevCount);
       toast.error(err?.data?.message || "Failed to like topic");
     }
   };
@@ -214,7 +217,7 @@ const TopicDetails = () => {
               <div className="flex gap-2 items-center ">
                 {comment?.author?.avatar ? (
                   <img
-                    src={`/src/assets/avatar${comment.author.avatar}`}
+                    src={`/avatar/${comment.author.avatar}`}
                     alt={comment.author.name}
                     className="size-9 lg:size-10 rounded-md object-cover"
                   />
@@ -308,7 +311,7 @@ const TopicDetails = () => {
               <div className="flex gap-2 items-center">
                 {topic?.author?.avatar ? (
                   <img
-                    src={`/src/assets/avatar${topic.author.avatar}`}
+                    src={`/avatar/${topic.author.avatar}`}
                     alt={topic.author.name}
                     loading="lazy"
                     className={`size-14 rounded-md object-cover `}

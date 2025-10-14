@@ -14,11 +14,7 @@ const AllCourses = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
 
-  const {
-    data,
-    error,
-    isLoading: loadingCourses,
-  } = useGetCoursesQuery({
+  const { data, isLoading: loadingCourses } = useGetCoursesQuery({
     pageNumber: page,
     keyword,
   });
@@ -40,7 +36,7 @@ const AllCourses = () => {
       {loadingCourses ? (
         <Loader />
       ) : (
-        <div className="min-h-screen px-6 py-20 max-w-5xl mx-auto">
+        <div className="min-h-screen px-3 py-20 max-w-5xl mx-auto">
           {/* Header */}
           <div className="flex flex-col items-center mb-12 space-y-6">
             <h1 className="text-5xl font-bold text-black tracking-tight">Explore Courses</h1>
@@ -62,7 +58,7 @@ const AllCourses = () => {
             </div>
           </div>
 
-          <div className="grid gap-6 grid-cols-2 z-0 sm:grid-cols-2 lg:grid-cols-4 ">
+          <div className="grid gap-4  sm:gap-5 grid-cols-2 z-0 sm:grid-cols-2 lg:grid-cols-4 ">
             {categories.map((cat) => (
               <button
                 onClick={() => handleGoToCourse(cat._id)}
@@ -85,7 +81,9 @@ const AllCourses = () => {
           {!loadingCourses && categories.length === 0 && (
             <p className="text-center text-gray-500 mt-10">No courses found.</p>
           )}
-          <Paginate page={page} pages={pages} setPage={setPage} />
+          <div className="pt-10">
+            <Paginate page={page} pages={pages} setPage={setPage} />
+          </div>
         </div>
       )}
     </Layout>

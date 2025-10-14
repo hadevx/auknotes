@@ -110,7 +110,7 @@ export default function Header() {
                 className="rounded-full border-foreground/20 text-black flex items-center gap-2">
                 {userInfo.avatar ? (
                   <img
-                    src={avatarPath}
+                    src={`/avatar/${userInfo?.avatar}`}
                     alt={userInfo.name}
                     className="w-6 h-6 rounded-full object-cover"
                   />
@@ -149,7 +149,7 @@ export default function Header() {
                 className="rounded-full border-foreground/20 text-black flex items-center gap-2">
                 {userInfo.avatar ? (
                   <img
-                    src={userInfo.avatar}
+                    src={`/avatar/${userInfo.avatar}`}
                     alt={userInfo.name}
                     className="w-6 h-6 rounded-full object-cover"
                   />
@@ -224,7 +224,7 @@ export default function Header() {
               </Link>
               <Link
                 to="/upcoming"
-                className={`text-sm relative flex items-center gap-2 ${
+                className={`text-sm text-foreground/80 relative flex items-center gap-2 ${
                   pathname.startsWith("/upcoming") ? "text-tomato font-bold" : "font-medium"
                 }`}>
                 <span className="absolute inline-flex h-2 w-2 rounded-full bg-tomato opacity-75 animate-ping"></span>
