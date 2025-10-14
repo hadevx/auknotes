@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loader from "@/components/Loader";
 import Paginate from "@/components/Paginate";
-import { Search } from "lucide-react";
+import { Search, FileText } from "lucide-react";
 
 const AllCourses = () => {
   const [page, setPage] = useState(1);
@@ -14,6 +14,7 @@ const AllCourses = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
 
+  console.log(keyword);
   const { data, isLoading: loadingCourses } = useGetCoursesQuery({
     pageNumber: page,
     keyword,
@@ -58,12 +59,13 @@ const AllCourses = () => {
             </div>
           </div>
 
-          <div className="grid gap-4  sm:gap-5 grid-cols-2 z-0 sm:grid-cols-2 lg:grid-cols-4 ">
+          <div className="grid gap-4 sm:gap-5 grid-cols-2 z-0 sm:grid-cols-2 lg:grid-cols-4">
             {categories.map((cat) => (
               <button
                 onClick={() => handleGoToCourse(cat._id)}
                 key={cat._id}
                 className="relative rounded-xl overflow-hidden shadow-custom cursor-pointer group aspect-square">
+                {/* Background image */}
                 <div
                   className="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
                   style={{
@@ -71,8 +73,18 @@ const AllCourses = () => {
                   }}></div>
 
                 {/* Overlay */}
-                <div className="absolute inset-0 flex items-end bg-black/30 p-4">
-                  <p className="text-lg font-semibold text-white truncate uppercase">{cat.code}</p>
+                <div className="absolute inset-0 flex flex-col justify-end bg-black/30 p-4">
+                  <p className="text-lg text-start font-semibold text-white truncate uppercase">
+                    {cat.code}
+                  </p>
+
+                  {/* Resource count with icon */}
+                  <div className="flex items-center gap-1 text-white">
+                    <FileText className="w-4 h-4" />
+                    <span className="text-sm font-medium">
+                      {cat.resources?.length || 0} resources
+                    </span>
+                  </div>
                 </div>
               </button>
             ))}

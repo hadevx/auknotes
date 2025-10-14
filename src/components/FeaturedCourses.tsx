@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
+import { FileText } from "lucide-react";
 
 export default function FeaturedCourses() {
   const { userInfo } = useSelector((state: any) => state.auth);
@@ -45,11 +46,13 @@ export default function FeaturedCourses() {
 
                   {/* Content */}
                   <div className="absolute inset-0 flex flex-col justify-end p-4">
-                    <h3 className="text-white text-2xl font-bold mb-2 uppercase">{course.code}</h3>
+                    <h3 className="text-white text-2xl text-start font-bold mb-2 uppercase">
+                      {course.code}
+                    </h3>
                     <div className="flex gap-4 items-center justify-between text-white text-sm">
-                      {/*  <div className="flex items-center  gap-1">
-                        <FileText className="h-4 w-4" /> {course.count || 0} Resource
-                      </div> */}
+                      <div className="flex items-center  gap-1">
+                        <FileText className="h-4 w-4" /> {course.resources.length || 0} resources
+                      </div>
                     </div>
                   </div>
                 </div>
