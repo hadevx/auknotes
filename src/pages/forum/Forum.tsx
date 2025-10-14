@@ -284,7 +284,7 @@ export default function ForumPage() {
                           {userInfo?._id === post?.author?._id
                             ? "By You"
                             : `By ${post?.author?.name}`}{" "}
-                          {isAdmin && <img src="/badge.png" alt="" className="size-5 " />}
+                          {isAdmin && <Crown className="size-4 lg:size-4  text-blue-500" fill="" />}
                         </p>
                         -
                         <FormatDate date={post.createdAt} />

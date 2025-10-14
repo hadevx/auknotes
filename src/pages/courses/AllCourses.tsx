@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Layout from "@/Layout";
-import { useGetMainCategoriesWithCountsPaginamtionQuery } from "@/redux/queries/productApi";
+import { useGetCoursesQuery } from "@/redux/queries/productApi";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -18,15 +18,15 @@ const AllCourses = () => {
     data,
     error,
     isLoading: loadingCourses,
-  } = useGetMainCategoriesWithCountsPaginamtionQuery({
+  } = useGetCoursesQuery({
     pageNumber: page,
     keyword,
   });
 
-  const categories = data?.categories || [];
+  const categories = data?.courses || [];
   const pages = data?.pages;
 
-  console.log(categories);
+  console.log("courses", categories);
   const handleGoToCourse = (id) => {
     if (!userInfo) {
       navigate("/login");
@@ -71,12 +71,12 @@ const AllCourses = () => {
                 <div
                   className="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
                   style={{
-                    backgroundImage: `url(${cat.image || "https://via.placeholder.com/400"})`,
+                    backgroundImage: `url(${cat.image || "/placeholder.png"})`,
                   }}></div>
 
                 {/* Overlay */}
                 <div className="absolute inset-0 flex items-end bg-black/30 p-4">
-                  <p className="text-lg font-semibold text-white truncate uppercase">{cat.name}</p>
+                  <p className="text-lg font-semibold text-white truncate uppercase">{cat.code}</p>
                 </div>
               </button>
             ))}

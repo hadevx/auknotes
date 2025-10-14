@@ -3,15 +3,14 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Menu, X, CircleUser } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useGetMainCategoriesWithCountsQuery } from "@/redux/queries/productApi";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../redux/slices/authSlice.js";
 
 export default function Header() {
   const { pathname } = useLocation();
   console.log(pathname);
-  const { data } = useGetMainCategoriesWithCountsQuery();
-  const categories = data?.categories || [];
+
   const userInfo = useSelector((state: any) => state.auth.userInfo);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);

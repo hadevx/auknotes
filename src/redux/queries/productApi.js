@@ -8,68 +8,24 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Product"],
     }),
-    getAllProducts: builder.query({
+    getCourses: builder.query({
       query: () => ({
-        url: "/api/products/all",
+        url: `/api/course`,
       }),
     }),
-    getProductById: builder.query({
-      query: (productId) => ({
-        url: `/api/products/product/${productId}`,
-      }),
-    }),
-    getProductsByCategory: builder.query({
+    getCourseById: builder.query({
       query: (id) => ({
-        url: `/api/products/category/${id}`,
+        url: `/api/course/${id}`,
       }),
     }),
-    updateStock: builder.mutation({
-      query: (orderItems) => ({
-        url: "/api/products/update-stock",
-        method: "POST",
-        body: orderItems,
-      }),
-    }),
-    getDeliveryStatus: builder.query({
+    getFeaturedCourses: builder.query({
       query: () => ({
-        url: `/api/products/delivery`,
+        url: "/api/course/featured",
       }),
     }),
-    getDiscountStatus: builder.query({
-      query: () => ({
-        url: `/api/products/discount`,
-      }),
-    }),
-    getLatestProducts: builder.query({
-      query: () => ({
-        url: "/api/products/latest",
-      }),
-    }),
-    getCategoriesTree: builder.query({
-      query: () => ({
-        url: "/api/category/tree",
-      }),
-    }),
-    fetchProductsByIds: builder.mutation({
-      query: (productIds) => ({
-        url: "/api/products/fetch-by-ids",
-        method: "POST",
-        body: { productIds },
-      }),
-    }),
-    getMainCategoriesWithCounts: builder.query({
-      query: () => ({
-        url: "/api/category/main-cat-count",
-      }),
-    }),
-    getCategoryById: builder.query({
-      query: (id) => ({
-        url: `/api/category/${id}`,
-      }),
-    }),
-    getMainCategoriesWithCountsPaginamtion: builder.query({
-      query: ({ pageNumber = 1, keyword = "" }) => ({
-        url: `/api/category/all-categories?pageNumber=${pageNumber}&keyword=${keyword}`,
+    getProductsByCourse: builder.query({
+      query: ({ courseId }) => ({
+        url: `/api/products/course/${courseId}`,
       }),
     }),
   }),
@@ -77,16 +33,8 @@ export const productApi = apiSlice.injectEndpoints({
 
 export const {
   useGetProductsQuery,
-  useGetProductByIdQuery,
-  useGetProductsByCategoryQuery,
-  useUpdateStockMutation,
-  useGetDeliveryStatusQuery,
-  useGetDiscountStatusQuery,
-  useGetLatestProductsQuery,
-  useGetCategoriesTreeQuery,
-  useGetAllProductsQuery,
-  useFetchProductsByIdsMutation,
-  useGetMainCategoriesWithCountsQuery,
-  useGetCategoryByIdQuery,
-  useGetMainCategoriesWithCountsPaginamtionQuery,
+  useGetCoursesQuery,
+  useGetCourseByIdQuery,
+  useGetFeaturedCoursesQuery,
+  useGetProductsByCourseQuery,
 } = productApi;

@@ -1,20 +1,19 @@
 import Layout from "@/Layout";
 import { useParams } from "react-router-dom";
-import {
-  useGetProductsByCategoryQuery,
-  useGetCategoryByIdQuery,
-} from "../../redux/queries/productApi";
+import { useGetCourseByIdQuery, useGetProductsByCourseQuery } from "../../redux/queries/productApi";
 import Loader from "@/components/Loader";
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnimatePresence, motion } from "framer-motion";
 
 const Course = () => {
-  const { id } = useParams(); // category ID
-  const { data: products, isLoading: loadingProducts } = useGetProductsByCategoryQuery(id);
-  const { data: category } = useGetCategoryByIdQuery(id);
+  const { courseId } = useParams(); // category ID
+  const { data: products, isLoading: loadingProducts } = useGetProductsByCourseQuery({ courseId });
+  const { data: category } = useGetCourseByIdQuery(courseId);
   console.log(category);
+
   const [activeTab, setActiveTab] = useState<string>("All");
+
   console.log(products);
   if (loadingProducts)
     return (

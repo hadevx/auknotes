@@ -175,13 +175,23 @@ const TopicDetails = () => {
     }
   };
 
-  // ✅ Like Topic
+  // ✅ Like Topic (Optimistic UI)
   const handleLikeTopic = async () => {
+    if (!userInfo) return;
+
+    // Optimistic update
+    const newLiked = !isLiked;
+    setIsLiked(newLiked);
+    setLikesCount((prev) => prev + (newLiked ? 1 : -1));
+
     try {
       const res = await likeTopic({ topicId: id }).unwrap();
       setLikesCount(res.likes?.length || 0);
       setIsLiked(res.likes?.includes(userInfo?._id));
     } catch (err: any) {
+      // revert on failure
+      setIsLiked(!newLiked);
+      setLikesCount((prev) => prev + (newLiked ? -1 : 1));
       toast.error(err?.data?.message || "Failed to like topic");
     }
   };
@@ -221,8 +231,8 @@ const TopicDetails = () => {
                       <p className="text-sm text-black">{comment?.author?.name}</p>
                       {comment?.author?.isAdmin && (
                         <span className="">
-                          {/* <Crown className="size-4 lg:size-5  text-blue-500" /> */}
-                          <img src="/badge.png" alt="" className="size-4" />
+                          <Crown className="size-4 lg:size-4  text-blue-500" />
+                          {/* <img src="/badge.png" alt="" className="size-4" /> */}
                         </span>
                       )}
                     </div>
@@ -300,9 +310,8 @@ const TopicDetails = () => {
                   <img
                     src={topic.author.avatar}
                     alt={topic.author.name}
-                    className={`size-14 rounded-md object-cover ${
-                      topic.author.isAdmin ? "ring-black ring-2" : ""
-                    }`}
+                    loading="lazy"
+                    className={`size-14 rounded-md object-cover `}
                   />
                 ) : (
                   <div className="size-14 uppercase rounded-md bg-tomato flex items-center justify-center text-white font-semibold">
@@ -316,8 +325,8 @@ const TopicDetails = () => {
                       <p className="text-lg text-black">{topic?.author?.name} </p>
                       {topic?.author?.isAdmin && (
                         <span className="">
-                          {/* <Crown className="size-5 text-blue-500" /> */}
-                          <img src="/badge.png" alt="" className="size-5" />
+                          <Crown className="size-4 text-blue-500" />
+                          {/* <img src="/badge.png" alt="" className="size-5" /> */}
                         </span>
                       )}
                     </div>
@@ -374,7 +383,9 @@ const TopicDetails = () => {
                       ? "bg-rose-500 shadow-[0_0_10px_rgba(255,0,0,0.3)] text-white border-rose-500"
                       : "hover:bg-rose-50 text-rose-600 border-rose-300"
                   }`}>
-                  <motion.div animate={isLiked ? { scale: [0, 1.3, 1] } : { scale: 1 }}>
+                  <motion.div
+                    animate={isLiked ? { scale: [0, 1.3, 1] } : { scale: 1 }}
+                    transition={{ duration: 0.2 }}>
                     <Heart
                       className={`size-4 lg:size-5  transition-all ${
                         isLiked ? "fill-white" : "fill-transparent"
