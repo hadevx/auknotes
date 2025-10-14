@@ -7,7 +7,7 @@ export default function ComingSoon() {
   const features = [
     {
       icon: <Notebook className="w-10 h-10 text-[#f84713]" />,
-      title: "Share & Browse Notes",
+      title: "Sell Your Notes",
       desc: "Upload and explore course notes shared by AUK students.",
     },
     {
@@ -47,8 +47,8 @@ export default function ComingSoon() {
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-6xl font-extrabold text-tomato mb-4">
-              COMING SOON 🚀
+              className="text-4xl md:text-6xl font-bold text-black mb-4">
+              Future Plans
             </motion.h1>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               A platform built for AUK students — to share, study, and grow together. We’re crafting
@@ -57,13 +57,10 @@ export default function ComingSoon() {
           </div>
 
           {/* Features Grid */}
-          <div className="grid md:grid-cols-3 gap-5 lg:gap-10">
+          <div className="grid md:grid-cols-3 gap-5 ">
             {features.map((feature, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
                 className="group bg-white rounded-2xl shadow-md border border-gray-100 p-8  transition duration-300 ">
                 <div className="flex items-center justify-center w-16 h-16 rounded-xl bg-[#f84713]/10 mb-6 group-hover:scale-110 transition">
                   {feature.icon}

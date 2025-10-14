@@ -25,8 +25,8 @@ export default function ContactPage() {
         <div className="max-w-6xl mx-auto px-6">
           {/* Heading */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900">
-              <span className="text-tomato uppercase">Contact Us</span>
+            <h2 className="text-5xl  font-bold text-black">
+              <span className=" ">Contact Us</span>
             </h2>
             <p className="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
               Whether you have questions, feedback, or want to collaborate, we’d love to hear from
@@ -35,7 +35,7 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Cards Grid */}
-          <div className="grid md:grid-cols-2 gap-5 lg:gap-10">
+          <div className="grid md:grid-cols-2 gap-5 ">
             {contactMethods.map((method, index) => (
               <div
                 key={index}

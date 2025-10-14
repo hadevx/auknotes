@@ -214,7 +214,7 @@ const TopicDetails = () => {
               <div className="flex gap-2 items-center ">
                 {comment?.author?.avatar ? (
                   <img
-                    src={comment.author.avatar}
+                    src={`/src/assets/avatar${comment.author.avatar}`}
                     alt={comment.author.name}
                     className="size-9 lg:size-10 rounded-md object-cover"
                   />
@@ -308,7 +308,7 @@ const TopicDetails = () => {
               <div className="flex gap-2 items-center">
                 {topic?.author?.avatar ? (
                   <img
-                    src={topic.author.avatar}
+                    src={`/src/assets/avatar${topic.author.avatar}`}
                     alt={topic.author.name}
                     loading="lazy"
                     className={`size-14 rounded-md object-cover `}

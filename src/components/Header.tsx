@@ -41,6 +41,8 @@ export default function Header() {
     navigate("/");
   };
 
+  const avatarPath = "/src/assets/avatar" + userInfo?.avatar;
+  console.log(avatarPath);
   return (
     <header className="border-b  border-border/40 backdrop-blur">
       <div className="lg:container lg:mx-auto  px-6 md:px-8">
@@ -90,12 +92,12 @@ export default function Header() {
             </Link>
             <Link
               to="/upcoming"
-              className={`relative flex text-foreground/80  items-center gap-2 ${
+              className={`text-sm relative flex text-foreground/80  items-center gap-2 ${
                 pathname.startsWith("/upcoming") ? "text-tomato font-bold" : "font-medium"
               }`}>
               <span className="absolute inline-flex h-2 w-2 rounded-full bg-tomato opacity-75 animate-ping"></span>
               <span className="relative inline-flex h-2 w-2 rounded-full bg-tomato animate-pulse"></span>
-              Coming Soon
+              Future Plans
             </Link>
           </nav>
 
@@ -108,7 +110,7 @@ export default function Header() {
                 className="rounded-full border-foreground/20 text-black flex items-center gap-2">
                 {userInfo.avatar ? (
                   <img
-                    src={userInfo.avatar}
+                    src={avatarPath}
                     alt={userInfo.name}
                     className="w-6 h-6 rounded-full object-cover"
                   />
@@ -222,12 +224,12 @@ export default function Header() {
               </Link>
               <Link
                 to="/upcoming"
-                className={`relative flex items-center gap-2 ${
+                className={`text-sm relative flex items-center gap-2 ${
                   pathname.startsWith("/upcoming") ? "text-tomato font-bold" : "font-medium"
                 }`}>
                 <span className="absolute inline-flex h-2 w-2 rounded-full bg-tomato opacity-75 animate-ping"></span>
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-tomato animate-pulse"></span>
-                Coming Soon
+                Future Plans
               </Link>
               {userInfo && (
                 <Button

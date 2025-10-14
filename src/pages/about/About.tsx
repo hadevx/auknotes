@@ -26,8 +26,8 @@ const About = () => {
         <div className="max-w-6xl mx-auto px-6">
           {/* Heading */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900">
-              <span className="text-tomato uppercase">ABOUT US</span>
+            <h2 className="text-5xl font-bold text-black">
+              <span className="">About Us</span>
             </h2>
             <p className="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
               AUKNOTES helps AUK'ers study efficiently and share knowledge — all in one place.{" "}
@@ -38,7 +38,7 @@ const About = () => {
           </div>
 
           {/* Cards Grid */}
-          <div className="grid md:grid-cols-3 gap-5 lg:gap-10">
+          <div className="grid md:grid-cols-3 gap-5 ">
             {cards.map((card, index) => (
               <div
                 key={index}

@@ -40,10 +40,10 @@ const AllCourses = () => {
       {loadingCourses ? (
         <Loader />
       ) : (
-        <div className="min-h-screen px-6 py-10 max-w-5xl mx-auto">
+        <div className="min-h-screen px-6 py-20 max-w-5xl mx-auto">
           {/* Header */}
           <div className="flex flex-col items-center mb-12 space-y-6">
-            <h1 className="text-5xl font-bold text-gray-900 tracking-tight">Explore Courses</h1>
+            <h1 className="text-5xl font-bold text-black tracking-tight">Explore Courses</h1>
             <p className="text-gray-600 text-center max-w-2xl">
               Discover all available courses below. Each course offers valuable resources and notes
               shared by students.

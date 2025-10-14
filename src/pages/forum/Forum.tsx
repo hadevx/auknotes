@@ -254,7 +254,7 @@ export default function ForumPage() {
                   <Link to={`/forum/${post._id}`} className="flex items-center gap-3 flex-1">
                     {post?.author?.avatar ? (
                       <img
-                        src={isAdmin ? "/logo.webp" : post?.author?.avatar}
+                        src={isAdmin ? "/logo.webp" : `/src/assets/avatar${post?.author?.avatar}`}
                         alt={authorName}
                         className={`size-20  object-cover ${
                           isAdmin ? "ring-2  ring-white  rounded-full" : "rounded-md"
