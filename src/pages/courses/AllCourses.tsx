@@ -47,7 +47,7 @@ const AllCourses = () => {
             </p>
 
             {/* Search */}
-            <div className="relative w-full sm:w-96">
+            <div className="relative w-full md:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
@@ -59,7 +59,7 @@ const AllCourses = () => {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:gap-5 grid-cols-2 z-0 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:gap-5 grid-cols-2 z-0 sm:grid-cols-3 lg:grid-cols-4">
             {categories.map((cat) => (
               <button
                 onClick={() => handleGoToCourse(cat._id)}

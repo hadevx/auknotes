@@ -1,5 +1,15 @@
 import Layout from "@/Layout";
-import { MessageSquare, Plus, Trash2, Edit, Reply, Crown, Heart, Lock } from "lucide-react";
+import {
+  MessageSquare,
+  Plus,
+  Trash2,
+  Edit,
+  Reply,
+  Crown,
+  Heart,
+  Lock,
+  ThumbsDown,
+} from "lucide-react";
 import {
   useGetTopicByIdQuery,
   useAddCommentMutation,
@@ -397,6 +407,22 @@ const TopicDetails = () => {
                   </motion.div>
                   <span className="text-sm sm:text-lg">{likesCount}</span>
                 </button>
+                {/* Dislike Button */}
+                {/*    <button
+                  onClick={handleLikeTopic}
+                  disabled={!userInfo}
+                  className={`flex items-center gap-2 px-2 py-0.5 rounded-full border transition-all duration-200 ${
+                    isLiked
+                      ? "bg-gray-500 shadow-[0_0_10px_rgba(255,0,0,0.3)] text-white border-gray-500"
+                      : "hover:bg-rose-50 text-gray-600 border-gray-300"
+                  }`}>
+                  <motion.div
+                    animate={isLiked ? { scale: [0, 1.3, 1] } : { scale: 1 }}
+                    transition={{ duration: 0.2 }}>
+                    <ThumbsDown className={`size-4 lg:size-5  transition-all `} />
+                  </motion.div>
+                  <span className="text-sm sm:text-lg">{likesCount}</span>
+                </button> */}
                 {topic?.isClosed && (
                   <div className="flex items-center justify-center gap-2 px-2 py-1 rounded-full bg-gray-600  text-white font-medium">
                     <span className="">

@@ -181,7 +181,7 @@ export default function HeroSection() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1 }}>
                   <span className="text-sm font-medium">
-                    +<NumberTicker value={56} delay={1} className="text-white" /> students
+                    +<NumberTicker value={56} className="text-white" /> students
                   </span>
                 </motion.div>
               </div>
