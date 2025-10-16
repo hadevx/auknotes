@@ -65,7 +65,7 @@ export default function HeroSection() {
           <Button
             onClick={() => navigate("/course/all-courses")}
             size="lg"
-            className="rounded-full mb-5 bg-foreground text-background hover:bg-foreground/90 px-8">
+            className="rounded-full mb-5 bg-gradient-to-tr from-black to-black/80 shadow-[0_5px_10px_rgba(0,0,0,0.5)] text-background hover:bg-foreground/90 px-8">
             Show Courses
           </Button>
         </motion.div>

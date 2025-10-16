@@ -63,7 +63,7 @@ export default function FeaturedCourses() {
             <Button
               onClick={() => navigate("/course/all-courses")}
               variant="outline"
-              className="rounded-full bg-tomato hover:bg-tomato/90 text-white">
+              className="rounded-full bg-tomato shadow-[0_0_10px_tomato] border-0 hover:bg-tomato/90 text-white">
               View All Courses
             </Button>
           </div>
