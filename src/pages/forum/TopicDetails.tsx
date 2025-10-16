@@ -248,6 +248,11 @@ const TopicDetails = () => {
                           {/* <img src="/badge.png" alt="" className="size-4" /> */}
                         </span>
                       )}
+                      {comment?.author?.isVerified && (
+                        <span className="">
+                          <img src="/verify.png" alt="" className="size-4" />
+                        </span>
+                      )}
                     </div>
                     <div className="flex gap-2 items-center">
                       <p>
@@ -340,6 +345,11 @@ const TopicDetails = () => {
                         <span className="">
                           <Crown className="size-4 text-blue-500" />
                           {/* <img src="/badge.png" alt="" className="size-5" /> */}
+                        </span>
+                      )}
+                      {topic?.author?.isVerified && (
+                        <span className="">
+                          <img src="/verify.png" alt="" className="size-5" />
                         </span>
                       )}
                     </div>

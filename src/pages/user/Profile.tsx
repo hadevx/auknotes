@@ -88,7 +88,7 @@ function Profile() {
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex items-center justify-center sm:justify-between">
                 <span className="flex items-center gap-2">
                   {userInfo?.name}
-                  {userInfo?.isVerified && <CheckCircle2 className="text-blue-500 w-6 h-6" />}
+                  {userInfo?.isVerified && <img src="/verify.png" alt="" className="size-6" />}
                 </span>
 
                 <button

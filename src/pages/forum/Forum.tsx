@@ -235,6 +235,7 @@ export default function ForumPage() {
             {topics?.map((post) => {
               const authorName = post?.author?.name || "";
               const isAdmin = post.author?.isAdmin;
+              const isVerified = post.author?.isVerified;
 
               return (
                 <div
@@ -285,6 +286,7 @@ export default function ForumPage() {
                             ? "By You"
                             : `By ${post?.author?.name}`}{" "}
                           {isAdmin && <Crown className="size-4 lg:size-4  text-blue-500" fill="" />}
+                          {isVerified && <img src="/verify.png" alt="" className="size-4" />}
                         </p>
                         -
                         <FormatDate date={post.createdAt} />
