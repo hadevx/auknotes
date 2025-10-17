@@ -38,7 +38,7 @@ export default function HeroSection() {
 
   return (
     <motion.section
-      className="lg:container lg:mx-auto px-6 lg:px-16 py-16 lg:py-16"
+      className="lg:container  lg:mx-auto px-6 lg:px-16 py-16 lg:py-16"
       variants={containerVariants}
       initial="hidden"
       animate="show">

@@ -42,7 +42,7 @@ const Features = () => {
   };
 
   return (
-    <section className="py-16 bg-neutral-900">
+    <section className="py-16  bg-neutral-900">
       <div className="max-w-7xl mx-auto px-7 md:px-6">
         {/* Heading */}
         <motion.div
