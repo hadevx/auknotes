@@ -78,7 +78,11 @@ const AllCourses = () => {
                     }}></div>
 
                   {/* Dark overlay */}
-                  <div className="absolute inset-0 bg-black/40"></div>
+                  {isClosed ? (
+                    <div className="absolute inset-0 bg-black/50"></div>
+                  ) : (
+                    <div className="absolute inset-0 bg-black/40"></div>
+                  )}
 
                   {/* Coming Soon Badge */}
                   {isClosed && (
@@ -89,8 +93,10 @@ const AllCourses = () => {
 
                   {/* Center Lock Icon */}
                   {isClosed && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Lock className="text-white size-8 sm:size-10" />
+                    <div className="absolute  inset-0 flex items-center justify-center">
+                      <div className="bg-black/70 p-3 rounded-full flex justify-around items-center">
+                        <Lock className="text-white size-8 " />
+                      </div>
                     </div>
                   )}
 
