@@ -13,6 +13,19 @@ body {
   background: #f8f5ee;
   /* font-family: "Poppins", sans-serif; */
 }
+.img-text {
+  font-weight: 800;
+  /* image is the background that will show through the text */
+  background-image: url("/auk.webp");
+  background-size: cover;
+  background-position: 50% 50%;
+  -webkit-background-clip: text; /* for WebKit/Blink */
+  background-clip: text; /* standard */
+  -webkit-text-fill-color: transparent; /* make text transparent so background shows */
+  color: transparent;
+  line-height: 1;
+  display: inline-block;
+}
 @keyframes shimmer {
   100% {
     transform: translateX(100%);

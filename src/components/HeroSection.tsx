@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { Highlighter } from "@/components/ui/highlighter";
+// import { BorderBeam } from "@/components/ui/highlighter";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 export function NumberTickerDemo() {
   return (
@@ -38,7 +40,7 @@ export default function HeroSection() {
 
   return (
     <motion.section
-      className="lg:container  lg:mx-auto px-6 lg:px-16 py-16 lg:py-16"
+      className="lg:container  lg:mx-auto px-3 lg:px-16 py-16 lg:py-16"
       variants={containerVariants}
       initial="hidden"
       animate="show">
@@ -74,7 +76,7 @@ export default function HeroSection() {
         <motion.div className="space-y-3" variants={itemVariants}>
           {/* Growth Card */}
           <motion.div variants={itemVariants}>
-            <Card className="bg-[#f84713] text-accent-foreground p-8 border-0 shadow-lg">
+            <Card className="relative bg-[#f84713] text-accent-foreground p-8 border-0 shadow-lg">
               <h3 className="text-2xl font-semibold mb-8 text-balance text-white">
                 Enhance your academic performance
               </h3>
@@ -153,7 +155,7 @@ export default function HeroSection() {
 
           {/* Session Card */}
           <motion.div variants={itemVariants}>
-            <Card className="bg-foreground text-background p-8 border-0 shadow-lg">
+            <Card className=" relative bg-foreground text-background p-8 border-0 shadow-lg">
               <h3 className="text-2xl font-semibold mb-6 text-balance">
                 Sign up and join the team
               </h3>

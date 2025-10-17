@@ -1,6 +1,6 @@
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
-
+import { VideoText } from "./ui/video-text";
 export default function Footer() {
   return (
     <footer className="bg-neutral-900 px-10">
@@ -17,7 +17,7 @@ export default function Footer() {
             <div className="flex h-8 w-8   items-center justify-center rounded-md ">
               <img src="/avatar/logo.webp" className="rounded-md" alt="AUKNOTES logo" />
             </div>
-            <span className="text-xl font-semibold tracking-wide">AUKNOTES</span>
+            <span className="text-4xl font-semibold tracking-wide img-text">AUKNOTES</span>
           </motion.div>
 
           {/* Text + Heart Animation */}

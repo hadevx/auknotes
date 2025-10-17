@@ -89,6 +89,7 @@ function Profile() {
                 <span className="flex items-center gap-2">
                   {userInfo?.name}
                   {userInfo?.isVerified && <img src="/verify.png" alt="" className="size-6" />}
+                  {userInfo?.isAdmin && <img src="/admin.png" alt="" className="size-6" />}
                 </span>
 
                 <button
