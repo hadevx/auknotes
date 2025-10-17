@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loader from "@/components/Loader";
 import Paginate from "@/components/Paginate";
-import { Search, FileText } from "lucide-react";
+import { Search, FileText, Lock } from "lucide-react";
 
 const AllCourses = () => {
   const [page, setPage] = useState(1);
@@ -14,7 +14,6 @@ const AllCourses = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
 
-  console.log(keyword);
   const { data, isLoading: loadingCourses } = useGetCoursesQuery({
     pageNumber: page,
     keyword,
@@ -60,34 +59,59 @@ const AllCourses = () => {
           </div>
 
           <div className="grid gap-4 sm:gap-5 grid-cols-2 z-0 sm:grid-cols-3 lg:grid-cols-4">
-            {categories.map((cat) => (
-              <button
-                onClick={() => handleGoToCourse(cat._id)}
-                key={cat._id}
-                className="relative rounded-xl overflow-hidden shadow-custom cursor-pointer group aspect-square">
-                {/* Background image */}
-                <div
-                  className="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
-                  style={{
-                    backgroundImage: `url(${cat.image || "/placeholder.png"})`,
-                  }}></div>
+            {categories.map((cat) => {
+              const isClosed = cat.isClosed;
 
-                {/* Overlay */}
-                <div className="absolute inset-0 flex flex-col justify-end bg-black/30 p-4">
-                  <p className="text-lg text-start font-semibold text-white truncate uppercase">
-                    {cat.code}
-                  </p>
+              return (
+                <button
+                  key={cat._id}
+                  onClick={() => !isClosed && handleGoToCourse(cat._id)}
+                  disabled={isClosed}
+                  className={`relative rounded-xl overflow-hidden shadow-custom aspect-square group ${
+                    isClosed ? "cursor-not-allowed opacity-80" : "cursor-pointer"
+                  }`}>
+                  {/* Background image */}
+                  <div
+                    className="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
+                    style={{
+                      backgroundImage: `url(${cat.image || "/placeholder.png"})`,
+                    }}></div>
 
-                  {/* Resource count with icon */}
-                  <div className="flex items-center gap-1 text-white">
-                    <FileText className="w-4 h-4" />
-                    <span className="text-sm font-medium">
-                      {cat.resources?.length || 0} resources
-                    </span>
+                  {/* Dark overlay */}
+                  <div className="absolute inset-0 bg-black/40"></div>
+
+                  {/* Coming Soon Badge */}
+                  {isClosed && (
+                    <div className="absolute top-3 left-3 bg-tomato text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                      Coming Soon
+                    </div>
+                  )}
+
+                  {/* Center Lock Icon */}
+                  {isClosed && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Lock className="text-white size-10" />
+                    </div>
+                  )}
+
+                  {/* Course info (bottom) */}
+                  <div className="absolute inset-0 flex flex-col justify-end p-4">
+                    <p className="text-lg text-start font-semibold text-white truncate uppercase">
+                      {cat.code}
+                    </p>
+
+                    {!isClosed && (
+                      <div className="flex items-center gap-1 text-white">
+                        <FileText className="w-4 h-4" />
+                        <span className="text-sm font-medium">
+                          {cat.resources?.length || 0} resources
+                        </span>
+                      </div>
+                    )}
                   </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
 
           {!loadingCourses && categories.length === 0 && (
