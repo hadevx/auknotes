@@ -244,8 +244,7 @@ const TopicDetails = () => {
                       <p className="text-sm text-black">{comment?.author?.name}</p>
                       {comment?.author?.isAdmin && (
                         <span className="">
-                          <Crown className="size-4 lg:size-4  text-blue-500" />
-                          {/* <img src="/badge.png" alt="" className="size-4" /> */}
+                          <img src="/admin.png" alt="" className="size-4" />
                         </span>
                       )}
                       {comment?.author?.isVerified && (
@@ -343,8 +342,7 @@ const TopicDetails = () => {
                       <p className="text-lg text-black">{topic?.author?.name} </p>
                       {topic?.author?.isAdmin && (
                         <span className="">
-                          <Crown className="size-4 text-blue-500" />
-                          {/* <img src="/badge.png" alt="" className="size-5" /> */}
+                          <img src="/admin.png" alt="" className="size-4" />
                         </span>
                       )}
                       {topic?.author?.isVerified && (
@@ -446,7 +444,7 @@ const TopicDetails = () => {
                 <Button
                   onClick={() => setIsCommentDialogOpen(true)}
                   size="sm"
-                  className="flex items-center gap-2 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                  className="flex items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995]">
                   <Plus className="w-4 h-4" /> Reply
                 </Button>
               )}

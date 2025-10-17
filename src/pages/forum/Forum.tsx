@@ -148,7 +148,9 @@ export default function ForumPage() {
         <div className="max-w-4xl min-h-screen mx-auto px-3 lg:px-0 py-10  pb-20">
           <h1 className="text-3xl font-bold mb-6 flex justify-between">
             AUKNotes Forum
-            <Button onClick={handleDialogOpen} className="flex items-center gap-2">
+            <Button
+              onClick={handleDialogOpen}
+              className="flex items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995]">
               <Plus className="w-4 h-4" /> New Topic
             </Button>
           </h1>
@@ -255,7 +257,7 @@ export default function ForumPage() {
                   <Link to={`/forum/${post._id}`} className="flex items-center gap-3 flex-1">
                     {post?.author?.avatar ? (
                       <img
-                        src={isAdmin ? "/logo.webp" : `/avatar/${post?.author?.avatar}`}
+                        src={`/avatar/${post?.author?.avatar}`}
                         alt={authorName}
                         className={`size-20  object-cover ${
                           isAdmin ? "ring-2  ring-white  rounded-full" : "rounded-md"
@@ -285,11 +287,11 @@ export default function ForumPage() {
                           {userInfo?._id === post?.author?._id
                             ? "By You"
                             : `By ${post?.author?.name}`}{" "}
-                          {isAdmin && <Crown className="size-4 lg:size-4  text-blue-500" fill="" />}
+                          {isAdmin && <img src="/admin.png" alt="" className="size-4" />}
                           {isVerified && <img src="/verify.png" alt="" className="size-4" />}
                         </p>
                         -
-                        <FormatDate date={post.createdAt} />
+                        <FormatDate date={post?.createdAt} />
                       </p>
                       <div className="flex items-center  gap-3 mt-1">
                         <span
@@ -363,7 +365,7 @@ export default function ForumPage() {
                       </>
                     )}
 
-                    {post.isClosed && !userInfo?.isAdmin && (
+                    {post?.isClosed && !userInfo?.isAdmin && (
                       <span className="text-sm lg:text-lg text-red-600 font-medium flex items-center gap-1">
                         <Lock size={14} /> Closed
                       </span>

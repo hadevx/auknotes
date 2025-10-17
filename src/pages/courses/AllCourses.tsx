@@ -38,7 +38,7 @@ const AllCourses = () => {
       ) : (
         <div className="min-h-screen px-3 py-20 max-w-5xl mx-auto">
           {/* Header */}
-          <div className="flex flex-col items-center mb-12 space-y-6">
+          <div className="flex flex-col items-center mb-10 space-y-6">
             <h1 className="text-5xl font-bold text-black tracking-tight">Explore Courses</h1>
             <p className="text-gray-600 text-center max-w-2xl">
               Discover all available courses below. Each course offers valuable resources and notes
@@ -58,7 +58,7 @@ const AllCourses = () => {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:gap-5 grid-cols-2 z-0 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid gap-3  sm:gap-5 grid-cols-2 z-0 sm:grid-cols-3 lg:grid-cols-4">
             {categories.map((cat) => {
               const isClosed = cat.isClosed;
 
@@ -82,7 +82,7 @@ const AllCourses = () => {
 
                   {/* Coming Soon Badge */}
                   {isClosed && (
-                    <div className="absolute top-3 left-3 bg-tomato text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    <div className="absolute top-3 left-3 bg-tomato text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
                       Coming Soon
                     </div>
                   )}
@@ -90,7 +90,7 @@ const AllCourses = () => {
                   {/* Center Lock Icon */}
                   {isClosed && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <Lock className="text-white size-10" />
+                      <Lock className="text-white size-8 sm:size-10" />
                     </div>
                   )}
 

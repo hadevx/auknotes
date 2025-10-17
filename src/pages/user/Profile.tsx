@@ -93,7 +93,7 @@ function Profile() {
 
                 <button
                   onClick={handleLogout}
-                  className="p-2 hidden sm:flex bg-tomato shadow gap-2 items-center text-lg text-white rounded-lg font-medium transition-colors duration-200">
+                  className="p-2 hidden sm:flex bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995]  gap-2 items-center text-lg text-white rounded-lg font-medium transition-colors duration-200">
                   Logout <LogOut size={20} />
                 </button>
               </h1>
@@ -129,7 +129,7 @@ function Profile() {
                 )}
                 <button
                   onClick={handleLogout}
-                  className="p-2 text-sm sm:hidden flex items-center gap-2 bg-tomato text-white rounded-lg font-medium transition-colors duration-200">
+                  className="p-2 text-sm sm:hidden flex items-center gap-2  bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995] text-white rounded-lg font-medium transition-colors duration-200">
                   Logout
                   <LogOut className="size-5" />
                 </button>
@@ -180,7 +180,7 @@ function Profile() {
                 <button
                   onClick={handleUpdatePersonal}
                   disabled={isLoading}
-                  className="mt-2 bg-tomato text-white rounded-lg py-2 font-semibold shadow transition-colors duration-200 disabled:opacity-50">
+                  className="mt-2 flex justify-center items-center  bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995] text-white rounded-lg py-2 font-semibold  transition-colors duration-200 disabled:opacity-50">
                   {isLoading ? <Spinner className="border-t-transparent" /> : "Update"}
                 </button>
               </div>
@@ -233,7 +233,7 @@ function Profile() {
               <button
                 onClick={handleUpdatePersonal}
                 disabled={isLoading}
-                className="mt-4 w-full flex justify-center bg-black text-white py-2 rounded-lg font-semibold transition disabled:opacity-50">
+                className="mt-4 w-full flex justify-center  bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995] text-white py-2 rounded-lg font-semibold transition disabled:opacity-50">
                 {isLoading ? <Spinner className="border-t-transparent" /> : "Save Avatar"}
               </button>
             </div>
