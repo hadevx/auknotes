@@ -100,14 +100,12 @@ const AllCourses = () => {
                       {cat.code}
                     </p>
 
-                    {!isClosed && (
-                      <div className="flex items-center gap-1 text-white">
-                        <FileText className="w-4 h-4" />
-                        <span className="text-sm font-medium">
-                          {cat.resources?.length || 0} resources
-                        </span>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-1 text-white">
+                      <FileText className="w-4 h-4" />
+                      <span className="text-sm font-medium">
+                        {cat.resources?.length || 0} resources
+                      </span>
+                    </div>
                   </div>
                 </button>
               );
