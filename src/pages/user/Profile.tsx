@@ -48,7 +48,7 @@ function Profile() {
       const res = await updateUser({
         name: newName || userInfo?.name,
         email: newEmail || userInfo?.email,
-        avatar: selectedAvatar !== "/avatar/empty.webp" ? selectedAvatar : "",
+        avatar: selectedAvatar === "empty.webp" ? "" : selectedAvatar,
       }).unwrap();
       dispatch(setUserInfo(res));
       toast.success("Updated successfully");
