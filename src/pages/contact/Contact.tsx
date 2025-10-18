@@ -4,13 +4,6 @@ import { Mail, Instagram } from "lucide-react";
 export default function ContactPage() {
   const contactMethods = [
     {
-      title: "Email",
-      desc: "Reach out to us via email for any inquiries or suggestions.",
-      icon: <Mail className="w-10 h-10 text-[#f84713]" />,
-      info: "auknotes.community@gmail.com",
-    },
-
-    {
       title: "Instagram",
       desc: "Follow us and stay updated with our latest posts.",
       icon: <Instagram className="w-10 h-10 text-[#f84713]" />,
