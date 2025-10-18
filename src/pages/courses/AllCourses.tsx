@@ -67,9 +67,7 @@ const AllCourses = () => {
                   key={cat._id}
                   onClick={() => handleGoToCourse(cat._id)}
                   // disabled={isClosed}
-                  className={`relative rounded-xl overflow-hidden shadow-custom aspect-square group ${
-                    isClosed ? "cursor-not-allowed opacity-80" : "cursor-pointer"
-                  }`}>
+                  className={`relative rounded-xl overflow-hidden shadow-custom aspect-square group `}>
                   {/* Background image */}
                   <div
                     className="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
