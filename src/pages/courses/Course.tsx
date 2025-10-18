@@ -9,12 +9,17 @@ import Loader from "@/components/Loader";
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-toastify";
+import Spinner from "@/components/Spinner";
+import { Download, Lock } from "lucide-react";
 
 const Course = () => {
-  const [triggerDownload, { isFetching }] = useLazyDownloadResourceQuery();
+  const [triggerDownload] = useLazyDownloadResourceQuery();
+  const [downloadingId, setDownloadingId] = useState<string | null>(null); // track downloading file
 
   const handleDownload = async (id: string, fileName: string) => {
     try {
+      setDownloadingId(id); // start spinner for this file
       const { blob, filename } = await triggerDownload(id).unwrap();
 
       const url = window.URL.createObjectURL(blob);
@@ -27,7 +32,9 @@ const Course = () => {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       console.error(err);
-      alert("Download failed. This file might be restricted or unavailable.");
+      toast.error("Download failed. This file might be restricted or unavailable.");
+    } finally {
+      setDownloadingId(null); // stop spinner
     }
   };
 
@@ -40,6 +47,8 @@ const Course = () => {
   } = useGetProductsByCourseQuery({ courseId });
 
   const { data: category } = useGetCourseByIdQuery(courseId);
+
+  const isClosed = category?.isClosed;
 
   const [activeTab, setActiveTab] = useState<string>("All");
 
@@ -129,12 +138,20 @@ const Course = () => {
                       )}
                     </div>
 
-                    <button
-                      onClick={() => handleDownload(p._id, p.name)}
-                      disabled={isFetching}
-                      className="text-sm text-tomato font-medium hover:underline ml-auto">
-                      {isFetching ? "..." : "Download"}
-                    </button>
+                    {/* Show spinner only for the file being downloaded */}
+                    {category?.isClosed ? (
+                      <div className="bg-black/10 p-3 rounded-full">
+                        <Lock className="ml-auto" />
+                      </div>
+                    ) : downloadingId === p._id ? (
+                      <Spinner className="border-t-black ml-auto" />
+                    ) : (
+                      <button
+                        onClick={() => handleDownload(p._id, p.name)}
+                        className="text-sm text-tomato font-medium hover:underline ml-auto">
+                        <Download />
+                      </button>
+                    )}
                   </div>
                 ))
               ) : (

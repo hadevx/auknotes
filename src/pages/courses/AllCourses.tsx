@@ -65,8 +65,8 @@ const AllCourses = () => {
               return (
                 <button
                   key={cat._id}
-                  onClick={() => !isClosed && handleGoToCourse(cat._id)}
-                  disabled={isClosed}
+                  onClick={() => handleGoToCourse(cat._id)}
+                  // disabled={isClosed}
                   className={`relative rounded-xl overflow-hidden shadow-custom aspect-square group ${
                     isClosed ? "cursor-not-allowed opacity-80" : "cursor-pointer"
                   }`}>
@@ -78,11 +78,8 @@ const AllCourses = () => {
                     }}></div>
 
                   {/* Dark overlay */}
-                  {isClosed ? (
-                    <div className="absolute inset-0 bg-black/50"></div>
-                  ) : (
-                    <div className="absolute inset-0 bg-black/40"></div>
-                  )}
+
+                  <div className="absolute inset-0 bg-black/40"></div>
 
                   {/* Coming Soon Badge */}
                   {isClosed && (
@@ -92,13 +89,13 @@ const AllCourses = () => {
                   )}
 
                   {/* Center Lock Icon */}
-                  {isClosed && (
+                  {/*      {isClosed && (
                     <div className="absolute  inset-0 flex items-center justify-center">
                       <div className="bg-black/70 p-3 rounded-full flex justify-around items-center">
                         <Lock className="text-white size-8 " />
                       </div>
                     </div>
-                  )}
+                  )} */}
 
                   {/* Course info (bottom) */}
                   <div className="absolute inset-0 flex flex-col justify-end p-4">
