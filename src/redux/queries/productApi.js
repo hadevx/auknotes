@@ -28,6 +28,20 @@ export const productApi = apiSlice.injectEndpoints({
         url: `/api/products/course/${courseId}`,
       }),
     }),
+    downloadResource: builder.query({
+      query: (id) => ({
+        url: `/api/upload/download/${id}`,
+        responseHandler: async (response) => {
+          const blob = await response.blob();
+          return {
+            blob,
+            filename:
+              response.headers.get("content-disposition")?.split("filename=")[1] ||
+              "downloaded-file",
+          };
+        },
+      }),
+    }),
   }),
 });
 
@@ -37,4 +51,5 @@ export const {
   useGetCourseByIdQuery,
   useGetFeaturedCoursesQuery,
   useGetProductsByCourseQuery,
+  useLazyDownloadResourceQuery,
 } = productApi;
