@@ -94,8 +94,14 @@ const Course = () => {
                   className="group bg-white border border-gray-200 rounded-md p-3 flex items-center gap-3 transition-transform duration-300 hover:border-tomato hover:shadow">
                   <div className="flex items-center justify-center size-20 bg-gray-100 rounded-md shrink-0">
                     <img
-                      src={p.file?.url?.toLowerCase().endsWith(".pdf") ? "/pdf.png" : "/word.png"}
-                      alt={p.file?.url?.toLowerCase().endsWith(".pdf") ? "PDF file" : "Word file"}
+                      src={
+                        p.file?.url?.toLowerCase().endsWith(".pdf")
+                          ? "/pdf.png"
+                          : p.file?.url?.toLowerCase().endsWith(".ppt") ||
+                            p.file?.url?.toLowerCase().endsWith(".pptx")
+                          ? "/powerpoint.png"
+                          : "/word.png"
+                      }
                       className="size-14 lg:size-18 object-contain"
                     />
                   </div>
