@@ -23,9 +23,10 @@ const AllCourses = () => {
   const pages = data?.pages;
 
   console.log("courses", categories);
+
   const handleGoToCourse = (id) => {
     if (!userInfo) {
-      navigate("/login");
+      // navigate("/login");
       toast.info("You need to login first", { position: "top-center" });
       return;
     }
@@ -81,8 +82,8 @@ const AllCourses = () => {
 
                   {/* Coming Soon Badge */}
                   {isClosed && (
-                    <div className="absolute top-3 left-3 bg-tomato text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
-                      Coming Soon
+                    <div className="absolute flex items-center gap-1 top-3 left-3 bg-tomato text-white text-xs font-semibold px-2 py-1 rounded-full shadow-[0_0_10px_tomato]">
+                      Coming Soon {/* <Lock className="size-4" /> */}
                     </div>
                   )}
 

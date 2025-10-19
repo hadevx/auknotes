@@ -14,7 +14,6 @@ export default function FeaturedCourses() {
 
   const handleGoToCourse = (id) => {
     if (!userInfo) {
-      navigate("/login");
       toast.info("You need to login first", { position: "top-center" });
       return;
     }
