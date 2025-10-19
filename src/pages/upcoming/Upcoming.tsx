@@ -1,4 +1,3 @@
-import React from "react";
 import { Clock, Notebook, BookOpenCheck, Upload, Star, Users, Bell } from "lucide-react";
 import { motion } from "framer-motion";
 import Layout from "@/Layout";
@@ -44,12 +43,7 @@ export default function ComingSoon() {
         <div className="max-w-6xl mx-auto px-6">
           {/* Heading */}
           <div className="text-center mb-16">
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-6xl font-bold text-black mb-4">
-              Future Plans
-            </motion.h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-black mb-4">Future Plans</h1>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               A platform built for AUK students — to share, study, and grow together. We’re crafting
               something special for your learning experience.

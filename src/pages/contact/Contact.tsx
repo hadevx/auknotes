@@ -1,14 +1,21 @@
 import Layout from "@/Layout";
-import { Mail, Instagram } from "lucide-react";
+import { Instagram, Phone } from "lucide-react";
 
 export default function ContactPage() {
   const contactMethods = [
     {
       title: "Instagram",
       desc: "Follow us and stay updated with our latest posts.",
-      icon: <Instagram className="w-10 h-10 text-[#f84713]" />,
+      icon: <Instagram className="size-10 text-tomato" />,
       info: "@auknotes",
       link: "https://www.instagram.com/auknotes/",
+    },
+    {
+      title: "WhatsApp",
+      desc: "Reach out on WhatsApp for quick support or updates.",
+      icon: <Phone className="size-10 text-tomato" />,
+      info: "Send a message",
+      link: "https://wa.me/96555450334",
     },
   ];
 
