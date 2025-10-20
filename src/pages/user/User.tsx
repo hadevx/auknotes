@@ -9,26 +9,9 @@ const UserProfile = () => {
   const { id } = useParams();
   const { data: user, isLoading, isError } = useGetUserDetailsQuery(id);
   console.log(user);
-  const [toggleFollow] = useToggleFollowMutation();
+
   const currentUser = useSelector((state: any) => state.auth.userInfo);
   const navigate = useNavigate();
-  const [isFollowing, setIsFollowing] = useState(false);
-
-  useEffect(() => {
-    if (user && currentUser) {
-      setIsFollowing(user.followers.includes(currentUser._id));
-    }
-  }, [user, currentUser]);
-
-  const handleFollow = async () => {
-    if (!currentUser) return toast.info("You must be logged in to follow users!");
-    try {
-      await toggleFollow(user._id).unwrap();
-      setIsFollowing((prev) => !prev);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   if (isLoading)
     return (

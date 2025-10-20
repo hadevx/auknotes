@@ -50,6 +50,12 @@ const userApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    getUserProfile: builder.query({
+      query: () => ({
+        url: `/api/users/profile`,
+      }),
+      providesTags: ["User"],
+    }),
     getBlockStatus: builder.query({
       query: (id) => ({
         url: `/api/users/block-status/${id}`,
@@ -90,4 +96,5 @@ export const {
   useToggleBlockUserMutation,
   useGetBlockStatusQuery,
   useToggleFollowMutation,
+  useGetUserProfileQuery,
 } = userApi;

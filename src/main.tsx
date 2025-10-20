@@ -8,6 +8,9 @@ import store from "./redux/store.js";
 import ToastWrapper from "./ToastWrapper.js";
 import "react-quill-new/dist/quill.snow.css"; // styles
 
+if (import.meta.env.VITE_ENVIRONMENT === "production") {
+  console.log = () => {};
+}
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>

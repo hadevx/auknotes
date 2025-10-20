@@ -1,5 +1,5 @@
 import Layout from "@/Layout";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetCourseByIdQuery,
   useGetProductsByCourseQuery,
@@ -11,9 +11,18 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 import Spinner from "@/components/Spinner";
-import { Download, Lock } from "lucide-react";
+import { Download, Lock, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+import { useGetUserProfileQuery } from "../../redux/queries/userApi";
 
 const Course = () => {
+  // const { userInfo } = useSelector((state: any) => state.auth);
+  const navigate = useNavigate();
+
+  const { data: userInfo } = useGetUserProfileQuery();
+  console.log(userInfo);
+
   const [triggerDownload] = useLazyDownloadResourceQuery();
   const [downloadingId, setDownloadingId] = useState<string | null>(null); // track downloading file
 
@@ -44,6 +53,7 @@ const Course = () => {
 
   const { data: category } = useGetCourseByIdQuery(courseId);
 
+  console.log(category);
   const [activeTab, setActiveTab] = useState<string>("All");
 
   if (loadingProducts)
@@ -58,12 +68,24 @@ const Course = () => {
   const filteredProducts =
     activeTab === "All" ? products : products?.filter((p) => p.type === activeTab);
 
+  // Check if user has purchased course
+  const hasAccess = category?.isPaid
+    ? userInfo?.purchasedCourses?.some((c: any) => c.toString() === category._id.toString())
+    : true;
+
   return (
     <Layout>
       <div className="min-h-screen py-12 px-3 lg:px-6 max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">
-          <span className="text-tomato uppercase">{category?.code}</span>
-        </h1>
+        <div className="  mb-8 flex items-center justify-between sm:justify-start gap-10 ">
+          <span className="text-tomato uppercase text-3xl font-bold">{category?.code}</span>
+          {!hasAccess && (
+            <a
+              href="https://wa.me/96555450334"
+              className="flex text-white py-2 px-2 rounded-md items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995]">
+              <Plus className="w-4 h-4" /> Get Access
+            </a>
+          )}
+        </div>
 
         {/* Tabs for filtering by resource type */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
@@ -125,7 +147,7 @@ const Course = () => {
                   </div>
 
                   {/* Show spinner only for the file being downloaded */}
-                  {category?.isClosed ? (
+                  {category?.isClosed || !hasAccess ? (
                     <div className="bg-black/10 p-3 rounded-full">
                       <Lock className="ml-auto" />
                     </div>

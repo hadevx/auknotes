@@ -60,9 +60,10 @@ const AllCourses = () => {
           </div>
 
           <div className="grid gap-3  sm:gap-5 grid-cols-2 z-0 sm:grid-cols-3 lg:grid-cols-4">
-            {categories.map((cat) => {
+            {categories?.map((cat) => {
               const isClosed = cat.isClosed;
-
+              const isPaid = cat.isPaid;
+              const hasAccess = userInfo?.purchasedCourses?.includes(cat._id);
               return (
                 <button
                   key={cat._id}
@@ -77,24 +78,15 @@ const AllCourses = () => {
                     }}></div>
 
                   {/* Dark overlay */}
-
                   <div className="absolute inset-0 bg-black/40"></div>
 
-                  {/* Coming Soon Badge */}
-                  {isClosed && (
-                    <div className="absolute flex items-center gap-1 top-3 left-3 bg-tomato text-white text-xs font-semibold px-2 py-1 rounded-full shadow-[0_0_10px_tomato]">
-                      Coming Soon {/* <Lock className="size-4" /> */}
+                  {/* Closed or paid Badge */}
+                  {(isClosed || (isPaid && !hasAccess)) && (
+                    <div className="absolute flex items-center gap-1 top-3 left-3 bg-black/50 text-white text-xs font-semibold p-2 rounded-full">
+                      <Lock className="size-4" />
+                      {/* {isClosed ? "Closed" : "Paid"} */}
                     </div>
                   )}
-
-                  {/* Center Lock Icon */}
-                  {/*      {isClosed && (
-                    <div className="absolute  inset-0 flex items-center justify-center">
-                      <div className="bg-black/70 p-3 rounded-full flex justify-around items-center">
-                        <Lock className="text-white size-8 " />
-                      </div>
-                    </div>
-                  )} */}
 
                   {/* Course info (bottom) */}
                   <div className="absolute inset-0 flex flex-col justify-end p-4">
