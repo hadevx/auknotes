@@ -392,8 +392,8 @@ const TopicDetails = () => {
             {/* Likes - Messages Section */}
             <div className="mt-2 flex justify-between items-center">
               <div className="flex  gap-3 ">
-                <p className="text-sm sm:text-lg flex items-center gap-2">
-                  <MessageSquare className="size-4 sm:size-5 " /> {topic?.comments?.length}
+                <p className="text-sm lg:text-base flex items-center gap-2">
+                  <MessageSquare className="size-4  " /> {topic?.comments?.length}
                 </p>
                 {/* Like Button */}
                 <button
@@ -408,12 +408,12 @@ const TopicDetails = () => {
                     animate={isLiked ? { scale: [0, 1.3, 1] } : { scale: 1 }}
                     transition={{ duration: 0.2 }}>
                     <Heart
-                      className={`size-4 lg:size-5  transition-all ${
+                      className={`size-4   transition-all ${
                         isLiked ? "fill-white" : "fill-transparent"
                       }`}
                     />
                   </motion.div>
-                  <span className="text-sm sm:text-lg">{likesCount}</span>
+                  <span className="text-sm lg:text-base">{likesCount}</span>
                 </button>
                 {/* Dislike Button */}
                 {/*    <button

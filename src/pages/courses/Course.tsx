@@ -77,13 +77,15 @@ const Course = () => {
     <Layout>
       <div className="min-h-screen py-12 px-3 lg:px-6 max-w-7xl mx-auto">
         <div className="  mb-8 flex items-center justify-between sm:justify-start gap-10 ">
-          <span className="text-tomato uppercase text-3xl font-bold">{category?.code}</span>
+          <span className="text-tomato font-poppins uppercase text-3xl font-bold">
+            {category?.code}
+          </span>
           {!hasAccess && (
-            <a
-              href="https://wa.me/96555450334"
-              className="flex text-white py-2 px-2 rounded-md items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995]">
-              <Plus className="w-4 h-4" /> Get Access
-            </a>
+            <Button
+              onClick={() => window.open("https://wa.link/f9f5se", "_blank")}
+              className="flex items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700 shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995]">
+              <img src="/3d-fire.png" className="size-4" alt="Get Access" /> Get Access
+            </Button>
           )}
         </div>
 

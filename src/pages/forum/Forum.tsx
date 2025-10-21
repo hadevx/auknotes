@@ -251,7 +251,8 @@ export default function ForumPage() {
                     <div
                       className="absolute  top-1/2 transform -translate-y-1/2
                      right-2 text-yellow-500 ">
-                      <Pin />
+                      {/* <Pin /> */}
+                      <img src="/bookmark.webp" className="size-20" alt="" />
                     </div>
                   )}
                   <Link to={`/forum/${post._id}`} className="flex items-center gap-3 flex-1">
@@ -293,26 +294,24 @@ export default function ForumPage() {
                         -
                         <FormatDate date={post?.createdAt} />
                       </p>
-                      <div className="flex items-center  gap-3 mt-1">
+                      <div className="flex items-center gap-3 mt-1">
                         <span
-                          className={`flex text-sm sm:text-lg items-center gap-1 ${
+                          className={`flex text-sm items-center gap-1 ${
                             isAdmin ? "text-white" : "text-gray-600"
                           }`}>
-                          <MessageSquare className="size-4 sm:size-5" />
+                          <MessageSquare className="size-4" />
                           {post?.commentCount}
                         </span>
                         <span
                           className={`flex items-center gap-2 px-2 py-0.5 rounded-full border border-rose-300 bg-rose-50 text-rose-600 transition-all duration-300  `}>
                           <Heart
-                            className={`size-4 sm:size-5 transition-all ${
+                            className={`size-4  transition-all ${
                               post?.likes?.includes(userInfo?._id)
                                 ? "fill-rose-500 text-rose-500 "
                                 : "text-rose-500"
                             }`}
                           />
-                          <span className="font-medium text-sm sm:text-lg">
-                            {post?.likes?.length || 0}
-                          </span>
+                          <span className="font-medium text-sm ">{post?.likes?.length || 0}</span>
                         </span>
                       </div>
                     </div>
