@@ -248,11 +248,12 @@ export default function ForumPage() {
                       : "bg-white shadow border-gray-200"
                   }`}>
                   {isAdmin && (
-                    <div
-                      className="absolute  top-1/2 transform -translate-y-1/2
-                     right-2 text-yellow-500 ">
-                      {/* <Pin /> */}
-                      <img src="/bookmark.webp" className="size-20" alt="" />
+                    <div className="absolute  top-0 transform right-2  ">
+                      <img
+                        src="/bookmark2.webp"
+                        className="w-8 h-12 filter drop-shadow-[0_5px_10px_rgba(255,0,0,0.3)]"
+                        alt="bookmark icon"
+                      />
                     </div>
                   )}
                   <Link to={`/forum/${post._id}`} className="flex items-center gap-3 flex-1">
