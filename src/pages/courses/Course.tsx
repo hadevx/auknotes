@@ -56,7 +56,7 @@ const Course = () => {
   useEffect(() => {
     setLikesCount(category?.likes?.length || 0);
     setIsLiked(category?.likes?.includes(userInfo?._id));
-  }, [userInfo]);
+  }, [category, userInfo]);
 
   console.log(category);
   const [activeTab, setActiveTab] = useState<string>("All");

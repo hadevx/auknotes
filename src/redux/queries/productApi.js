@@ -12,11 +12,13 @@ export const productApi = apiSlice.injectEndpoints({
       query: ({ pageNumber = 1, keyword = "" }) => ({
         url: `/api/course?pageNumber=${pageNumber}&keyword=${keyword}`,
       }),
+      providesTags: ["Course"],
     }),
     getCourseById: builder.query({
       query: (id) => ({
         url: `/api/course/${id}`,
       }),
+      providesTags: ["Course"],
     }),
     getFeaturedCourses: builder.query({
       query: () => ({
