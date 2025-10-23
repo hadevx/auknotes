@@ -80,11 +80,11 @@ const AllCourses = () => {
                   {/* Dark overlay */}
                   <div className="absolute inset-0 bg-black/40"></div>
 
-                  {/* Closed or paid Badge */}
+                  {/* Closed & badge */}
                   {(isClosed || (isPaid && !hasAccess)) && (
-                    <div className="absolute flex items-center gap-1 top-3 left-3 bg-black/50 text-white text-xs font-semibold p-2 rounded-full">
-                      <Lock className="size-4" />
-                      {/* {isClosed ? "Closed" : "Paid"} */}
+                    <div className="absolute flex items-center gap-1 top-2 left-2 bg-black/50 text-white text-xs font-semibold p-2 rounded-full">
+                      <Lock className="size-4 " />
+                      {cat?.badge && <p className="text-xs  rounded-full ">{cat?.badge}</p>}
                     </div>
                   )}
 
