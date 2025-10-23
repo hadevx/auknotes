@@ -28,6 +28,13 @@ export const productApi = apiSlice.injectEndpoints({
         url: `/api/products/course/${courseId}`,
       }),
     }),
+    likeCourse: builder.mutation({
+      query: ({ courseId }) => ({
+        url: `/api/course/${courseId}/like`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Course"],
+    }),
     downloadResource: builder.query({
       query: (id) => ({
         url: `/api/upload/download/${id}`,
@@ -52,4 +59,5 @@ export const {
   useGetFeaturedCoursesQuery,
   useGetProductsByCourseQuery,
   useLazyDownloadResourceQuery,
+  useLikeCourseMutation,
 } = productApi;

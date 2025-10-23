@@ -308,9 +308,14 @@ const TopicDetails = () => {
         <Loader />
       ) : (
         <div className="max-w-4xl min-h-screen mx-auto px-4 py-10 space-y-6">
-          <div className="border bg-white rounded-lg p-6 shadow-sm">
+          <div className="border bg-white relative rounded-lg p-6 shadow-sm">
+            {topic?.author?.isAdmin && (
+              <div className="absolute  top-0 transform right-2  ">
+                <img src="/bookmark2.webp" className="w-8 h-12 " alt="bookmark icon" />
+              </div>
+            )}
             {/* Back - Category */}
-            <div className="flex justify-start gap-2 items-center mb-5">
+            <div className="flex 0 justify-start gap-2 items-center mb-5">
               <button
                 onClick={() => navigate(-1)}
                 className="flex items-center gap-2  px-2 py-1 rounded-full border bg-white hover:bg-zinc-100 text-black transition-colors">
@@ -321,7 +326,7 @@ const TopicDetails = () => {
               </div>
             </div>
             {/* Topic Header */}
-            <div className="flex items-center justify-between gap-2 mb-4">
+            <div className="flex   items-center justify-between gap-2 mb-4">
               <div className="flex gap-2 items-center">
                 {topic?.author?.avatar ? (
                   <img
@@ -331,10 +336,12 @@ const TopicDetails = () => {
                     className={`size-14 rounded-md object-cover `}
                   />
                 ) : (
-                  <div className="size-14 uppercase rounded-md bg-tomato flex items-center justify-center text-white font-semibold">
-                    {topic?.author?.username?.charAt(0) +
-                      topic?.author?.username?.charAt(topic?.author?.username?.length - 1)}
-                  </div>
+                  <>
+                    <div className="size-14 uppercase rounded-md bg-tomato flex items-center justify-center text-white font-semibold">
+                      {topic?.author?.username?.charAt(0) +
+                        topic?.author?.username?.charAt(topic?.author?.username?.length - 1)}
+                    </div>
+                  </>
                 )}
                 <Link to={`/forum/${topic?._id}`}>
                   <div className="">

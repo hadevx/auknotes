@@ -163,13 +163,13 @@ export default function ForumPage() {
                 placeholder="Search topics..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="bg-white py-3 w-full border px-10 rounded-md focus:ring-2 shadow-sm focus:ring-tomato focus:border-tomato outline-none"
+                className="bg-white py-3 w-full border px-10 rounded-md focus:ring-2  focus:ring-tomato focus:border-tomato outline-none"
               />
               <Search className="absolute left-2 w-5 h-5 text-gray-500" />
             </div>
 
             {/* Category Buttons + Course Dropdown */}
-            <div className="flex gap-2 flex-wrap items-center">
+            <div className="flex gap-2  items-center">
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -194,7 +194,7 @@ export default function ForumPage() {
                   setSelectedCategory(value);
                 }}>
                 <SelectTrigger
-                  className={`bg-white rounded-full [&>svg]:hidden px-3 py-1 ${
+                  className={`bg-white w-full  rounded-full [&>svg]:hidden px-3 py-1 ${
                     selectedCategory === newTopic.course ? "bg-tomato  border-0 text-white" : ""
                   }`}>
                   <SelectValue placeholder="Select Course" />
@@ -277,8 +277,8 @@ export default function ForumPage() {
 
                     <div>
                       <span
-                        className={`block  ${
-                          isAdmin ? "text-white flex items-center gap-5 font-bold" : ""
+                        className={`block   ${
+                          isAdmin ? "text-white  flex items-center gap-5 font-bold" : ""
                         }`}>
                         {post?.title}
                       </span>

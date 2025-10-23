@@ -1,30 +1,30 @@
 import Layout from "@/Layout";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   useGetCourseByIdQuery,
   useGetProductsByCourseQuery,
   useLazyDownloadResourceQuery,
+  useLikeCourseMutation,
 } from "../../redux/queries/productApi";
 import Loader from "@/components/Loader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 import Spinner from "@/components/Spinner";
-import { Download, Lock, Plus } from "lucide-react";
+import { Download, Lock, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useSelector } from "react-redux";
 import { useGetUserProfileQuery } from "../../redux/queries/userApi";
 
 const Course = () => {
-  // const { userInfo } = useSelector((state: any) => state.auth);
-  const navigate = useNavigate();
-
   const { data: userInfo } = useGetUserProfileQuery();
   console.log(userInfo);
 
+  const [likesCount, setLikesCount] = useState<number>(0);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
   const [triggerDownload] = useLazyDownloadResourceQuery();
   const [downloadingId, setDownloadingId] = useState<string | null>(null); // track downloading file
+  const [likeCourse] = useLikeCourseMutation();
 
   const handleDownload = async (id: string, fileName: string) => {
     try {
@@ -53,6 +53,11 @@ const Course = () => {
 
   const { data: category } = useGetCourseByIdQuery(courseId);
 
+  useEffect(() => {
+    setLikesCount(category?.likes?.length || 0);
+    setIsLiked(category?.likes?.includes(userInfo?._id));
+  }, [userInfo]);
+
   console.log(category);
   const [activeTab, setActiveTab] = useState<string>("All");
 
@@ -73,36 +78,86 @@ const Course = () => {
     ? userInfo?.purchasedCourses?.some((c: any) => c.toString() === category._id.toString())
     : true;
 
+  // ✅ Like Topic (Optimistic UI)
+  const handleLikeCourse = async () => {
+    if (!userInfo) return;
+
+    // store previous state
+    const prevLiked = isLiked;
+    const prevCount = likesCount;
+
+    // optimistic update
+    const newLiked = !prevLiked;
+    setIsLiked(newLiked);
+    setLikesCount(prevCount + (newLiked ? 1 : -1));
+
+    try {
+      await likeCourse({ courseId: courseId }).unwrap();
+      // no need to update state from server unless you want to ensure consistency
+    } catch (err: any) {
+      // revert
+      setIsLiked(prevLiked);
+      setLikesCount(prevCount);
+      toast.error(err?.data?.message || "Failed to like course");
+    }
+  };
+
   return (
     <Layout>
       <div className="min-h-screen py-12 px-3 lg:px-6 max-w-7xl mx-auto">
-        <div className="  mb-8 flex items-center justify-between sm:justify-start gap-10 ">
-          <span className="text-tomato font-poppins uppercase text-3xl font-bold">
-            {category?.code}
+        <div className="mb-5 flex items-start sm:items-start  gap-1 flex-col">
+          <div className="flex items-center  gap-5">
+            <div className="text-tomato font-poppins flex ">
+              <span className="uppercase text-4xl font-bold">{category?.code}</span>{" "}
+            </div>
+            {!hasAccess && (
+              <Button
+                onClick={() => window.open("https://wa.link/f9f5se", "_blank")}
+                className="flex rounded-full items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700 shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995]">
+                <img src="/3d-fire.png" className="size-4" alt="Get Access" /> Get Access
+              </Button>
+            )}
+          </div>
+          <span className="capitalize text-gray-800 text-sm font-poppins">
+            {category?.name && category.name}
           </span>
-          {!hasAccess && (
-            <Button
-              onClick={() => window.open("https://wa.link/f9f5se", "_blank")}
-              className="flex items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700 shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995]">
-              <img src="/3d-fire.png" className="size-4" alt="Get Access" /> Get Access
-            </Button>
-          )}
         </div>
-
-        {/* Tabs for filtering by resource type */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
-          <TabsList className="bg-white">
-            {types.map((type) => (
-              <TabsTrigger
-                key={type}
-                value={type}
-                className="data-[state=active]:bg-tomato lg:text-lg data-[state=active]:text-white">
-                {type}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-
+        <div className="mb-5 flex items-center gap-5 ">
+          {/* Tabs for filtering by resource type */}
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className=" flex items-center sm:items-start">
+            <TabsList className="bg-white">
+              {types.map((type) => (
+                <TabsTrigger
+                  key={type}
+                  value={type}
+                  className="data-[state=active]:bg-tomato lg:text-lg data-[state=active]:text-white">
+                  {type}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+          {/* Like Button */}
+          <button
+            onClick={handleLikeCourse}
+            disabled={!userInfo}
+            className={`flex items-center gap-2 px-3 py-1 rounded-md border transition-all duration-200 ${
+              isLiked
+                ? "bg-rose-500 shadow-[0_0_10px_rgba(255,0,0,0.3)] text-white border-rose-500"
+                : "hover:bg-rose-50 text-rose-600 border-rose-300 "
+            }`}>
+            <motion.div
+              animate={isLiked ? { scale: [0, 1.3, 1] } : { scale: 1 }}
+              transition={{ duration: 0.2 }}>
+              <Heart
+                className={`size-4   transition-all ${isLiked ? "fill-white" : "fill-transparent"}`}
+              />
+            </motion.div>
+            <span className="text-base lg:text-base">{likesCount}</span>
+          </button>
+        </div>
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
