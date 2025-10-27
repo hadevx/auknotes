@@ -1,39 +1,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Menu, X, CircleUser } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../redux/slices/authSlice.js";
 
 export default function Header() {
-  const { pathname } = useLocation();
-  console.log(pathname);
-
-  const userInfo = useSelector((state: any) => state.auth.userInfo);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const userInfo = useSelector((state: any) => state.auth.userInfo);
   const [isOpen, setIsOpen] = useState(false);
-  const [coursesOpen, setCoursesOpen] = useState(false);
-
-  // Framer Motion Variants
-  const containerVariants = {
-    hidden: { opacity: 0, y: -10 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.2,
-        staggerChildren: 0.2,
-      },
-    },
-    exit: { opacity: 0, y: -10 },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: -5 },
-    show: { opacity: 1, y: 0 },
-  };
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
@@ -41,30 +18,22 @@ export default function Header() {
     navigate("/");
   };
 
-  const avatarPath = "/src/assets/avatar" + userInfo?.avatar;
-  console.log(avatarPath);
   return (
     <header className="border-b  border-border/40 backdrop-blur">
       <div className="lg:container lg:mx-auto  px-6 md:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="flex  h-8 w-8 items-center justify-center rounded-md bg-foreground">
-              <img src="/avatar/logo.webp" className="rounded-md" alt="" />
-            </div>
-            <Link to="/" className="text-xl font-semibold">
-              AUKNOTES
-            </Link>
-          </div>
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/avatar/logo.webp" className="rounded-md size-8" alt="logo" />
+            <h1 className="text-xl font-semibold">AUKNOTES</h1>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 relative">
             <Link
-              to="/course/all-courses"
-              aria-expanded={coursesOpen}
-              aria-controls="courses-dropdown"
+              to="/all-courses"
               className={`flex items-center text-sm  text-foreground/80  transition-colors ${
-                pathname.startsWith("/course") ? "text-tomato font-bold" : "font-medium"
+                pathname.startsWith("/all-courses") ? "text-tomato font-bold" : "font-medium"
               }`}>
               Courses
             </Link>
@@ -192,11 +161,9 @@ export default function Header() {
             className="md:hidden  bg-beige border-t border-border/40 px-6 py-4">
             <nav className="flex flex-col gap-4">
               <Link
-                to="/course/all-courses"
-                aria-expanded={coursesOpen}
-                aria-controls="courses-dropdown"
+                to="/all-courses"
                 className={`flex items-center text-sm  text-foreground/80 hover:text-foreground transition-colors ${
-                  pathname.startsWith("/course") ? "text-tomato font-bold" : "font-medium"
+                  pathname.startsWith("/all-courses") ? "text-tomato font-bold" : "font-medium"
                 }`}>
                 Courses
               </Link>

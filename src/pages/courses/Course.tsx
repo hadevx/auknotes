@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import Spinner from "@/components/Spinner";
 import { Download, Lock, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+// import LoaderFile from "@/components/LoaderFile";
 import { useGetUserProfileQuery } from "../../redux/queries/userApi";
 
 const Course = () => {
@@ -40,7 +41,7 @@ const Course = () => {
       a.remove();
       window.URL.revokeObjectURL(url);
     } catch (err) {
-      console.error(err);
+      console.log("error:", err);
       toast.error("Download failed. This file might be restricted or unavailable.");
     } finally {
       setDownloadingId(null); // stop spinner
@@ -50,7 +51,7 @@ const Course = () => {
   const { courseId } = useParams(); // Get course ID from route params
 
   const { data: products, isLoading: loadingProducts } = useGetProductsByCourseQuery({ courseId });
-
+  console.log(products);
   const { data: category } = useGetCourseByIdQuery(courseId);
 
   useEffect(() => {
@@ -113,8 +114,8 @@ const Course = () => {
             {!hasAccess && (
               <Button
                 onClick={() => window.open("https://wa.link/f9f5se", "_blank")}
-                className="flex rounded-full items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700 shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995]">
-                <img src="/3d-fire.png" className="size-4" alt="Get Access" /> Get Access
+                className="flex rounded-full items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700 shadow-[0_7px_15px_rgba(0,0,0,0.3)] hover:scale-[0.995]">
+                <img src="/3d-fire.png" className="size-4" alt="Get Access" /> Unlock
               </Button>
             )}
           </div>
@@ -155,7 +156,7 @@ const Course = () => {
                 className={`size-4   transition-all ${isLiked ? "fill-white" : "fill-transparent"}`}
               />
             </motion.div>
-            <span className="text-base lg:text-base">{likesCount}</span>
+            <span className="text-base lg:text-base">{likesCount} </span>
           </button>
         </div>
         <AnimatePresence mode="wait">
@@ -203,7 +204,7 @@ const Course = () => {
                     )}
                   </div>
 
-                  {/* Show spinner only for the file being downloaded */}
+                  {/* Download Button */}
                   {category?.isClosed || !hasAccess ? (
                     <div className="bg-black/10 p-3 rounded-full">
                       <Lock className="ml-auto" />
@@ -211,9 +212,10 @@ const Course = () => {
                   ) : downloadingId === p._id ? (
                     <Spinner className="border-t-black ml-auto" />
                   ) : (
+                    // <LoaderFile />
                     <button
                       onClick={() => handleDownload(p._id, p.name)}
-                      className="text-sm text-tomato font-medium hover:underline ml-auto">
+                      className="text-sm rounded-md text-tomato font-medium hover:underline ml-auto">
                       <Download />
                     </button>
                   )}

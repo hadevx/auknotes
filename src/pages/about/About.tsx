@@ -25,7 +25,7 @@ const About = () => {
       <section className="w-full min-h-screen py-20 ">
         <div className="max-w-6xl mx-auto px-6">
           {/* Heading */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h2 className="text-5xl font-bold text-black">
               <span className="">About Us</span>
             </h2>

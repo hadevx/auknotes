@@ -13,6 +13,21 @@ body {
   background: #f8f5ee;
   /* font-family: "Poppins", sans-serif; */
 }
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
 .img-text {
   font-weight: 800;
   /* image is the background that will show through the text */
@@ -107,6 +122,12 @@ button {
     }
     to {
       transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  --animate-gradient: gradient 8s linear infinite;
+  @keyframes gradient {
+    to {
+      background-position: var(--bg-size, 300%) 0;
     }
   }
 }

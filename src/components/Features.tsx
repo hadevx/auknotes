@@ -8,7 +8,7 @@ const Features = () => {
   const cards = [
     {
       title: "Study Efficiently",
-      desc: "Structured notes for AUK courses to boost your study sessions.",
+      desc: "more than 400 resources for AUK courses to boost your study sessions.",
       bg: "bg-[#FF9B9B]",
       anim: learning,
     },

@@ -60,7 +60,7 @@ export default function FeaturedCourses() {
           </div>
           <div className=" flex justify-center mt-5">
             <Button
-              onClick={() => navigate("/course/all-courses")}
+              onClick={() => navigate("/all-courses")}
               variant="outline"
               className="rounded-full bg-tomato shadow-[0_0_10px_tomato] border-0 hover:bg-tomato/90 text-white">
               View All Courses

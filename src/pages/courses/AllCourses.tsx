@@ -9,10 +9,10 @@ import Paginate from "@/components/Paginate";
 import { Search, FileText, Lock } from "lucide-react";
 
 const AllCourses = () => {
-  const [page, setPage] = useState(1);
-  const { userInfo } = useSelector((state: any) => state.auth);
   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
+  const { userInfo } = useSelector((state: any) => state.auth);
 
   const { data, isLoading: loadingCourses } = useGetCoursesQuery({
     pageNumber: page,
@@ -26,7 +26,6 @@ const AllCourses = () => {
 
   const handleGoToCourse = (id) => {
     if (!userInfo) {
-      // navigate("/login");
       toast.info("You need to login first", { position: "top-center" });
       return;
     }
@@ -68,7 +67,6 @@ const AllCourses = () => {
                 <button
                   key={cat._id}
                   onClick={() => handleGoToCourse(cat._id)}
-                  // disabled={isClosed}
                   className={`relative rounded-xl overflow-hidden shadow-custom aspect-square group `}>
                   {/* Background image */}
                   <div

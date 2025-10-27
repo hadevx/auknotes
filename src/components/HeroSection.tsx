@@ -4,6 +4,9 @@ import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import { NumberTicker } from "@/components/ui/number-ticker";
+import { MessagesSquare } from "lucide-react";
+// import { AnimatedGradientText } from "./ui/animated-gradient-text";
+// import { SparklesText } from "./ui/sparkles-text";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -39,9 +42,10 @@ export default function HeroSection() {
             variant="secondary"
             className="rounded-full bg-tomato text-white border-accent/20 pl-3 pr-2 py-1.5">
             <span className="text-xs font-medium">
-              <span className="animate-pulse">More courses are coming soon</span>
+              <span className="">More courses are coming soon</span>
             </span>
           </Badge>
+          {/* <SparklesText className="text-sm">More courses are coming soon</SparklesText> */}
 
           <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-balance font-poppins">
             Built by students for students
@@ -51,21 +55,28 @@ export default function HeroSection() {
             A platform for AUK students to study efficiently. Access organized lecture notes, past
             exams, and study resources all in one place.
           </p>
-
-          <Button
-            onClick={() => navigate("/course/all-courses")}
-            size="lg"
-            className="rounded-full mb-5 bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.5)] hover:scale-[0.995] text-background hover:bg-foreground/90 px-8">
-            Show Courses
-          </Button>
+          <div className="flex gap-3 items-center">
+            <Button
+              onClick={() => navigate("/all-courses")}
+              size="lg"
+              className="rounded-full mb-5 bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.4)] hover:scale-[0.995] text-background hover:bg-foreground/90 px-4">
+              Show Courses
+            </Button>
+            <Button
+              onClick={() => navigate("/forum")}
+              size="lg"
+              className="rounded-full mb-5 bg-white border text-black px-4 shadow-[0_4px_6px_rgba(255,255,255,0.5)] hover:scale-[0.995] hover:bg-white">
+              <MessagesSquare /> Forum
+            </Button>
+          </div>
         </motion.div>
 
         {/* Right Column */}
         <motion.div className="space-y-3" variants={itemVariants}>
           {/* Growth Card */}
           <motion.div variants={itemVariants}>
-            <Card className="relative bg-[#f84713] text-accent-foreground p-8 border-0 shadow-lg">
-              <h3 className="text-2xl font-semibold mb-8 text-balance text-white">
+            <Card className="relative bg-tomato text-accent-foreground p-8 border-0 shadow-lg">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-8 text-balance text-white">
                 Enhance your academic performance
               </h3>
               <div className="relative h-48">
@@ -144,15 +155,15 @@ export default function HeroSection() {
           {/* Session Card */}
           <motion.div variants={itemVariants}>
             <Card className=" relative bg-foreground text-background p-8 border-0 shadow-lg">
-              <h3 className="text-2xl font-semibold mb-6 text-balance">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-balance">
                 Sign up and join the team
               </h3>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center  gap-2">
                 <div className="flex -space-x-3">
-                  {["1.webp", "2.webp", "3.webp"].map((src, i) => (
+                  {["image.webp", "2.webp", "3.webp", "1.webp"].map((src, i) => (
                     <motion.div
                       key={i}
-                      className="w-14 h-14 rounded-full border-2 border-foreground overflow-hidden"
+                      className="size-13 rounded-full border-2 border-foreground overflow-hidden"
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.5 + i * 0.2, type: "spring", stiffness: 120 }}>
@@ -164,16 +175,26 @@ export default function HeroSection() {
                     </motion.div>
                   ))}
                 </div>
-
-                <motion.div
-                  className="rounded-full bg-background/10 border border-background/20 px-4 py-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1 }}>
-                  <span className="text-sm font-medium">
-                    +<NumberTicker value={56} className="text-white" /> students
-                  </span>
-                </motion.div>
+                <div className="flex gap-1 sm:gap-2">
+                  <motion.div
+                    className="rounded-full bg-background/10 border border-background/20 px-3 py-2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1 }}>
+                    <span className="text-sm font-medium">
+                      +<NumberTicker value={100} className="text-white" /> students
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="hidden sm:block rounded-full bg-background/10 border border-background/20 px-3 py-2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1 }}>
+                    <span className="text-sm font-medium">
+                      +<NumberTicker value={400} className="text-white" /> resources
+                    </span>
+                  </motion.div>
+                </div>
               </div>
             </Card>
           </motion.div>
