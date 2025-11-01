@@ -10,7 +10,7 @@ import {
   useGetUserDetailsQuery,
   useLogoutApiMutation,
 } from "../../redux/queries/userApi.js";
-import { Edit, LogOut, AlertCircleIcon, CheckCircle2, Lock } from "lucide-react";
+import { Edit, LogOut, AlertCircleIcon, Lock } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import FormatDate from "@/components/FormatDate.js";
 import { avatars } from "./avatars.ts";

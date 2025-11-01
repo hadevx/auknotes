@@ -212,7 +212,6 @@ const Course = () => {
                   ) : downloadingId === p._id ? (
                     <Spinner className="border-t-black ml-auto" />
                   ) : (
-                    // <LoaderFile />
                     <button
                       onClick={() => handleDownload(p._id, p.name)}
                       className="text-sm rounded-md text-tomato font-medium hover:underline ml-auto">

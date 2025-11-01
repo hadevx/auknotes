@@ -24,12 +24,12 @@ const AllCourses = () => {
 
   console.log("courses", categories);
 
-  const handleGoToCourse = (id) => {
+  const handleGoToCourse = (slug) => {
     if (!userInfo) {
       toast.info("You need to login first", { position: "top-center" });
       return;
     }
-    navigate(`/course/${id}`);
+    navigate(`/course/${slug}`);
   };
   return (
     <Layout>

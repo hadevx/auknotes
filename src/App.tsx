@@ -44,7 +44,7 @@ function App() {
         {/* Courses */}
         {/* <Route path="/course/:courseId" element={<PrivateRoute element={<Course />} />} /> */}
         <Route path="/course/:courseId" element={<Course />} />
-        <Route path="/all-courses" element={<AllCourses />} />
+        <Route path="/courses" element={<AllCourses />} />
         {/* catch-all route */}
         <Route path="*" element={<NotFound />} />
       </Routes>

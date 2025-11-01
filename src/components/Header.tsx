@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../redux/slices/authSlice.js";
+import { useLogoutApiMutation } from "../redux/queries/userApi.js";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -12,9 +13,11 @@ export default function Header() {
   const userInfo = useSelector((state: any) => state.auth.userInfo);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
+  const [logoutApi] = useLogoutApiMutation();
 
   const handleLogout = async () => {
     await dispatch(logout());
+    await logoutApi();
     navigate("/");
   };
 
@@ -31,9 +34,9 @@ export default function Header() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 relative">
             <Link
-              to="/all-courses"
+              to="/courses"
               className={`flex items-center text-sm  text-foreground/80  transition-colors ${
-                pathname.startsWith("/all-courses") ? "text-tomato font-bold" : "font-medium"
+                pathname.startsWith("/courses") ? "text-tomato font-bold" : "font-medium"
               }`}>
               Courses
             </Link>
@@ -161,9 +164,9 @@ export default function Header() {
             className="md:hidden  bg-beige border-t border-border/40 px-6 py-4">
             <nav className="flex flex-col gap-4">
               <Link
-                to="/all-courses"
+                to="/courses"
                 className={`flex items-center text-sm  text-foreground/80 hover:text-foreground transition-colors ${
-                  pathname.startsWith("/all-courses") ? "text-tomato font-bold" : "font-medium"
+                  pathname.startsWith("/courses") ? "text-tomato font-bold" : "font-medium"
                 }`}>
                 Courses
               </Link>
