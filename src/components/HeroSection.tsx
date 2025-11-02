@@ -57,7 +57,7 @@ export default function HeroSection() {
           </p>
           <div className="flex gap-3 items-center">
             <Button
-              onClick={() => navigate("/all-courses")}
+              onClick={() => navigate("/courses")}
               size="lg"
               className="rounded-full mb-5 bg-gradient-to-t from-zinc-900 to-zinc-700  shadow-[0_7px_15px_rgba(0,0,0,0.4)] hover:scale-[0.995] text-background hover:bg-foreground/90 px-4">
               Show Courses
