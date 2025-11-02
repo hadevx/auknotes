@@ -15,7 +15,7 @@ export default function ContactPage() {
       desc: "Reach out on WhatsApp for quick support or updates.",
       icon: <Phone className="size-10 text-tomato" />,
       info: "Send a message",
-      link: "https://wa.me/96555450334",
+      link: "https://wa.me/96598909936",
     },
   ];
 

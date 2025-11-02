@@ -113,7 +113,7 @@ const Course = () => {
             </div>
             {!hasAccess && (
               <Button
-                onClick={() => window.open("https://wa.link/f9f5se", "_blank")}
+                onClick={() => window.open("https://wa.me/96598909936", "_blank")}
                 className="flex rounded-full items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700 shadow-[0_7px_15px_rgba(0,0,0,0.3)] hover:scale-[0.995]">
                 <img src="/3d-fire.png" className="size-4" alt="Get Access" /> Unlock
               </Button>
