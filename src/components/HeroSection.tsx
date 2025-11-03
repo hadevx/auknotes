@@ -155,8 +155,9 @@ export default function HeroSection() {
           {/* Session Card */}
           <motion.div variants={itemVariants}>
             <Card className=" relative bg-foreground text-background p-8 border-0 shadow-lg">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-balance">
-                Sign up and join the team
+              <h3 className="text-xl flex items-center gap-2 sm:text-2xl font-semibold mb-6 text-balance">
+                Sign up and join the wolfpack{" "}
+                <img src="/mammal.png" className="size-20 absolute top-2 right-2" />
               </h3>
               <div className="flex items-center  gap-2">
                 <div className="flex -space-x-3">
