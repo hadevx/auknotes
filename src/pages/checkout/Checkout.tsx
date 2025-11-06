@@ -1,14 +1,14 @@
 import Layout from "@/Layout";
 import { Button } from "@/components/ui/button";
-import Lottie from "lottie-react";
-import learning from "./x.json";
+/* import Lottie from "lottie-react";
+import learning from "./x.json"; */
 
 const Checkout = () => {
   return (
     <Layout>
       <div className="min-h-screen flex flex-col items-center justify-center px-4 py-5 text-center">
         {/* <img src="/3d-fire.png" alt="Unlock Courses" className="size-20 mb-6 " /> */}
-        <Lottie animationData={learning} loop={true} className="size-72  -z-10 scale-150" />
+        {/* <Lottie animationData={learning} loop={true} className="size-72  -z-10 scale-150" /> */}
         <h1 className="text-3xl md:text-4xl font-bold text-tomato mb-3 font-poppins">
           Unlock All Courses
         </h1>

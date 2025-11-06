@@ -16,7 +16,6 @@ import {
   Course,
   Register,
   Login,
-  DonationPage,
   User,
   Checkout,
 } from "@/pages/index";
@@ -36,7 +35,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/upcoming" element={<Upcoming />} />
-        <Route path="/donation" element={<DonationPage />} />
+
         {/* User */}
         <Route path="/login" element={!userInfo ? <Login /> : <Navigate to="/" />} />
         <Route path="/register" element={!userInfo ? <Register /> : <Navigate to="/" />} />
