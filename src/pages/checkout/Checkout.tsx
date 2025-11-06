@@ -1,9 +1,9 @@
 import Layout from "@/Layout";
 import { Button } from "@/components/ui/button";
 import Lottie from "lottie-react";
-import learning from "./Online Learning.json";
+import learning from "./x.json";
 
-const BuyCourses = () => {
+const Checkout = () => {
   return (
     <Layout>
       <div className="min-h-screen flex flex-col items-center justify-center px-4 py-5 text-center">
@@ -53,4 +53,4 @@ const BuyCourses = () => {
   );
 };
 
-export default BuyCourses;
+export default Checkout;
