@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { MessagesSquare } from "lucide-react";
+import { Instagram, MessagesSquare, Phone } from "lucide-react";
 // import { AnimatedGradientText } from "./ui/animated-gradient-text";
 // import { SparklesText } from "./ui/sparkles-text";
 
@@ -45,6 +45,7 @@ export default function HeroSection() {
               <span className="">More courses are coming soon</span>
             </span>
           </Badge>
+
           {/* <SparklesText className="text-sm">More courses are coming soon</SparklesText> */}
 
           <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-balance font-poppins">

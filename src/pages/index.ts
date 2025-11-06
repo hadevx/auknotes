@@ -12,6 +12,7 @@ import Course from "./courses/Course";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import DonationPage from "./donation/Donation";
+import Checkout from "./checkout/Checkout";
 export {
   About,
   Contact,
@@ -27,4 +28,5 @@ export {
   Login,
   DonationPage,
   User,
+  Checkout,
 };

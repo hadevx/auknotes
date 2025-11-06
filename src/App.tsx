@@ -18,6 +18,7 @@ import {
   Login,
   DonationPage,
   User,
+  Checkout,
 } from "@/pages/index";
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
         {/* <Route path="/course/:courseId" element={<PrivateRoute element={<Course />} />} /> */}
         <Route path="/course/:courseId" element={<Course />} />
         <Route path="/courses" element={<AllCourses />} />
+        <Route path="/checkout" element={<Checkout />} />
         {/* catch-all route */}
         <Route path="*" element={<NotFound />} />
       </Routes>

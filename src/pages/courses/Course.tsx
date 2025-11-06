@@ -1,5 +1,5 @@
 import Layout from "@/Layout";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   useGetCourseByIdQuery,
   useGetProductsByCourseQuery,
@@ -112,17 +112,12 @@ const Course = () => {
               <span className="uppercase text-4xl font-bold">{category?.code}</span>{" "}
             </div>
             {!hasAccess && (
-              <Button
-                onClick={() =>
-                  window.open(
-                    "https://wa.me/96598909936?text=Hi!%20I%20want%20to%20unlock%20all%20courses.",
-                    "_blank"
-                  )
-                }
-                className="flex rounded-full items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700 shadow-[0_7px_15px_rgba(0,0,0,0.3)] hover:scale-[0.995]">
+              <Link
+                to="/checkout"
+                className="flex rounded-full text-white px-2 py-1 items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700 shadow-[0_7px_15px_rgba(0,0,0,0.3)] hover:scale-[0.995]">
                 <img src="/3d-fire.png" className="size-4" alt="Get Access" />
                 Unlock All Courses
-              </Button>
+              </Link>
             )}
           </div>
           <span className="capitalize text-gray-800 text-sm font-poppins">

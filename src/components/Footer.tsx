@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-900 px-10">
+    <footer className="bg-neutral-900 px-10 relative">
       <div className="container mx-auto  py-10">
         <motion.div
           className="flex justify-between flex-col md:flex-row gap-3"
@@ -30,7 +30,7 @@ export default function Footer() {
             </motion.p>
 
             <motion.div
-              className="flex items-center"
+              className="flex items-center gap-2"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.8 }}>
@@ -46,6 +46,14 @@ export default function Footer() {
                   <Heart fill="#f84713" className="size-4" stroke="none" />
                 </motion.span>
               </p>
+              <div className="   flex items-center gap-1 ">
+                <a href="https://instagram.com/auknotes" target="_blank" rel="noopener noreferrer">
+                  <img src="/instagram.png" className="size-5" alt="" />
+                </a>
+                <a href="https://wa.me/96598909936" target="_blank" rel="noopener noreferrer">
+                  <img src="/apple.png" className="size-5" alt="" />
+                </a>
+              </div>
             </motion.div>
           </div>
         </motion.div>
