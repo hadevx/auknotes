@@ -5,8 +5,8 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "./", // <-- ensures correct relative paths for deployment
   plugins: [react(), tailwindcss()],
+  base: "/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
