@@ -2,8 +2,7 @@ import Layout from "@/Layout";
 import { Button } from "@/components/ui/button";
 import Lottie from "lottie-react";
 import learning from "./Online Learning.json";
-import shopping from "./shopping cart.json";
-import a from "./Problem Solving Team..json";
+
 const BuyCourses = () => {
   return (
     <Layout>

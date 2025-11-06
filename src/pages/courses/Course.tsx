@@ -13,7 +13,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 import Spinner from "@/components/Spinner";
 import { Download, Lock, Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 // import LoaderFile from "@/components/LoaderFile";
 import { useGetUserProfileQuery } from "../../redux/queries/userApi";
 

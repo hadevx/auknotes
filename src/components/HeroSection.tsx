@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { Instagram, MessagesSquare, Phone } from "lucide-react";
+import { MessagesSquare } from "lucide-react";
 // import { AnimatedGradientText } from "./ui/animated-gradient-text";
 // import { SparklesText } from "./ui/sparkles-text";
 
