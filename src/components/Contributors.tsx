@@ -2,90 +2,104 @@ import styled from "styled-components";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-const students = [
-  { name: "Ali Kareem", major: "CPEG", contributions: 5 },
-  { name: "Layla Mansour", major: "ELEG", contributions: 3 },
-  { name: "Omar Haddad", major: "Business", contributions: 4 },
-  { name: "Noor AlSabah", major: "Biology", contributions: 2 },
-  { name: "Sara AlYousef", major: "CSIS", contributions: 6 },
-  { name: "Hamad AlFarsi", major: "ELEG", contributions: 2 },
-  { name: "Maya AlHassan", major: "Physics", contributions: 3 },
-  { name: "Zayd AlOmar", major: "Mathematics", contributions: 4 },
-];
+import { useGetLatestUsersQuery } from "@/redux/queries/userApi";
 
 const Contributors = () => {
+  const { data: latestUsers } = useGetLatestUsersQuery();
   const navigate = useNavigate();
+
   return (
     <div className="flex justify-center items-center flex-col py-20 bg-neutral-900">
-      <div className="marquee_header mb-5">
-        <p className="text-white font-bold text-center text-3xl mb-2">Contributors</p>
-        <p className="text-white/80 text-lg text-center px-10">
-          Big thanks to all AUK students who share their notes with us.
+      <div className="marquee_header mb-5 text-center px-4">
+        <p className="text-white font-bold text-3xl mb-2">Our Students</p>
+        <p className="text-white/80 text-lg">
+          Big thanks to all AUK students supporting our platform — welcome aboard!
         </p>
       </div>
 
       <StyledWrapper>
         <div className="marquee w-[400px] sm:w-[500px] md:w-[700px] lg:w-[1000px]">
-          {/* First Row */}
           <div className="marquee__inner">
             <div className="marquee__group">
-              {students.map((s, i) => (
-                <BlurredCard key={i}>
-                  <span className="blurred-name">{s.name}</span>
-                  <br />
-                  <span className="blurred-major">{s.major}</span>
-                  <br />
-                  {s.contributions} resources
-                </BlurredCard>
-              ))}
+              {latestUsers?.map((user, i) => {
+                const username = user.username || "";
+                const initials =
+                  username.length > 1
+                    ? username[0].toUpperCase() + username[username.length - 1].toUpperCase()
+                    : username[0]?.toUpperCase() || "";
+                return (
+                  <BlurredCard key={i}>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">{initials}</div>
+                      <span>{user.name}</span>
+                    </div>
+                  </BlurredCard>
+                );
+              })}
             </div>
             <div className="marquee__group">
-              {students.map((s, i) => (
-                <BlurredCard key={i + students.length}>
-                  <span className="blurred-name">{s.name}</span>
-                  <br />
-                  <span className="blurred-major">{s.major}</span>
-                  <br />
-                  {s.contributions} resources
-                </BlurredCard>
-              ))}
+              {latestUsers?.map((user, i) => {
+                const username = user.username || "";
+                const initials =
+                  username.length > 1
+                    ? username[0].toUpperCase() + username[username.length - 1].toUpperCase()
+                    : username[0]?.toUpperCase() || "";
+                return (
+                  <BlurredCard key={i + latestUsers.length}>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">{initials}</div>
+                      <span>{user.name}</span>
+                    </div>
+                  </BlurredCard>
+                );
+              })}
             </div>
           </div>
 
-          {/* Second Row */}
           <div className="marquee__inner marquee__inner--second">
             <div className="marquee__group">
-              {students.map((s, i) => (
-                <BlurredCard key={i}>
-                  <span className="blurred-name">{s.name}</span>
-                  <br />
-                  <span className="blurred-major">{s.major}</span>
-                  <br />
-                  {s.contributions} resources
-                </BlurredCard>
-              ))}
+              {latestUsers?.map((user, i) => {
+                const username = user.username || "";
+                const initials =
+                  username.length > 1
+                    ? username[0].toUpperCase() + username[username.length - 1].toUpperCase()
+                    : username[0]?.toUpperCase() || "";
+                return (
+                  <BlurredCard key={i}>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">{initials}</div>
+                      <span>{user.name}</span>
+                    </div>
+                  </BlurredCard>
+                );
+              })}
             </div>
             <div className="marquee__group">
-              {students.map((s, i) => (
-                <BlurredCard key={i + students.length}>
-                  <span className="blurred-name">{s.name}</span>
-                  <br />
-                  <span className="blurred-major">{s.major}</span>
-                  <br />
-                  {s.contributions} resources
-                </BlurredCard>
-              ))}
+              {latestUsers?.map((user, i) => {
+                const username = user.username || "";
+                const initials =
+                  username.length > 1
+                    ? username[0].toUpperCase() + username[username.length - 1].toUpperCase()
+                    : username[0]?.toUpperCase() || "";
+                return (
+                  <BlurredCard key={i + latestUsers.length}>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">{initials}</div>
+                      <span>{user.name}</span>
+                    </div>
+                  </BlurredCard>
+                );
+              })}
             </div>
           </div>
         </div>
 
         <div className="flex justify-center mt-8">
           <Button
-            onClick={() => navigate("/contact")}
+            onClick={() => navigate("/register")}
             variant="default"
             className="rounded-full bg-tomato hover:bg-tomato/90 shadow-[0_0_10px_tomato] text-white">
-            Become a Contributor <ArrowRight />
+            Join the wolfpack <ArrowRight />
           </Button>
         </div>
       </StyledWrapper>
@@ -108,7 +122,7 @@ const StyledWrapper = styled.div`
 
   .marquee__inner {
     display: flex;
-    gap: 5px;
+    gap: 10px;
     width: max-content;
     animation: marquee 90s linear infinite;
     margin-bottom: 20px;
@@ -120,7 +134,7 @@ const StyledWrapper = styled.div`
 
   .marquee__group {
     display: flex;
-    gap: 5px;
+    gap: 10px;
   }
 
   @keyframes marquee {
@@ -133,61 +147,30 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const BlurredCard = styled.span`
-  white-space: nowrap;
+const BlurredCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  color: black;
-  padding: 20px;
   border-radius: 10px;
+  padding: 12px 16px;
   font-size: 1rem;
   font-weight: 500;
-  text-align: center;
-  line-height: 1.4;
-  position: relative;
-  overflow: hidden;
-  width: 140px;
+  min-width: 200px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-  /* Subtle shimmer effect */
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 80%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-    animation: shimmer 2s infinite;
-  }
-
-  @keyframes shimmer {
-    0% {
-      left: -100%;
-    }
-    100% {
-      left: 120%;
-    }
-  }
-
-  .blurred-name,
-  .blurred-major {
-    filter: blur(6px);
-    color: transparent;
-    user-select: none;
-    background: rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-  }
-
-  .blurred-name {
-    display: inline-block;
-    width: 90px;
-    height: 12px;
-  }
-
-  .blurred-major {
-    display: inline-block;
-    width: 70px;
-    height: 10px;
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background-color: #ff6347; /* tomato */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    flex-shrink: 0;
   }
 `;
 

@@ -19,6 +19,7 @@ import {
   User,
   Checkout,
 } from "@/pages/index";
+import PaymentSuccess from "./pages/after-payment/PaymentSuccess";
 
 function App() {
   const userInfo = useSelector((state: any) => state.auth.userInfo);
@@ -35,6 +36,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/upcoming" element={<Upcoming />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
 
         {/* User */}
         <Route path="/login" element={!userInfo ? <Login /> : <Navigate to="/" />} />

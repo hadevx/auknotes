@@ -61,6 +61,11 @@ const userApi = apiSlice.injectEndpoints({
         url: `/api/users/block-status/${id}`,
       }),
     }),
+    getLatestUsers: builder.query({
+      query: () => ({
+        url: `/api/users/latest`,
+      }),
+    }),
     logoutApi: builder.mutation({
       query: () => ({
         url: `/api/users/logout`,
@@ -77,6 +82,14 @@ const userApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/api/users/${id}/follow`,
         method: "POST",
+      }),
+      invalidatesTags: ["User"],
+    }),
+    purchaseCourses: builder.mutation({
+      query: (data) => ({
+        url: "/api/courses/purchase-all",
+        method: "POST",
+        body: data, // { orderId, userId }
       }),
       invalidatesTags: ["User"],
     }),
@@ -97,4 +110,6 @@ export const {
   useGetBlockStatusQuery,
   useToggleFollowMutation,
   useGetUserProfileQuery,
+  usePurchaseCoursesMutation,
+  useGetLatestUsersQuery,
 } = userApi;
