@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { usePurchaseCoursesMutation } from "@/redux/queries/userApi";
-import { Check } from "lucide-react";
+import { Check, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetStoreStatusQuery } from "@/redux/queries/maintenanceApi";
 
@@ -106,13 +106,19 @@ const Checkout = () => {
 
         <div className="flex flex-col ">
           <div className="w-[400px] ">
-            <PayPalButtons
+            {/*     <PayPalButtons
               fundingSource={FUNDING.CARD} // show only card option
               createOrder={createPayPalOrder}
               onApprove={handlePayPalApprove}
               onError={handlePayPalError}
               disabled={loading}
-            />
+            /> */}
+            <a
+              href="https://wa.me/96598909936?text=i%20wanna%20open%20all%20course
+"
+              className="bg-neutral-800 gap-2 flex justify-center items-center text-white px-6 py-3 rounded font-medium hover:bg-gray-800">
+              <CreditCard className="text-white size-7" /> Request to Unlock All Courses
+            </a>
           </div>
           {/* <Button className=" border text-white rounded-">support</Button> */}
         </div>
@@ -159,7 +165,7 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-      <a
+      {/*   <a
         href="https://wa.me/96598909936" // replace with your WhatsApp number
         target="_blank"
         rel="noopener noreferrer"
@@ -169,7 +175,7 @@ const Checkout = () => {
           alt="WhatsApp"
           className="size-10 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
         />
-      </a>
+      </a> */}
     </Layout>
   );
 };
