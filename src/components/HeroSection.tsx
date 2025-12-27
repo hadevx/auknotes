@@ -184,7 +184,7 @@ export default function HeroSection() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1 }}>
                     <span className="text-sm font-medium">
-                      +<NumberTicker value={100} className="text-white" /> students
+                      +<NumberTicker value={150} className="text-white" /> students
                     </span>
                   </motion.div>
                   <motion.div
@@ -193,7 +193,7 @@ export default function HeroSection() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1 }}>
                     <span className="text-sm font-medium">
-                      +<NumberTicker value={400} className="text-white" /> resources
+                      +<NumberTicker value={700} className="text-white" /> resources
                     </span>
                   </motion.div>
                 </div>

@@ -1,5 +1,5 @@
 import Layout from "@/Layout";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   useGetCourseByIdQuery,
   useGetProductsByCourseQuery,
@@ -13,14 +13,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 import Spinner from "@/components/Spinner";
 import { Download, Lock, Heart } from "lucide-react";
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 // import LoaderFile from "@/components/LoaderFile";
 import { useGetUserProfileQuery } from "../../redux/queries/userApi";
-
+import { MoveLeft } from "lucide-react";
 const Course = () => {
   const { data: userInfo } = useGetUserProfileQuery();
   console.log(userInfo);
 
+  const navigate = useNavigate();
   const [likesCount, setLikesCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [triggerDownload] = useLazyDownloadResourceQuery();
@@ -107,7 +108,13 @@ const Course = () => {
     <Layout>
       <div className="min-h-screen py-12 px-3 lg:px-6 max-w-7xl mx-auto">
         <div className="mb-5 flex items-start sm:items-start  gap-1 flex-col">
-          <div className="flex items-center  gap-5">
+          <Button
+            onClick={() => navigate(-1)}
+            size="lg"
+            className="rounded-full mb-5 bg-white border text-black px-4 shadow-[0_4px_6px_rgba(255,255,255,0.5)] hover:scale-[0.995] hover:bg-white">
+            <MoveLeft /> Back
+          </Button>
+          <div className="flex items-center gap-5">
             <div className="text-tomato font-poppins flex ">
               <span className="uppercase text-4xl font-bold">{category?.code}</span>{" "}
             </div>
