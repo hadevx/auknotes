@@ -336,11 +336,11 @@ Level: ${levelInfo.current.name}`;
                 Check-in today (+20)
               </button>
 
-              <button
+              {/*   <button
                 onClick={share}
                 className="flex-1 rounded-2xl bg-emerald-600 text-white px-4 py-3 text-sm font-extrabold hover:bg-emerald-700 transition">
                 Share on WhatsApp
-              </button>
+              </button> */}
 
               <button
                 onClick={copy}
