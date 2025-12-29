@@ -7,30 +7,77 @@ import {
   useLikeCourseMutation,
 } from "../../redux/queries/productApi";
 import Loader from "@/components/Loader";
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 import Spinner from "@/components/Spinner";
-import { Download, Lock, Heart } from "lucide-react";
+import { Download, Lock, Heart, MoveLeft, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-// import LoaderFile from "@/components/LoaderFile";
 import { useGetUserProfileQuery } from "../../redux/queries/userApi";
-import { MoveLeft } from "lucide-react";
+
+const fileIcon = (url?: string) => {
+  const u = (url || "").toLowerCase();
+  if (u.endsWith(".pdf")) return "/pdf.png";
+  if (u.endsWith(".ppt") || u.endsWith(".pptx")) return "/powerpoint.png";
+  return "/word.png";
+};
+
+const typePill: Record<string, string> = {
+  Note: "bg-blue-50 text-blue-700 ring-blue-100",
+  Exam: "bg-rose-50 text-rose-700 ring-rose-100",
+  Assignment: "bg-amber-50 text-amber-800 ring-amber-100",
+};
+
+const formatSize = (size?: number) => {
+  if (!size) return "";
+  return size < 1024 * 1024
+    ? `${(size / 1024).toFixed(2)} KB`
+    : `${(size / 1024 / 1024).toFixed(2)} MB`;
+};
+
 const Course = () => {
   const { data: userInfo } = useGetUserProfileQuery();
-  console.log(userInfo);
-
   const navigate = useNavigate();
+
   const [likesCount, setLikesCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
+
   const [triggerDownload] = useLazyDownloadResourceQuery();
-  const [downloadingId, setDownloadingId] = useState<string | null>(null); // track downloading file
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [likeCourse] = useLikeCourseMutation();
+
+  const { courseId } = useParams();
+  const { data: products, isLoading: loadingProducts } = useGetProductsByCourseQuery({ courseId });
+  const { data: category } = useGetCourseByIdQuery(courseId);
+
+  useEffect(() => {
+    setLikesCount(category?.likes?.length || 0);
+    setIsLiked(Boolean(category?.likes?.includes(userInfo?._id)));
+  }, [category, userInfo]);
+
+  const [activeTab, setActiveTab] = useState<string>("All");
+  const [query, setQuery] = useState("");
+
+  const types = ["All", "Note", "Exam", "Assignment"];
+
+  const hasAccess = category?.isPaid
+    ? userInfo?.purchasedCourses?.some((c: any) => c.toString() === category?._id?.toString())
+    : true;
+
+  const locked = category?.isClosed || !hasAccess;
+
+  const filteredProducts = useMemo(() => {
+    const list = products || [];
+    const byType = activeTab === "All" ? list : list.filter((p: any) => p.type === activeTab);
+    const q = query.trim().toLowerCase();
+    if (!q) return byType;
+    return byType.filter((p: any) => (p?.name || "").toLowerCase().includes(q));
+  }, [products, activeTab, query]);
 
   const handleDownload = async (id: string, fileName: string) => {
     try {
-      setDownloadingId(id); // start spinner for this file
+      setDownloadingId(id);
       const { blob, filename } = await triggerDownload(id).unwrap();
 
       const url = window.URL.createObjectURL(blob);
@@ -45,23 +92,28 @@ const Course = () => {
       console.log("error:", err);
       toast.error("Download failed. This file might be restricted or unavailable.");
     } finally {
-      setDownloadingId(null); // stop spinner
+      setDownloadingId(null);
     }
   };
 
-  const { courseId } = useParams(); // Get course ID from route params
+  const handleLikeCourse = async () => {
+    if (!userInfo) return;
 
-  const { data: products, isLoading: loadingProducts } = useGetProductsByCourseQuery({ courseId });
-  console.log(products);
-  const { data: category } = useGetCourseByIdQuery(courseId);
+    const prevLiked = isLiked;
+    const prevCount = likesCount;
 
-  useEffect(() => {
-    setLikesCount(category?.likes?.length || 0);
-    setIsLiked(category?.likes?.includes(userInfo?._id));
-  }, [category, userInfo]);
+    const newLiked = !prevLiked;
+    setIsLiked(newLiked);
+    setLikesCount(prevCount + (newLiked ? 1 : -1));
 
-  console.log(category);
-  const [activeTab, setActiveTab] = useState<string>("All");
+    try {
+      await likeCourse({ courseId }).unwrap();
+    } catch (err: any) {
+      setIsLiked(prevLiked);
+      setLikesCount(prevCount);
+      toast.error(err?.data?.message || "Failed to like course");
+    }
+  };
 
   if (loadingProducts)
     return (
@@ -70,172 +122,213 @@ const Course = () => {
       </Layout>
     );
 
-  const types = ["All", "Note", "Exam", "Assignment"];
-
-  const filteredProducts =
-    activeTab === "All" ? products : products?.filter((p) => p.type === activeTab);
-
-  // Check if user has purchased course
-  const hasAccess = category?.isPaid
-    ? userInfo?.purchasedCourses?.some((c: any) => c.toString() === category._id.toString())
-    : true;
-
-  // ✅ Like Topic (Optimistic UI)
-  const handleLikeCourse = async () => {
-    if (!userInfo) return;
-
-    // store previous state
-    const prevLiked = isLiked;
-    const prevCount = likesCount;
-
-    // optimistic update
-    const newLiked = !prevLiked;
-    setIsLiked(newLiked);
-    setLikesCount(prevCount + (newLiked ? 1 : -1));
-
-    try {
-      await likeCourse({ courseId: courseId }).unwrap();
-      // no need to update state from server unless you want to ensure consistency
-    } catch (err: any) {
-      // revert
-      setIsLiked(prevLiked);
-      setLikesCount(prevCount);
-      toast.error(err?.data?.message || "Failed to like course");
-    }
-  };
-
   return (
     <Layout>
-      <div className="min-h-screen py-12 px-3 lg:px-6 max-w-7xl mx-auto">
-        <div className="mb-5 flex items-start sm:items-start  gap-1 flex-col">
-          <Button
-            onClick={() => navigate(-1)}
-            size="lg"
-            className="rounded-full mb-5 bg-white border text-black px-4 shadow-[0_4px_6px_rgba(255,255,255,0.5)] hover:scale-[0.995] hover:bg-white">
-            <MoveLeft /> Back
-          </Button>
-          <div className="flex items-center gap-5">
-            <div className="text-tomato font-poppins flex ">
-              <span className="uppercase text-4xl font-bold">{category?.code}</span>{" "}
-            </div>
+      <div className="min-h-screen bg-biege">
+        <div className="max-w-7xl mx-auto px-3 lg:px-6 py-10">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <Button onClick={() => navigate(-1)} variant="outline" className="rounded-full">
+              <MoveLeft className="mr-2 size-4" />
+              Back
+            </Button>
+
             {!hasAccess && (
               <Link
                 to="/checkout"
-                className="flex rounded-md text-sm text-white px-3 py-2 items-center gap-2 bg-gradient-to-t from-zinc-900 to-zinc-700 shadow-[0_7px_15px_rgba(0,0,0,0.3)] hover:scale-[0.995]">
+                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold bg-zinc-900 text-white hover:opacity-95 active:scale-[0.99]">
                 <img src="/3d-fire.png" className="size-4" alt="Get Access" />
                 Unlock All Courses
               </Link>
             )}
           </div>
-          <span className="capitalize text-gray-800 text-sm font-poppins">
-            {category?.name && category.name}
-          </span>
-        </div>
-        <div className="mb-5 flex items-center gap-5 ">
-          {/* Tabs for filtering by resource type */}
-          <Tabs
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className=" flex items-center sm:items-start">
-            <TabsList className="bg-white">
-              {types.map((type) => (
-                <TabsTrigger
-                  key={type}
-                  value={type}
-                  className="data-[state=active]:bg-tomato lg:text-lg data-[state=active]:text-white">
-                  {type}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-          {/* Like Button */}
-          <button
-            onClick={handleLikeCourse}
-            disabled={!userInfo}
-            className={`flex items-center gap-2 px-3 py-1 rounded-md border transition-all duration-200 ${
-              isLiked
-                ? "bg-rose-500 shadow-[0_0_10px_rgba(255,0,0,0.3)] text-white border-rose-500"
-                : "hover:bg-rose-50 text-rose-600 border-rose-300 "
-            }`}>
-            <motion.div
-              animate={isLiked ? { scale: [0, 1.3, 1] } : { scale: 1 }}
-              transition={{ duration: 0.2 }}>
-              <Heart
-                className={`size-4   transition-all ${isLiked ? "fill-white" : "fill-transparent"}`}
-              />
-            </motion.div>
-            <span className="text-base lg:text-base">{likesCount} </span>
-          </button>
-        </div>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="grid gap-3 lg:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredProducts?.length > 0 ? (
-              filteredProducts.map((p) => (
-                <div
-                  key={p._id}
-                  className="group bg-white border border-gray-200 rounded-md p-3 flex items-center gap-3 transition-transform duration-300 hover:border-tomato hover:shadow">
-                  <div className="flex items-center justify-center size-20 bg-gray-100 rounded-md shrink-0">
-                    <img
-                      src={
-                        p.file?.url?.toLowerCase().endsWith(".pdf")
-                          ? "/pdf.png"
-                          : p.file?.url?.toLowerCase().endsWith(".ppt") ||
-                            p.file?.url?.toLowerCase().endsWith(".pptx")
-                          ? "/powerpoint.png"
-                          : "/word.png"
-                      }
-                      className="size-14 lg:size-18 object-contain"
-                    />
-                  </div>
 
-                  <div className="flex-1">
-                    <h2 className="text-lg font-semibold text-gray-900 line-clamp-2 group-hover:text-tomato transition-colors">
-                      {p.name}
-                    </h2>
+          {/* Header (NO SHADOW) */}
+          <div className="mt-4 rounded-2xl border bg-white">
+            <div className="p-5 lg:p-6">
+              <div className="flex items-start justify-between gap-6 flex-wrap">
+                <div>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <h1 className="text-4xl lg:text-3xl font-extrabold tracking-tight text-zinc-900">
+                      {category?.code}
+                    </h1>
 
-                    <span className="text-xs uppercase font-medium text-gray-500 inline-block mt-1">
-                      {p.type}
-                    </span>
+                    {/*   {category?.isPaid && (
+                      <span className="text-[11px] font-semibold rounded-full p-2 bg-zinc-900 text-white">
+                        <Lock className="size-4" />
+                      </span>
+                    )} */}
 
-                    {p.size && (
-                      <span className="text-xs text-gray-400 mt-1 block">
-                        {p.size < 1024 * 1024
-                          ? `${(p.size / 1024).toFixed(2)} KB`
-                          : `${(p.size / 1024 / 1024).toFixed(2)} MB`}
+                    {category?.isClosed && (
+                      <span className="text-[11px] font-semibold rounded-full px-3 py-1 bg-zinc-100 text-zinc-700 border">
+                        Closed
                       </span>
                     )}
                   </div>
 
-                  {/* Download Button */}
-                  {category?.isClosed || !hasAccess ? (
-                    <div className="bg-black/10 p-3 rounded-full">
-                      <Lock className="ml-auto" />
-                    </div>
-                  ) : downloadingId === p._id ? (
-                    <Spinner className="border-t-black ml-auto" />
-                  ) : (
-                    <button
-                      onClick={() => handleDownload(p._id, p.name)}
-                      className="text-sm rounded-md text-tomato font-medium hover:underline ml-auto">
-                      <Download />
-                    </button>
+                  {category?.name && (
+                    <p className="mt-1 text-sm text-zinc-600 max-w-2xl">{category.name}</p>
                   )}
+
+                  <div className="mt-4 flex items-center gap-1 text-sm text-zinc-600">
+                    <span className="font-semibold text-zinc-900">{products?.length || 0}</span>
+                    resource/s available
+                  </div>
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-500 col-span-full text-center py-20 text-lg">
-                No {activeTab === "All" ? "resources" : activeTab.toLowerCase()}s found for this
-                course.
-              </p>
-            )}
-          </motion.div>
-        </AnimatePresence>
+
+                {/* Like */}
+                <button
+                  onClick={handleLikeCourse}
+                  disabled={!userInfo}
+                  className={`inline-flex items-center gap-2 rounded-full px-4 py-2 border text-sm font-semibold transition
+                    ${
+                      isLiked
+                        ? "bg-rose-500 text-white border-rose-500"
+                        : "bg-white hover:bg-zinc-50 border-zinc-200 text-zinc-900"
+                    }
+                    ${!userInfo ? "opacity-60 cursor-not-allowed" : ""}`}>
+                  <motion.div
+                    animate={isLiked ? { scale: [0.9, 1.15, 1] } : { scale: 1 }}
+                    transition={{ duration: 0.2 }}>
+                    <Heart className={`size-5 ${isLiked ? "fill-white" : "fill-transparent"}`} />
+                  </motion.div>
+                  <span>{likesCount}</span>
+                </button>
+              </div>
+
+              {/* Controls */}
+              <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
+                <Tabs value={activeTab} onValueChange={setActiveTab}>
+                  <TabsList className="bg-zinc-50 border rounded-full p-1">
+                    {types.map((type) => (
+                      <TabsTrigger
+                        key={type}
+                        value={type}
+                        className="rounded-full px-4 data-[state=active]:bg-zinc-900 data-[state=active]:text-white">
+                        {type}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </Tabs>
+
+                <div className="relative w-full sm:w-[320px]">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-zinc-400" />
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search resources..."
+                    className="w-full rounded-full border bg-white pl-9 pr-3 py-2 text-sm outline-none focus:ring-2 focus:ring-zinc-200"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Resources (SEPARATED ITEMS, NO SHADOW) */}
+          <div className="mt-6">
+            {/* header row */}
+            <div className="hidden sm:grid grid-cols-[1fr_140px_120px] gap-4 px-2 pb-2">
+              <div className="text-xs font-semibold text-zinc-500">Resource</div>
+              <div className="text-xs font-semibold text-zinc-500">Size</div>
+              <div className="text-xs font-semibold text-zinc-500 text-right">Action</div>
+            </div>
+
+            <AnimatePresence mode="popLayout">
+              {filteredProducts?.length > 0 ? (
+                <motion.div layout className="space-y-3">
+                  {filteredProducts.map((p: any) => (
+                    <motion.div
+                      key={p._id}
+                      layout
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.15 }}
+                      className="rounded-2xl border bg-white px-4 py-4">
+                      <div className="flex items-center gap-4">
+                        {/* icon */}
+                        <div className="size-15 rounded-xl bg-zinc-50  flex items-center justify-center shrink-0">
+                          <img src={fileIcon(p.file?.url)} className="size-15 object-contain" />
+                        </div>
+
+                        {/* main */}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="min-w-0">
+                              <p className="font-semibold text-xl text-zinc-900 line-clamp-1">
+                                {p.name}
+                              </p>
+                              <div className="mt-1 flex items-center gap-2">
+                                <span
+                                  className={`text-[11px] font-semibold rounded-full px-1  ring-1 ${
+                                    typePill[p.type] || "bg-zinc-50 text-zinc-700 ring-zinc-100"
+                                  }`}>
+                                  {p.type}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* desktop size + action */}
+                            <div className="hidden sm:flex items-center gap-6">
+                              <span className="text-sm text-zinc-500 w-[140px]">
+                                {formatSize(p.size)}
+                              </span>
+
+                              <div className="w-[120px] flex justify-end">
+                                {locked ? (
+                                  <span className="inline-flex items-center gap-2 text-sm bg-zinc-100 p-2 rounded-full text-black">
+                                    <Lock className="size-5" />
+                                  </span>
+                                ) : downloadingId === p._id ? (
+                                  <Spinner className="border-t-black" />
+                                ) : (
+                                  <button
+                                    onClick={() => handleDownload(p._id, p.name)}
+                                    className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-full border bg-black text-white hover:bg-zinc-500">
+                                    <Download className="size-4 " /> Download
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* mobile row */}
+                          <div className="sm:hidden mt-3 flex items-center justify-between">
+                            <span className="text-xs text-zinc-500">{formatSize(p.size)}</span>
+                            {locked ? (
+                              <span className="inline-flex bg-zinc-100 rounded-full p-2 items-center gap-2 text-sm text-black">
+                                <Lock className="size-5" />
+                              </span>
+                            ) : downloadingId === p._id ? (
+                              <Spinner className="border-t-black" />
+                            ) : (
+                              <button
+                                onClick={() => handleDownload(p._id, p.name)}
+                                className="inline-flex text-white items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold border bg-black hover:bg-zinc-500">
+                                <Download className="size-4" />
+                                Download
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="py-16 text-center">
+                  <p className="text-zinc-700 text-lg font-semibold">
+                    No {activeTab === "All" ? "resources" : activeTab.toLowerCase()}s found.
+                  </p>
+                  <p className="text-zinc-500 text-sm mt-2">Try changing filters or search.</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </Layout>
   );
