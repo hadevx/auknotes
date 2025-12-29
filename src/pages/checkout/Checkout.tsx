@@ -54,17 +54,10 @@ const Checkout = () => {
   return (
     <Layout>
       <div className="min-h-screen bg-beige relative overflow-hidden">
-        {/* Soft background gradients */}
-        {/*  <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-40 left-1/2 h-[520px] w-[920px] -translate-x-1/2 rounded-full bg-orange-200/40 blur-3xl" />
-          <div className="absolute top-20 left-10 h-[420px] w-[520px] rounded-full bg-purple-200/40 blur-3xl" />
-          <div className="absolute bottom-[-120px] left-1/2 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-emerald-200/40 blur-3xl" />
-        </div> */}
-
-        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-8 py-16">
+        <div className="relative z-10 max-w-6xl mx-auto px-3 md:px-8 py-16">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-slate-600 text-sm shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-slate-600 text-sm ">
               <Sparkles className="size-4 text-tomato" />
               Premium Access
             </div>
@@ -79,7 +72,7 @@ const Checkout = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-8">
-            <div className="rounded-3xl border border-slate-200 bg-white shadow-xl overflow-hidden">
+            <div className="rounded-3xl  border-2 border-slate-200 bg-white overflow-hidden">
               <div className="p-6 md:p-8">
                 {/* Badges */}
                 <div className="flex flex-wrap gap-3 mb-6">
@@ -120,7 +113,7 @@ const Checkout = () => {
                     className="group w-full md:w-auto rounded-2xl p-[2px] bg-gradient-to-br from-orange-400 via-purple-400 to-sky-400">
                     <div className="rounded-2xl bg-white border border-slate-200 px-6 py-4 flex items-center justify-between gap-6">
                       <div className="flex items-center gap-3">
-                        <div className="grid place-items-center size-12 rounded-2xl bg-orange-50 border border-orange-200">
+                        <div className="grid place-items-center size-12 rounded-full bg-orange-50 border border-orange-200">
                           <CreditCard className="text-tomato size-6" />
                         </div>
                         <div>

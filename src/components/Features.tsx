@@ -162,7 +162,7 @@ const Features = () => {
 
                     {/* animation */}
                     <div className="mt-6 w-full flex justify-center">
-                      <div className="w-52 sm:w-60 md:w-64 lg:w-72 xl:w-80 select-none">
+                      <div className="hidden sm:block w-52 sm:w-60 md:w-64 lg:w-72 xl:w-80 select-none">
                         <Lottie
                           animationData={card.anim}
                           loop

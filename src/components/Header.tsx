@@ -63,13 +63,13 @@ export default function Header() {
               Contact
             </Link>
             <Link
-              to="/upcoming"
+              to="/tutors"
               className={`text-sm relative flex text-foreground/80  items-center gap-2 ${
-                pathname.startsWith("/upcoming") ? "text-tomato font-bold" : "font-medium"
+                pathname.startsWith("/tutors") ? "text-tomato font-bold" : "font-medium"
               }`}>
               <span className="absolute inline-flex h-2 w-2 rounded-full bg-tomato opacity-75 animate-ping"></span>
               <span className="relative inline-flex h-2 w-2 rounded-full bg-tomato animate-pulse"></span>
-              Future Plans
+              Find Tutor
             </Link>
           </nav>
 
@@ -193,13 +193,13 @@ export default function Header() {
                 Contact
               </Link>
               <Link
-                to="/upcoming"
+                to="/tutors"
                 className={`text-sm text-foreground/80 relative flex items-center gap-2 ${
-                  pathname.startsWith("/upcoming") ? "text-tomato font-bold" : "font-medium"
+                  pathname.startsWith("/tutors") ? "text-tomato font-bold" : "font-medium"
                 }`}>
                 <span className="absolute inline-flex h-2 w-2 rounded-full bg-tomato opacity-75 animate-ping"></span>
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-tomato animate-pulse"></span>
-                Future Plans
+                Find Tutor
               </Link>
               {userInfo && (
                 <Button

@@ -20,6 +20,7 @@ import {
   Checkout,
 } from "@/pages/index";
 import PaymentSuccess from "./pages/after-payment/PaymentSuccess";
+import TutorsPage from "./pages/tutors/Tutors";
 
 function App() {
   const userInfo = useSelector((state: any) => state.auth.userInfo);
@@ -36,6 +37,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/upcoming" element={<Upcoming />} />
+        <Route path="/tutors" element={<TutorsPage />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
 
         {/* User */}

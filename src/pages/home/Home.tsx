@@ -3,12 +3,14 @@ import FeaturedCourses from "@/components/FeaturedCourses";
 import Layout from "@/Layout";
 import Features from "@/components/Features";
 import Four from "@/components/Contributors";
-// import ShareToast from "@/components/ShareToast";
+import X from "@/components/X";
+
 const Home = () => {
   return (
     <Layout>
       <HeroSection />
       <Features />
+      <X />
       <FeaturedCourses />
       <Four />
     </Layout>
