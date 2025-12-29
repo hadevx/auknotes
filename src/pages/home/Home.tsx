@@ -4,7 +4,6 @@ import Layout from "@/Layout";
 import Features from "@/components/Features";
 import Four from "@/components/Contributors";
 import X from "@/components/X";
-import Y from "@/components/Y";
 
 const Home = () => {
   return (
@@ -12,7 +11,7 @@ const Home = () => {
       <HeroSection />
       <Features />
       <X />
-      <Y />
+
       <FeaturedCourses />
       <Four />
     </Layout>
