@@ -149,7 +149,6 @@ const Checkout = () => {
                         />
                         Limited-time student price
                       </span>
-                      <div className="mt-1 text-sm text-slate-500">Approx. ${amountInUSD} USD</div>
                     </div>
                   </div>
 
