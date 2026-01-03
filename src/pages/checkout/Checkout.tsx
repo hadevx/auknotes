@@ -40,7 +40,7 @@ const Checkout = () => {
 
   const waUrl = `https://wa.me/96598909936?text=${waMessage}`;
 
-  const oldPrice = 40;
+  const oldPrice = 50;
 
   const included = [
     "Access to all course notes and past exams",
@@ -158,7 +158,7 @@ const Checkout = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group w-full md:w-auto rounded-2xl p-[2px] bg-gradient-to-br from-orange-400 via-purple-400 to-sky-400 transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl active:translate-y-0">
-                    <div className="relative rounded-2xl bg-white border border-slate-200 px-6 py-4 flex items-center justify-between gap-6 overflow-hidden">
+                    <div className="relative rounded-2xl bg-white border border-slate-200 px-4 py-4 flex items-center justify-between gap-6 overflow-hidden">
                       {/* shimmer */}
                       <div
                         className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 anim-shimmer"
@@ -172,7 +172,7 @@ const Checkout = () => {
                         </div>
                         <div>
                           <div className="font-extrabold text-slate-900">Unlock All Courses</div>
-                          <div className="text-slate-500 text-sm">Message us on WhatsApp</div>
+                          {/* <div className="text-slate-500 text-sm">Message us on WhatsApp</div> */}
                         </div>
                       </div>
 

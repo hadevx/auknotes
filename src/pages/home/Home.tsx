@@ -6,11 +6,13 @@ import Four from "@/components/Contributors";
 import X from "@/components/X";
 // import Z from "@/components/Z";
 import Q from "@/components/Q";
+import R from "@/components/R";
 const Home = () => {
   return (
     <Layout>
       <HeroSection />
       <Features />
+      <R />
       <X />
       <Q />
       {/* <Z /> */}
