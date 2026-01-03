@@ -20,6 +20,7 @@ import {
   RotateCcw,
   ChevronDown,
   Image as ImageIcon,
+  Heart, // ✅ NEW
 } from "lucide-react";
 
 type Course = {
@@ -30,6 +31,7 @@ type Course = {
   isClosed?: boolean;
   isPaid?: boolean;
   badge?: string;
+  likes?: any[]; // ✅ likes array
 };
 
 type SortKey =
@@ -60,7 +62,7 @@ const AllCourses = () => {
   const [pricing, setPricing] = useState<"all" | "free" | "paid">("all");
   const [withImage, setWithImage] = useState(false);
 
-  // Resource range (simple + practical)
+  // Resource range
   const [minResources, setMinResources] = useState<number>(0);
   const [maxResources, setMaxResources] = useState<number>(0); // 0 = no max
 
@@ -83,7 +85,6 @@ const AllCourses = () => {
     return !!c.isClosed || (!!c.isPaid && !hasAccess);
   };
 
-  // for slider bounds
   const maxPossibleResources = useMemo(() => {
     const counts = categories.map((c) => c.resources?.length || 0);
     return counts.length ? Math.max(...counts) : 50;
@@ -98,22 +99,22 @@ const AllCourses = () => {
   const filteredAndSorted = useMemo(() => {
     let list = [...categories];
 
-    // ✅ Access
+    // Access
     if (access === "open") list = list.filter((c) => !isLocked(c));
     if (access === "locked") list = list.filter((c) => isLocked(c));
 
-    // ✅ Pricing
+    // Pricing
     if (pricing === "free") list = list.filter((c) => !c.isPaid);
     if (pricing === "paid") list = list.filter((c) => !!c.isPaid);
 
-    // ✅ With image
+    // With image
     if (withImage) list = list.filter((c) => !!c.image);
 
-    // ✅ Resource range
+    // Resource range
     if (minResources > 0) list = list.filter((c) => (c.resources?.length || 0) >= minResources);
     if (maxResources > 0) list = list.filter((c) => (c.resources?.length || 0) <= maxResources);
 
-    // ✅ Sort
+    // Sort
     list.sort((a, b) => {
       const ac = (a.code || "").toUpperCase();
       const bc = (b.code || "").toUpperCase();
@@ -239,7 +240,7 @@ const AllCourses = () => {
                   </select>
                 </div>
 
-                {/* ✅ Functional Filter Button (popover) */}
+                {/* Filters */}
                 <div className="relative">
                   <button
                     onClick={() => setFiltersOpen((v) => !v)}
@@ -436,6 +437,8 @@ const AllCourses = () => {
             <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
               {filteredAndSorted.map((cat) => {
                 const locked = isLocked(cat);
+                const likesCount = cat?.likes?.length || 0;
+
                 return (
                   <button
                     key={cat._id}
@@ -456,11 +459,22 @@ const AllCourses = () => {
                       </div>
                     )}
 
-                    <div className="absolute bottom-0 p-4 text-white">
-                      <p className="font-semibold uppercase">{cat.code}</p>
-                      <div className="flex items-center gap-1 text-sm">
-                        <FileText className="w-4 h-4" />
-                        {cat.resources?.length || 0} resources
+                    {/* ✅ Bottom content row */}
+                    <div className="absolute bottom-0 left-0 right-0 py-4 px-2  text-white">
+                      <div className="flex items-end justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="font-semibold uppercase truncate">{cat.code}</p>
+                          <div className="flex items-center gap-1 text-sm">
+                            <FileText className="w-4 h-4" />
+                            {cat.resources?.length || 0} resources
+                          </div>
+                        </div>
+
+                        {/* ✅ Likes bottom-right */}
+                        <div className="shrink-0 inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-xs font-bold">
+                          <Heart className="w-3.5 h-3.5 fill-white" />
+                          {likesCount}
+                        </div>
                       </div>
                     </div>
                   </button>
@@ -471,6 +485,8 @@ const AllCourses = () => {
             <div className="space-y-3">
               {filteredAndSorted.map((cat) => {
                 const locked = isLocked(cat);
+                const likesCount = cat?.likes?.length || 0;
+
                 return (
                   <button
                     key={cat._id}
@@ -482,6 +498,13 @@ const AllCourses = () => {
                         {cat.resources?.length || 0} resources
                       </p>
                     </div>
+
+                    {/* ✅ Likes on the right (acts like bottom-right for list row) */}
+                    <div className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-extrabold text-gray-800">
+                      <Heart className="w-4 h-4 text-rose-500" />
+                      {likesCount}
+                    </div>
+
                     {locked && (
                       <span className="text-xs border border-gray-200 px-3 py-1 rounded-full text-gray-700">
                         Locked
