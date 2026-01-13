@@ -8,6 +8,7 @@ import store from "./redux/store.js";
 import ToastWrapper from "./ToastWrapper.js";
 import "react-quill-new/dist/quill.snow.css"; // styles
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import MaintenanceWrapper from "./MaintenanceWrapper.js";
 
 if (import.meta.env.VITE_ENVIRONMENT === "production") {
   console.log = () => {};
@@ -20,7 +21,9 @@ createRoot(document.getElementById("root")!).render(
       <ToastWrapper>
         <BrowserRouter>
           <PayPalScriptProvider options={{ clientId: clientId }}>
-            <App />
+            <MaintenanceWrapper>
+              <App />
+            </MaintenanceWrapper>
           </PayPalScriptProvider>
         </BrowserRouter>
       </ToastWrapper>
