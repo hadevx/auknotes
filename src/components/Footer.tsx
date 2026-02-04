@@ -47,14 +47,14 @@ export default function Footer() {
                   <Heart fill="#f84713" className="size-4" stroke="none" />
                 </motion.span>
               </p>
-              <div className="   flex items-center gap-1 ">
+              {/*  <div className="   flex items-center gap-1 ">
                 <a href="https://instagram.com/auknotes" target="_blank" rel="noopener noreferrer">
                   <img src="/instagram.png" className="size-5" alt="" />
                 </a>
                 <a href="https://wa.me/96598909936" target="_blank" rel="noopener noreferrer">
                   <img src="/apple.png" className="size-5" alt="" />
                 </a>
-              </div>
+              </div> */}
             </motion.div>
           </div>
         </motion.div>
