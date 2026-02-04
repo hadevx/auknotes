@@ -38,7 +38,7 @@ const Checkout = () => {
     return encodeURIComponent(withUser);
   }, [userInfo?.name, userInfo?.email]);
 
-  const waUrl = `https://wa.me/96598909936?text=${waMessage}`;
+  const waUrl = `https://wa.me/96555450334?text=${waMessage}`;
 
   const oldPrice = 50;
 

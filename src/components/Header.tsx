@@ -6,11 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "../redux/slices/authSlice.js";
 import { useLogoutApiMutation } from "../redux/queries/userApi.js";
-import { useGetStoreStatusQuery } from "@/redux/queries/maintenanceApi";
 
 export default function Header() {
-  const { data: storeStatus, isLoading, isError } = useGetStoreStatusQuery();
-  const bannerText = storeStatus?.[0]?.banner;
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const userInfo = useSelector((state: any) => state.auth.userInfo);
@@ -26,12 +23,6 @@ export default function Header() {
 
   return (
     <header className="border-b  border-border/40 backdrop-blur">
-      {/* ===== Top Banner ===== */}
-      {!isLoading && bannerText && (
-        <div className="w-full bg-neutral-900 text-white text-sm">
-          <div className="container mx-auto px-4 py-2 text-center font-medium">{bannerText}</div>
-        </div>
-      )}
       <div className="lg:container lg:mx-auto  px-6 md:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
