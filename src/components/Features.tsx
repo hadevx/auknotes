@@ -1,195 +1,258 @@
-import Lottie from "lottie-react";
+"use client";
+
 import { motion } from "framer-motion";
-import { Sparkles, ShieldCheck, Layers3 } from "lucide-react";
-import learning from "../assets/learning.json";
-import c from "../assets/c.json";
-import m from "../assets/m.json";
+import { Sparkles, BookOpen, Users, LayoutGrid, TrendingUp, ArrowRight } from "lucide-react";
 
+const docs = [
+  {
+    icon: "pdf",
+    name: "CSIS 330 — Midterm Notes",
+    meta: "12 pages · shared by @sarah",
+    badge: "Hot",
+    badgeStyle: "bg-red-500/10 text-red-400 border-red-500/20",
+  },
+  {
+    icon: "doc",
+    name: "MATH 207 — Cheat Sheet",
+    meta: "2 pages · shared by @ali",
+    badge: "New",
+    badgeStyle: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  },
+  {
+    icon: "pdf",
+    name: "CPEG 340 — Final Review",
+    meta: "8 pages · shared by @omar",
+    badge: "Top",
+    badgeStyle: "bg-sky-500/10 text-sky-400 border-sky-500/20",
+  },
+];
+
+const courses = [
+  { code: "CSIS 110", active: true },
+  { code: "CPEG 340", active: false },
+  { code: "MATH 207", active: true },
+  { code: "ELEG 310", active: false },
+  { code: "STAT 214", active: false },
+  { code: "CSIS 330", active: true },
+];
+
+const avatars = [
+  { initial: "S", bg: "bg-sky-500/15", text: "text-sky-400" },
+  { initial: "A", bg: "bg-emerald-500/15", text: "text-emerald-400" },
+  { initial: "O", bg: "bg-amber-500/15", text: "text-amber-400" },
+];
+
+/* ── Animation variants ── */
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 32, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring", stiffness: 100, damping: 16 },
+  },
+};
+
+/* ── Shared primitives ── */
+const Tag = ({ label, className }: { label: string; className: string }) => (
+  <span
+    className={`inline-block text-[11px] font-medium px-2.5 py-0.5 rounded-full border ${className}`}>
+    {label}
+  </span>
+);
+
+const CardIcon = ({ icon: Icon }: { icon: React.ElementType }) => (
+  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
+    <Icon size={17} className="text-white/60" />
+  </div>
+);
+
+/* ── Features Section ── */
 const Features = () => {
-  const cards = [
-    {
-      title: "Study Efficiently",
-      desc: "More than +700 resources for AUK courses to boost your study sessions.",
-      anim: learning,
-      icon: Sparkles,
-      tier: "gold",
-      accent: "from-tomato/60 via-purple-500/35 to-sky-500/30",
-      badge: "Boost XP",
-    },
-    {
-      title: "Collaborate Easily",
-      desc: "Share notes and work with classmates effortlessly.",
-      anim: c,
-      icon: ShieldCheck,
-      tier: "silver",
-      accent: "from-emerald-400/35 via-sky-500/30 to-purple-500/35",
-      badge: "Team Play",
-    },
-    {
-      title: "All in One Place",
-      desc: "Access notes, assignments, and resources in one place.",
-      anim: m,
-      icon: Layers3,
-      tier: "platinum",
-      accent: "from-purple-500/45 via-tomato/35 to-amber-400/25",
-      badge: "All-in-One",
-    },
-  ] as const;
-
-  const containerVariants = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.22 } },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 40, scale: 0.98 },
-    show: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { type: "spring", stiffness: 120, damping: 14 },
-    },
-  } as const;
-
-  const headingVariants = {
-    hidden: { opacity: 0, y: 18 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.7 } },
-  };
-
   return (
-    <section className="py-20 bg-neutral-900 relative overflow-hidden">
-      {/* subtle background glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-tomato/10 blur-3xl" />
-        <div className="absolute top-10 left-10 h-[420px] w-[520px] rounded-full bg-purple-500/10 blur-3xl" />
-        <div className="absolute top-24 right-10 h-[420px] w-[520px] rounded-full bg-sky-500/10 blur-3xl" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-7 md:px-6 relative z-10">
+    <section className="py-20 bg-neutral-950 overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6">
         {/* Heading */}
         <motion.div
-          className="text-center mb-14"
-          variants={headingVariants}
+          className="mb-14"
+          variants={fadeUp}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}>
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
-            Why Choose <span className="text-tomato">AUKNotes</span>?
+          <div className="inline-flex items-center gap-2 text-xs font-medium text-sky-400 bg-sky-500/10 border border-sky-500/20 rounded-full px-3 py-1.5 mb-4">
+            <Sparkles size={12} />
+            Why AUKNotes
+          </div>
+          <h2 className="text-3xl md:text-4xl font-semibold text-white leading-tight">
+            Everything you need to
+            <br className="hidden md:block" />
+            study smarter at AUK
           </h2>
-          <p className="mt-4 text-white/80 max-w-2xl mx-auto">
-            Our platform is built to help AUK students save time, collaborate, and study smarter.
+          <p className="mt-3 text-white/50 text-base max-w-lg leading-relaxed">
+            Built for AUK students — resources, collaboration, and organization in one clean place.
           </p>
         </motion.div>
 
-        {/* Cards Grid */}
+        {/* Bento Grid */}
         <motion.div
-          className="grid gap-6 md:gap-8 lg:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-stretch"
-          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-2 gap-3"
+          variants={stagger}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}>
-          {cards.map((card, index) => {
-            const Icon = card.icon;
+          {/* ── Card 1: Wide — Study Resources ── */}
+          <motion.div
+            variants={cardVariant}
+            className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 bg-neutral-900 border border-white/[0.07] rounded-2xl p-7">
+            {/* Left: Copy + stats */}
+            <div className="flex flex-col justify-between gap-6">
+              <div>
+                <CardIcon icon={BookOpen} />
+                <Tag
+                  label="700+ resources"
+                  className="bg-sky-500/10 text-sky-400 border-sky-500/20 mb-3"
+                />
+                <h3 className="text-xl font-semibold text-white mt-2 mb-2">
+                  Study with the best materials
+                </h3>
+                <p className="text-white/50 text-sm leading-relaxed">
+                  Notes, past papers, and assignments for every AUK course — curated by students,
+                  for students.
+                </p>
+              </div>
 
-            return (
-              <motion.div
-                key={index}
-                variants={cardVariants}
-                className={`group relative rounded-2xl p-[1px] bg-gradient-to-br ${card.accent} shadow-[0_20px_60px_rgba(0,0,0,0.55)]`}>
-                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-neutral-950/60 backdrop-blur-xl">
-                  {/* shine */}
-                  <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
-                    <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-tomato/15 blur-2xl" />
+              <div className="flex gap-6 pt-4 border-t border-white/[0.07]">
+                {[
+                  { num: "700+", label: "resources" },
+                  { num: "56", label: "courses" },
+                  { num: "1.2k", label: "students" },
+                ].map((s) => (
+                  <div key={s.label}>
+                    <p className="text-xl font-semibold text-white">{s.num}</p>
+                    <p className="text-xs text-white/35 mt-0.5">{s.label}</p>
                   </div>
+                ))}
+              </div>
+            </div>
 
-                  {/* top meta row */}
-                  <div className="relative z-10 flex items-center justify-between px-5 pt-5">
-                    <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3 py-1.5">
-                      <span
-                        className={`h-2 w-2 rounded-full ${
-                          card.tier === "gold"
-                            ? "bg-amber-300"
-                            : card.tier === "silver"
-                            ? "bg-slate-300"
-                            : "bg-violet-300"
-                        } shadow-[0_0_18px_rgba(255,255,255,0.25)]`}
-                      />
-                      <span className="text-xs font-extrabold tracking-wider text-white/80 uppercase">
-                        {card.tier}
-                      </span>
-                    </div>
-
-                    <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3 py-1.5">
-                      <span className="text-xs font-bold text-white/80">{card.badge}</span>
-                      <span className="text-xs font-extrabold text-white/60">
-                        +{110 + index * 40} XP
-                      </span>
-                    </div>
+            {/* Right: Document list */}
+            <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl p-4 flex flex-col gap-2.5">
+              {docs.map((doc) => (
+                <div
+                  key={doc.name}
+                  className="flex items-center gap-3 bg-neutral-900 border border-white/[0.07] rounded-lg px-3 py-2.5">
+                  <div className="w-7 h-7 rounded-md bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
+                    <BookOpen size={12} className="text-white/40" />
                   </div>
-
-                  {/* content */}
-                  <div className="relative z-10 px-5 pb-5 pt-4 flex flex-col">
-                    {/* title row */}
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <h3 className="text-xl md:text-2xl font-extrabold text-white">
-                          {card.title}
-                        </h3>
-                        <p className="mt-2 text-white/75 text-sm md:text-base max-w-[34ch]">
-                          {card.desc}
-                        </p>
-                      </div>
-
-                      <div className="flex-shrink-0 grid place-items-center h-12 w-12 rounded-2xl bg-white/5 border border-white/10">
-                        <Icon className="text-white/90" />
-                      </div>
-                    </div>
-
-                    {/* progress */}
-                    {/*   <div className="mt-5">
-                      <div className="flex items-center justify-between text-xs font-bold text-white/60">
-                        <span>Progress</span>
-                        <span>{55 + index * 18}%</span>
-                      </div>
-                      <div className="mt-2 h-2.5 w-full rounded-full bg-white/5 border border-white/10 overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-tomato/90 via-purple-500/70 to-sky-500/70 shadow-[0_0_24px_rgba(255,99,71,0.25)]"
-                          style={{ width: `${55 + index * 18}%` }}
-                        />
-                      </div>
-                    </div> */}
-
-                    {/* animation */}
-                    <div className="mt-6 w-full flex justify-center">
-                      <div className="hidden sm:block w-52 sm:w-60 md:w-64 lg:w-72 xl:w-80 select-none">
-                        <Lottie
-                          animationData={card.anim}
-                          loop
-                          className="w-full h-auto drop-shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
-                        />
-                      </div>
-                    </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-white truncate">{doc.name}</p>
+                    <p className="text-[11px] text-white/35 mt-0.5">{doc.meta}</p>
                   </div>
-
-                  {/* bottom strip */}
-                  <div className="relative z-10 px-5 pb-5">
-                    <div className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3">
-                      <div className="text-xs text-white/70">
-                        <span className="font-extrabold text-white/85">Daily Challenge:</span>{" "}
-                        Review 2 lectures
-                      </div>
-
-                      <div className="inline-flex items-center gap-2 text-xs font-extrabold text-white">
-                        <span className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_18px_rgba(251,191,36,0.4)]" />
-                        +150 XP
-                      </div>
-                    </div>
-                  </div>
+                  <span
+                    className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border flex-shrink-0 ${doc.badgeStyle}`}>
+                    {doc.badge}
+                  </span>
                 </div>
-              </motion.div>
-            );
-          })}
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ── Card 2: Collaborate ── */}
+          <motion.div
+            variants={cardVariant}
+            className="bg-neutral-900 border border-white/[0.07] rounded-2xl p-7 flex flex-col justify-between gap-6 min-h-[260px]">
+            <div>
+              <CardIcon icon={Users} />
+              <Tag
+                label="Collaboration"
+                className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 mb-3"
+              />
+              <h3 className="text-xl font-semibold text-white mt-2 mb-2">Study with classmates</h3>
+              <p className="text-white/50 text-sm leading-relaxed">
+                Share notes, ask questions, and build on each other's work in real time.
+              </p>
+            </div>
+
+            <div className="pt-4 border-t border-white/[0.07]">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex">
+                  {avatars.map((a, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        zIndex: avatars.length - i,
+                        marginRight: i < avatars.length - 1 ? "-8px" : "0",
+                      }}
+                      className={`w-7 h-7 rounded-full ${a.bg} ${a.text} border-2 border-neutral-900 flex items-center justify-center text-[10px] font-semibold`}>
+                      {a.initial}
+                    </div>
+                  ))}
+                </div>
+                <span className="text-xs text-white/40">3 people studying now</span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-white/30">Active this week</span>
+                <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400">
+                  <TrendingUp size={12} />
+                  +24%
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ── Card 3: All in one place ── */}
+          <motion.div
+            variants={cardVariant}
+            className="bg-neutral-900 border border-white/[0.07] rounded-2xl p-7 flex flex-col justify-between gap-6 min-h-[260px]">
+            <div>
+              <CardIcon icon={LayoutGrid} />
+              <Tag
+                label="Organized"
+                className="bg-amber-500/10 text-amber-400 border-amber-500/20 mb-3"
+              />
+              <h3 className="text-xl font-semibold text-white mt-2 mb-2">
+                All your courses, one place
+              </h3>
+              <p className="text-white/50 text-sm leading-relaxed">
+                Browse by course and find exactly what you need instantly.
+              </p>
+            </div>
+
+            <div className="pt-4 border-t border-white/[0.07]">
+              <div className="flex flex-wrap gap-2 mb-4">
+                {courses.map((c) => (
+                  <span
+                    key={c.code}
+                    className={`text-[11px] font-medium px-2.5 py-1 rounded-full border transition-colors ${
+                      c.active
+                        ? "bg-sky-500/10 text-sky-400 border-sky-500/20"
+                        : "bg-white/[0.03] text-white/40 border-white/[0.07]"
+                    }`}>
+                    {c.code}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-white/30">56 courses available</span>
+                <span className="flex items-center gap-1.5 text-xs font-medium text-white/50 hover:text-white/80 cursor-pointer transition-colors">
+                  Browse all
+                  <ArrowRight size={12} />
+                </span>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
