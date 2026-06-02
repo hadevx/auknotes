@@ -1,25 +1,22 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { Sparkles, BookOpen, Users, LayoutGrid, TrendingUp, ArrowRight } from "lucide-react";
 
 const docs = [
   {
-    icon: "pdf",
     name: "CSIS 330 — Midterm Notes",
     meta: "12 pages · shared by @sarah",
     badge: "Hot",
     badgeStyle: "bg-red-500/10 text-red-400 border-red-500/20",
   },
   {
-    icon: "doc",
     name: "MATH 207 — Cheat Sheet",
     meta: "2 pages · shared by @ali",
     badge: "New",
     badgeStyle: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
   },
   {
-    icon: "pdf",
     name: "CPEG 340 — Final Review",
     meta: "8 pages · shared by @omar",
     badge: "Top",
@@ -43,17 +40,17 @@ const avatars = [
 ];
 
 /* ── Animation variants ── */
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
 };
 
-const stagger = {
+const stagger: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
 };
 
-const cardVariant = {
+const cardVariant: Variants = {
   hidden: { opacity: 0, y: 32, scale: 0.98 },
   show: {
     opacity: 1,
