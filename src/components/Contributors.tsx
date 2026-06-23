@@ -33,14 +33,14 @@ const styles = `
   }
   .marquee-track-left {
     display: flex;
-    gap: 14px;
+    gap: 12px;
     width: max-content;
     animation: scroll-left 55s linear infinite;
     will-change: transform;
   }
   .marquee-track-right {
     display: flex;
-    gap: 14px;
+    gap: 12px;
     width: max-content;
     animation: scroll-right 60s linear infinite;
     will-change: transform;
@@ -48,6 +48,20 @@ const styles = `
   .marquee-track-left:hover,
   .marquee-track-right:hover {
     animation-play-state: paused;
+  }
+  .marquee-card {
+    min-width: 180px;
+    background: #111;
+    border: 0.5px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 14px;
+    flex-shrink: 0;
+  }
+  @media (min-width: 480px) {
+    .marquee-card { min-width: 220px; padding: 16px; }
+  }
+  @media (min-width: 768px) {
+    .marquee-card { min-width: 260px; padding: 20px; border-radius: 18px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .marquee-track-left,
@@ -60,15 +74,7 @@ function UserCard({ user, index }: { user: any; index: number }) {
   const initials = getInitials(user.name, user.username);
 
   return (
-    <div
-      style={{
-        minWidth: "280px",
-        background: "#111",
-        border: "0.5px solid rgba(255,255,255,0.07)",
-        borderRadius: "18px",
-        padding: "20px",
-        flexShrink: 0,
-      }}>
+    <div className="marquee-card">
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         {/* Avatar */}
         <div style={{ position: "relative", flexShrink: 0 }}>
@@ -209,21 +215,22 @@ const Contributors = () => {
 
       {/* Marquee rows */}
       <div
+        className="xl:mx-96"
         style={{
-          padding: "0 32px",
           WebkitMaskImage:
-            "linear-gradient(to right,  transparent, black 8%, black 92%, transparent)",
+            "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
           maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-        }}
-        className="mx-96">
+        }}>
         <MarqueeRow users={latestUsers} offset={0} reverse={false} />
         <MarqueeRow users={latestUsers} offset={3} reverse={true} />
+        <MarqueeRow users={latestUsers} offset={0} reverse={false} />
       </div>
 
       {/* CTA */}
       <div style={{ display: "flex", justifyContent: "center", marginTop: "40px" }}>
         <button
           onClick={() => navigate("/register")}
+          className="rounded-full bg-tomato shadow-[0_0_10px_tomato] border-0 hover:bg-tomato/90 text-white "
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -231,7 +238,7 @@ const Contributors = () => {
             fontSize: "13px",
             fontWeight: 500,
             color: "#fff",
-            background: "tomato",
+            // background: "tomato",
             border: "none",
             borderRadius: "99px",
             padding: "10px 22px",

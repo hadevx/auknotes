@@ -32,43 +32,43 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8 relative">
+          <nav className="hidden md:flex items-center gap-2 relative">
             <Link
               to="/courses"
-              className={`flex items-center text-sm  text-foreground/80  transition-colors ${
-                pathname.startsWith("/courses") ? "text-tomato font-bold" : "font-medium"
+              className={`flex items-center text-sm px-3 py-1.5 rounded-full transition-colors ${
+                pathname.startsWith("/courses") ? "bg-tomato text-white font-bold" : "text-foreground/80 font-medium"
               }`}>
               Courses
             </Link>
 
             <Link
               to="/forum"
-              className={`text-sm  text-foreground/80  transition-colors ${
-                pathname.startsWith("/forum") ? "text-tomato font-bold" : "font-medium"
+              className={`text-sm px-3 py-1.5 rounded-full transition-colors ${
+                pathname.startsWith("/forum") ? "bg-tomato text-white font-bold" : "text-foreground/80 font-medium"
               }`}>
               Forum
             </Link>
             <Link
               to="/about"
-              className={`text-sm  text-foreground/80  transition-colors ${
-                pathname.startsWith("/about") ? "text-tomato font-bold" : "font-medium"
+              className={`text-sm px-3 py-1.5 rounded-full transition-colors ${
+                pathname.startsWith("/about") ? "bg-tomato text-white font-bold" : "text-foreground/80 font-medium"
               }`}>
               About
             </Link>
             <Link
               to="/contact"
-              className={`text-sm  text-foreground/80  transition-colors ${
-                pathname.startsWith("/contact") ? "text-tomato font-bold" : "font-medium"
+              className={`text-sm px-3 py-1.5 rounded-full transition-colors ${
+                pathname.startsWith("/contact") ? "bg-tomato text-white font-bold" : "text-foreground/80 font-medium"
               }`}>
               Contact
             </Link>
             <Link
               to="/tutors"
-              className={`text-sm relative flex text-foreground/80  items-center gap-2 ${
-                pathname.startsWith("/tutors") ? "text-tomato font-bold" : "font-medium"
+              className={`text-sm relative flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors ${
+                pathname.startsWith("/tutors") ? "bg-tomato text-white font-bold" : "text-foreground/80 font-medium"
               }`}>
-              <span className="absolute inline-flex h-2 w-2 rounded-full bg-tomato opacity-75 animate-ping"></span>
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-tomato animate-pulse"></span>
+              <span className={`absolute left-3 inline-flex h-2 w-2 rounded-full opacity-75 animate-ping ${pathname.startsWith("/tutors") ? "bg-white" : "bg-tomato"}`}></span>
+              <span className={`relative inline-flex h-2 w-2 rounded-full animate-pulse ml-0.5 ${pathname.startsWith("/tutors") ? "bg-white" : "bg-tomato"}`}></span>
               Find Tutor
             </Link>
           </nav>
