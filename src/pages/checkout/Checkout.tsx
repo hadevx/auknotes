@@ -13,30 +13,34 @@ import {
   MessageCircle,
   Receipt,
   KeyRound,
+  CalendarClock,
 } from "lucide-react";
 import { useGetStoreStatusQuery } from "@/redux/queries/maintenanceApi";
+import {
+  SUBSCRIPTION_MONTHS,
+  formatSubscriptionDate,
+  useSubscription,
+} from "@/hooks/useSubscription";
 
 const Checkout = () => {
   const { userInfo } = useSelector((state: any) => state.auth);
   const navigate = useNavigate();
 
   const { data: storeStatus, isLoading: loadingStoreStatus } = useGetStoreStatusQuery(undefined);
+  const { isSubscribed, isExpired, expiresAt, daysLeft } = useSubscription();
 
   const priceKD = storeStatus?.[0]?.price ?? 0;
 
-  const amountInUSD = useMemo(() => {
-    const usd = Number(priceKD) * 3.25;
-    return Number.isFinite(usd) ? usd.toFixed(2) : "0.00";
-  }, [priceKD]);
-
   const waMessage = useMemo(() => {
-    const base = "Hi I want to get access to all courses";
+    const base = isExpired
+      ? `Hi I want to renew my ${SUBSCRIPTION_MONTHS}-month subscription`
+      : `Hi I want to subscribe for ${SUBSCRIPTION_MONTHS} months of access to all courses`;
     const withUser =
       userInfo?.name || userInfo?.email
         ? `${base}. My name is ${userInfo?.name || "—"} (${userInfo?.email || "—"})`
         : base;
     return encodeURIComponent(withUser);
-  }, [userInfo?.name, userInfo?.email]);
+  }, [userInfo?.name, userInfo?.email, isExpired]);
 
   const waUrl = `https://wa.me/96598909936?text=${waMessage}`;
 
@@ -44,14 +48,13 @@ const Checkout = () => {
 
   const included = [
     "Access to all course notes and past exams",
-    "Lifetime access to all future uploads and updates",
+    `${SUBSCRIPTION_MONTHS} months of access to every paid course`,
+    "All new uploads and updates during your subscription",
     "High-quality, well-organized study materials",
     "Priority support on WhatsApp and email",
-    "Exclusive access to new premium study resources",
     "Downloadable PDF versions of notes and exams",
     "Ad-free study experience",
-    "Early access to new features and course releases",
-    "Continuous improvements and content curation",
+    "Renew anytime to keep your access going",
   ];
 
   return (
@@ -97,7 +100,7 @@ const Checkout = () => {
                 className="size-4 text-tomato anim-float"
                 style={{ animation: "floaty 2.6s ease-in-out infinite" }}
               />
-              Premium Access
+              {SUBSCRIPTION_MONTHS}-Month Subscription
             </div>
 
             <h1 className="mt-6 text-4xl md:text-5xl font-extrabold text-slate-900">
@@ -105,9 +108,61 @@ const Checkout = () => {
             </h1>
 
             <p className="mt-4 max-w-2xl mx-auto text-slate-600 text-base md:text-lg">
-              Unlimited access to notes, exams, assignments, and future uploads — all in one place.
+              Full access to notes, exams, assignments, and every new upload for{" "}
+              {SUBSCRIPTION_MONTHS} months. Renew whenever you need it again.
             </p>
           </div>
+
+          {/* Current subscription status */}
+          {(isSubscribed || isExpired) && (
+            <div
+              className={`mb-8 rounded-3xl border-2 p-5 md:p-6 anim-in ${
+                isSubscribed ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50"
+              }`}
+              style={{ animation: "popIn .55s ease-out .04s both" }}>
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`grid place-items-center size-11 rounded-2xl border ${
+                      isSubscribed
+                        ? "bg-white border-emerald-200 text-emerald-600"
+                        : "bg-white border-rose-200 text-rose-600"
+                    }`}>
+                    {isSubscribed ? (
+                      <BadgeCheck className="size-6" />
+                    ) : (
+                      <CalendarClock className="size-6" />
+                    )}
+                  </div>
+
+                  <div>
+                    <div
+                      className={`font-extrabold ${
+                        isSubscribed ? "text-emerald-800" : "text-rose-800"
+                      }`}>
+                      {isSubscribed ? "Subscription active" : "Subscription expired"}
+                    </div>
+                    <div
+                      className={`text-sm ${isSubscribed ? "text-emerald-700" : "text-rose-700"}`}>
+                      {isSubscribed
+                        ? `Expires ${formatSubscriptionDate(expiresAt)} • ${daysLeft} day${
+                            daysLeft === 1 ? "" : "s"
+                          } left`
+                        : `Ended ${formatSubscriptionDate(
+                            expiresAt
+                          )} — renew below to unlock the paid courses again.`}
+                    </div>
+                  </div>
+                </div>
+
+                {isSubscribed && (
+                  <span className="inline-flex items-center gap-2 self-start rounded-full bg-white border border-emerald-200 px-3 py-1.5 text-xs font-bold text-emerald-700">
+                    Renewing early adds time on top
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 gap-8">
             <div
@@ -134,8 +189,13 @@ const Checkout = () => {
                   className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 anim-in"
                   style={{ animation: "popIn .6s ease-out .18s both" }}>
                   <div>
-                    <div className="text-4xl md:text-5xl font-extrabold text-slate-900">
-                      {loadingStoreStatus ? "—" : `${priceKD.toFixed(2)} KD`}
+                    <div className="flex items-end gap-2">
+                      <div className="text-4xl md:text-5xl font-extrabold text-slate-900">
+                        {loadingStoreStatus ? "—" : `${priceKD.toFixed(2)} KD`}
+                      </div>
+                      <span className="pb-1 text-slate-500 font-bold">
+                        / {SUBSCRIPTION_MONTHS} months
+                      </span>
                     </div>
 
                     <div className="mt-2">
@@ -171,8 +231,16 @@ const Checkout = () => {
                           <CreditCard className="text-tomato size-6" />
                         </div>
                         <div>
-                          <div className="font-extrabold text-slate-900">Unlock All Courses</div>
-                          {/* <div className="text-slate-500 text-sm">Message us on WhatsApp</div> */}
+                          <div className="font-extrabold text-slate-900">
+                            {isSubscribed
+                              ? "Extend Subscription"
+                              : isExpired
+                              ? "Renew Subscription"
+                              : "Subscribe Now"}
+                          </div>
+                          <div className="text-slate-500 text-sm">
+                            {SUBSCRIPTION_MONTHS} months of full access
+                          </div>
                         </div>
                       </div>
 
@@ -198,10 +266,10 @@ const Checkout = () => {
                     delay={0.22}
                   />
                   <MiniStat
-                    title="Updates"
-                    value="Lifetime"
+                    title="Duration"
+                    value={`${SUBSCRIPTION_MONTHS} months`}
                     icon={
-                      <Sparkles
+                      <CalendarClock
                         className="anim-float"
                         style={{ animation: "floaty 2.8s ease-in-out infinite" }}
                       />
@@ -250,7 +318,7 @@ const Checkout = () => {
                     <ProcessStep
                       step="3"
                       title="Get access"
-                      desc="We activate Premium Access on your account."
+                      desc={`We activate your subscription for ${SUBSCRIPTION_MONTHS} months.`}
                       icon={<KeyRound className="size-5" />}
                       delay={0.44}
                     />

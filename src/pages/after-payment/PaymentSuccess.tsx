@@ -3,6 +3,7 @@ import Layout from "@/Layout";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
+import { SUBSCRIPTION_MONTHS } from "@/hooks/useSubscription";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ const PaymentSuccess = () => {
           </h1>
 
           <p className="text-gray-700 text-lg md:text-xl mb-8 font-poppins max-w-md">
-            Thank you for your purchase. You now have full access to all courses and resources.
+            Thank you for subscribing. You now have full access to all courses and resources for the
+            next {SUBSCRIPTION_MONTHS} months.
           </p>
 
           <div className="flex flex-row gap-4">

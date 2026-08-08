@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetUserProfileQuery } from "../../redux/queries/userApi";
+import { useSubscription } from "@/hooks/useSubscription";
 import { QUESTION_BANK, type MCQ } from "./questions";
 
 /* -------------------------------- helpers -------------------------------- */
@@ -130,6 +131,7 @@ const pickStep = (p: number) => {
 /* -------------------------------- component -------------------------------- */
 const Course = () => {
   const { data: userInfo } = useGetUserProfileQuery();
+  const { isSubscribed, isExpired } = useSubscription();
   const navigate = useNavigate();
 
   const [likesCount, setLikesCount] = useState<number>(0);
@@ -157,9 +159,7 @@ const Course = () => {
 
   const types = ["All", "Note", "Exam", "Assignment"];
 
-  const hasAccess = category?.isPaid
-    ? userInfo?.purchasedCourses?.some((c: any) => c.toString() === category?._id?.toString())
-    : true;
+  const hasAccess = category?.isPaid ? isSubscribed : true;
 
   const locked = category?.isClosed || !hasAccess;
   const canGenerateExam = Boolean(hasAccess && !category?.isClosed);
@@ -341,7 +341,7 @@ const Course = () => {
 
   const openExamModal = () => {
     if (!canGenerateExam) {
-      toast.error("Only students who purchased this course can generate an exam.");
+      toast.error("Only students with an active subscription can generate an exam.");
       return;
     }
     setExamOpen(true);
@@ -456,7 +456,7 @@ const Course = () => {
                 to="/checkout"
                 className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold bg-zinc-900 text-white hover:opacity-95 active:scale-[0.99]">
                 <img src="/3d-fire.png" className="size-4" alt="Get Access" />
-                Unlock All Courses
+                {isExpired ? "Renew Subscription" : "Subscribe to Unlock"}
               </Link>
             )}
           </div>
@@ -538,8 +538,8 @@ const Course = () => {
 
               {!canGenerateExam && (
                 <div className="mt-4 rounded-xl border bg-zinc-50 p-3 text-sm text-zinc-700">
-                  <span className="font-semibold">Exam Generator locked.</span> Only students who
-                  purchased this course can generate an exam.
+                  <span className="font-semibold">Exam Generator locked.</span> Only students with an
+                  active subscription can generate an exam.
                 </div>
               )}
 

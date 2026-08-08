@@ -22,6 +22,7 @@ import {
   Image as ImageIcon,
   Heart, // ✅ NEW
 } from "lucide-react";
+import { useSubscription } from "@/hooks/useSubscription";
 
 type Course = {
   _id: string;
@@ -66,7 +67,7 @@ const AllCourses = () => {
   const [minResources, setMinResources] = useState<number>(0);
   const [maxResources, setMaxResources] = useState<number>(0); // 0 = no max
 
-  const purchasedIds: string[] = userInfo?.purchasedCourses || [];
+  const { isSubscribed } = useSubscription();
 
   const { data, isLoading } = useGetCoursesQuery({
     pageNumber: page,
@@ -80,9 +81,9 @@ const AllCourses = () => {
     setPage(1);
   }, [keyword]);
 
+  // Paid courses stay locked unless the account subscription is live
   const isLocked = (c: Course) => {
-    const hasAccess = purchasedIds.includes(c._id);
-    return !!c.isClosed || (!!c.isPaid && !hasAccess);
+    return !!c.isClosed || (!!c.isPaid && !isSubscribed);
   };
 
   const maxPossibleResources = useMemo(() => {
@@ -140,7 +141,7 @@ const AllCourses = () => {
     });
 
     return list;
-  }, [categories, sort, access, pricing, withImage, minResources, maxResources, purchasedIds]);
+  }, [categories, sort, access, pricing, withImage, minResources, maxResources, isSubscribed]);
 
   const handleGoToCourse = (id: string) => {
     if (!userInfo) {
